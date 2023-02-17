@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:name="@+id/cardListItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TableRow
+        android:id="@+id/cardRow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/selectableItemBackground">
+
+        <View
+            android:id="@+id/leftEdgeBar"
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="6dp"
+            android:maxLines="1"
+            android:textColor="?attr/colorItemTextColor" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ui_list_divider_material" />
+
+        <TextView
+            android:id="@+id/term"
+            android:layout_weight="1"
+            android:maxLines="4"
+            android:paddingStart="6dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="6dp"
+            android:textColor="?attr/colorItemTextColor" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/ui_list_divider_material" />
+
+        <TextView
+            android:id="@+id/definition"
+            android:layout_weight="1"
+            android:maxLines="4"
+            android:paddingStart="6dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="6dp"
+            android:textColor="?attr/colorItemTextColor" />
+
+        <View
+            android:id="@+id/rightEdgeBar"
+            android:layout_width="5dp"
+            android:layout_height="match_parent" />
+
+    </TableRow>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/cardRow"
+        android:background="@drawable/ui_list_divider_material" />
+
+</RelativeLayout>

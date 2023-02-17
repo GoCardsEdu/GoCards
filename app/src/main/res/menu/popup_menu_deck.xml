@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/listCards"
+        android:icon="@drawable/ic_round_list_24"
+        android:title="List cards" />
+    <item
+        android:id="@+id/addCard"
+        android:icon="@drawable/ic_round_add_card_24"
+        android:title="Add a new card" />
+    <item
+        android:id="@+id/cut"
+        android:icon="@drawable/ic_round_content_cut_24"
+        android:title="Cut" />
+    <item
+        android:id="@+id/renameDeck"
+        android:icon="@drawable/ic_outline_edit_24"
+        android:title="Rename" />
+    <item
+        android:id="@+id/deleteDeck"
+        android:icon="@drawable/ic_round_delete_24"
+        android:title="Delete" />
+    <item
+        android:id="@+id/more"
+        android:icon="@drawable/ic_baseline_more_horiz_24"
+        android:title="More" />
+</menu>

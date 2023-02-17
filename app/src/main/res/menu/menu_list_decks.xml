@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_baseline_search_24"
+        android:title="Search"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+    <item
+        android:id="@+id/new_deck"
+        android:icon="@drawable/ic_outline_add_24"
+        android:title="New deck"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/new_folder"
+        android:icon="@drawable/ic_baseline_create_new_folder_24"
+        android:title="New folder"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/import_excel"
+        android:icon="@drawable/ic_round_file_download_24"
+        android:title="Import Excel"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/import_db"
+        android:icon="@drawable/ic_round_file_download_24"
+        android:title="Import DB"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="Settings"
+        app:showAsAction="never" />
+</menu>

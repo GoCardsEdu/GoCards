@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/rename"
+        android:icon="@drawable/ic_outline_edit_24"
+        android:title="Rename" />
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_round_delete_24"
+        android:title="Delete" />
+    <item
+        android:id="@+id/cut"
+        android:icon="@drawable/ic_round_content_cut_24"
+        android:title="Cut" />
+</menu>
