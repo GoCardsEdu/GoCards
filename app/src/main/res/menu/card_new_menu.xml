@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/save_card"
+        android:icon="@drawable/ic_outline_save_24"
+        android:title="@string/card_new_menu_save_card"
+        app:showAsAction="ifRoom"
+        android:visible="false" />
+
+    <item
+        android:id="@+id/delete_card"
+        android:icon="@drawable/ic_round_delete_24"
+        android:title="@string/delete"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/add_card"
+        android:icon="@drawable/ic_round_add_card_24"
+        android:title="@string/cards_slider_new_card"
+        app:showAsAction="never" />
+
+</menu>

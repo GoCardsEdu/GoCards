@@ -1,0 +1,56 @@
+plugins {
+    id 'com.android.dynamic-feature'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp'
+}
+
+android {
+    namespace 'pl.gocards.filesync'
+    compileSdk 34
+
+    defaultConfig {
+        testApplicationId "pl.gocards.filesync.test"
+        minSdkVersion 26
+        testInstrumentationRunner "pl.gocards.filesync.tests.xlsx.RunXlsxFileSyncUnitTest"
+        // testInstrumentationRunner "pl.gocards.filesync.tests.xls.RunXlsFileSyncUnitTest"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+dependencies {
+    implementation project(':room')
+    implementation project(":app")
+    implementation project(":filesync_sheet")
+    testImplementation project(":filesync_tests")
+    testImplementation project(":filesync_excel")
+    testImplementation project(":filesync_csv")
+
+    // MDC-Android
+    implementation "com.google.android.material:material:$material"
+
+    // Room
+    implementation "androidx.room:room-runtime:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava3:$room_version"
+
+    // Android
+    implementation "androidx.work:work-runtime:$work_version"
+
+    implementation 'commons-io:commons-io:2.15.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'io.cucumber:cucumber-java:7.13.0'
+    testImplementation 'io.cucumber:cucumber-junit:7.13.0'
+    testImplementation 'org.hamcrest:hamcrest-core:2.2'
+    testImplementation('org.mockito:mockito-core:5.4.0') {
+        exclude group: 'org.hamcrest', module: 'hamcrest-core'
+        exclude group: 'org.hamcrest', module: 'hamcrest-library'
+    }
+    androidTestImplementation 'org.hamcrest:hamcrest-core:2.2'
+}

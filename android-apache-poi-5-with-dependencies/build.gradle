@@ -1,0 +1,43 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+}
+
+group 'pl.gocards'
+version "$android_apache_poi_version"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+dependencies {
+    // Apache POI
+    //noinspection GradleDependency (version from POI)
+    api 'org.apache.commons:commons-compress:1.21'
+    implementation 'org.apache.commons:commons-collections4:4.4'
+    /* Caused by: java.lang.ClassNotFoundException: org.apache.commons.math3.util.ArithmeticUtils
+     * I don't know why this relationship does not exist in POI */
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+    //noinspection GradleDependency (version from POI)
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'xml-apis:xml-apis:1.4.01'
+    implementation 'xerces:xercesImpl:2.12.2'
+    implementation 'com.zaxxer:SparseBitSet:1.2'
+    //noinspection GradleDependency (version from POI)
+    implementation 'org.apache.logging.log4j:log4j-api:2.18.0'
+    api "pl.gocards:android-apache-poi-5:$android_apache_poi_version"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'pl.gocards'
+            artifactId = 'android-apache-poi-5-with-dependencies'
+            version = "$android_apache_poi_version"
+            from components.java
+        }
+    }
+}
+
+tasks.named("assemble").configure { dependsOn(":android-apache-poi-5:publishShadowPublicationToMavenLocal") }

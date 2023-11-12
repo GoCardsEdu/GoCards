@@ -1,0 +1,820 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "fe012982612b4b998ab8b4dc5fe70564",
+    "entities": [
+      {
+        "tableName": "Core_Card",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `ordinal` INTEGER NOT NULL, `term` TEXT NOT NULL, `definition` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `deletedAt` INTEGER, `fileSyncCreatedAt` INTEGER, `fileSyncModifiedAt` INTEGER, `isTermSimpleHtml` INTEGER NOT NULL, `isTermFullHtml` INTEGER NOT NULL, `isDefinitionSimpleHtml` INTEGER NOT NULL, `isDefinitionFullHtml` INTEGER NOT NULL, `disabled` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ordinal",
+            "columnName": "ordinal",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "term",
+            "columnName": "term",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "definition",
+            "columnName": "definition",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deletedAt",
+            "columnName": "deletedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fileSyncCreatedAt",
+            "columnName": "fileSyncCreatedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fileSyncModifiedAt",
+            "columnName": "fileSyncModifiedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isTermSimpleHtml",
+            "columnName": "isTermSimpleHtml",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isTermFullHtml",
+            "columnName": "isTermFullHtml",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDefinitionSimpleHtml",
+            "columnName": "isDefinitionSimpleHtml",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDefinitionFullHtml",
+            "columnName": "isDefinitionFullHtml",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "disabled",
+            "columnName": "disabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "ftsVersion": "FTS4",
+        "ftsOptions": {
+          "tokenizer": "simple",
+          "tokenizerArgs": [],
+          "contentTable": "Core_Card",
+          "languageIdColumnName": "",
+          "matchInfo": "FTS4",
+          "notIndexedColumns": [],
+          "prefixSizes": [],
+          "preferredOrder": "ASC"
+        },
+        "contentSyncTriggers": [
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_Core_Card_fts4_BEFORE_UPDATE BEFORE UPDATE ON `Core_Card` BEGIN DELETE FROM `Core_Card_fts4` WHERE `docid`=OLD.`rowid`; END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_Core_Card_fts4_BEFORE_DELETE BEFORE DELETE ON `Core_Card` BEGIN DELETE FROM `Core_Card_fts4` WHERE `docid`=OLD.`rowid`; END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_Core_Card_fts4_AFTER_UPDATE AFTER UPDATE ON `Core_Card` BEGIN INSERT INTO `Core_Card_fts4`(`docid`, `id`, `term`, `definition`) VALUES (NEW.`rowid`, NEW.`id`, NEW.`term`, NEW.`definition`); END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_Core_Card_fts4_AFTER_INSERT AFTER INSERT ON `Core_Card` BEGIN INSERT INTO `Core_Card_fts4`(`docid`, `id`, `term`, `definition`) VALUES (NEW.`rowid`, NEW.`id`, NEW.`term`, NEW.`definition`); END"
+        ],
+        "tableName": "Core_Card_fts4",
+        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`id` INTEGER NOT NULL, `term` TEXT, `definition` TEXT, content=`Core_Card`)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "term",
+            "columnName": "term",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "definition",
+            "columnName": "definition",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "rowid"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Core_CardLearningHistory",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `cardId` INTEGER NOT NULL, `wasMemorized` INTEGER, `interval` INTEGER NOT NULL, `nextReplayAt` INTEGER, `replayId` INTEGER NOT NULL, `countMemorized` INTEGER NOT NULL, `countNotMemorized` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, `memorizedDuration` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cardId",
+            "columnName": "cardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wasMemorized",
+            "columnName": "wasMemorized",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "interval",
+            "columnName": "interval",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nextReplayAt",
+            "columnName": "nextReplayAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "replayId",
+            "columnName": "replayId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countMemorized",
+            "columnName": "countMemorized",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countNotMemorized",
+            "columnName": "countNotMemorized",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "memorizedDuration",
+            "columnName": "memorizedDuration",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Core_CardLearningHistory_cardId",
+            "unique": false,
+            "columnNames": [
+              "cardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Core_CardLearningHistory_cardId` ON `${TABLE_NAME}` (`cardId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Core_CardLearningProgress",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cardId` INTEGER NOT NULL, `cardLearningHistoryId` INTEGER NOT NULL, `isMemorized` INTEGER NOT NULL, PRIMARY KEY(`cardId`, `cardLearningHistoryId`))",
+        "fields": [
+          {
+            "fieldPath": "cardId",
+            "columnName": "cardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cardLearningHistoryId",
+            "columnName": "cardLearningHistoryId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isMemorized",
+            "columnName": "isMemorized",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "cardId",
+            "cardLearningHistoryId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Core_CardLearningProgress_cardId",
+            "unique": true,
+            "columnNames": [
+              "cardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Core_CardLearningProgress_cardId` ON `${TABLE_NAME}` (`cardId`)"
+          },
+          {
+            "name": "index_Core_CardLearningProgress_cardLearningHistoryId",
+            "unique": true,
+            "columnNames": [
+              "cardLearningHistoryId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Core_CardLearningProgress_cardLearningHistoryId` ON `${TABLE_NAME}` (`cardLearningHistoryId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Core_CardConfig",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cardId` INTEGER NOT NULL, `key` TEXT NOT NULL, `value` TEXT NOT NULL, PRIMARY KEY(`cardId`, `key`))",
+        "fields": [
+          {
+            "fieldPath": "cardId",
+            "columnName": "cardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "cardId",
+            "key"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Core_DeckConfig",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`key` TEXT NOT NULL, `value` TEXT NOT NULL, PRIMARY KEY(`key`))",
+        "fields": [
+          {
+            "fieldPath": "key",
+            "columnName": "key",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "key"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "FileSync_CardImported",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `oldOrdinal` INTEGER, `newOrdinal` INTEGER, `cardId` INTEGER, `contentStatus` TEXT, `positionStatus` TEXT, `term` TEXT, `definition` TEXT, `disabled` INTEGER, `previousId` INTEGER, `nextId` INTEGER, `previousDeckCardId` INTEGER, `nextDeckCardId` INTEGER, `previousFileCardId` INTEGER, `nextFileCardId` INTEGER, `newPreviousCardImportedId` INTEGER, `newNextCardImportedId` INTEGER, `graph` INTEGER, `debugTerm` TEXT, `debugDefinition` TEXT, `debugFirstGraph` INTEGER, `debugCardEdgeId` INTEGER, `debugTermSimilarity` REAL, `debugDefSimilarity` REAL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "oldOrdinal",
+            "columnName": "oldOrdinal",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "newOrdinal",
+            "columnName": "newOrdinal",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "cardId",
+            "columnName": "cardId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "contentStatus",
+            "columnName": "contentStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "positionStatus",
+            "columnName": "positionStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "term",
+            "columnName": "term",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "definition",
+            "columnName": "definition",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "disabled",
+            "columnName": "disabled",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "previousId",
+            "columnName": "previousId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextId",
+            "columnName": "nextId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "previousDeckCardId",
+            "columnName": "previousDeckCardId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextDeckCardId",
+            "columnName": "nextDeckCardId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "previousFileCardId",
+            "columnName": "previousFileCardId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextFileCardId",
+            "columnName": "nextFileCardId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "newPreviousCardImportedId",
+            "columnName": "newPreviousCardImportedId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "newNextCardImportedId",
+            "columnName": "newNextCardImportedId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "graph",
+            "columnName": "graph",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "debugTerm",
+            "columnName": "debugTerm",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "debugDefinition",
+            "columnName": "debugDefinition",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "debugFirstGraph",
+            "columnName": "debugFirstGraph",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "debugCardEdgeId",
+            "columnName": "debugCardEdgeId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "debugTermSimilarity",
+            "columnName": "debugTermSimilarity",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "debugDefSimilarity",
+            "columnName": "debugDefSimilarity",
+            "affinity": "REAL",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_FileSync_CardImported_graph",
+            "unique": false,
+            "columnNames": [
+              "graph"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_FileSync_CardImported_graph` ON `${TABLE_NAME}` (`graph`)"
+          },
+          {
+            "name": "index_FileSync_CardImported_cardId",
+            "unique": false,
+            "columnNames": [
+              "cardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_FileSync_CardImported_cardId` ON `${TABLE_NAME}` (`cardId`)"
+          },
+          {
+            "name": "index_FileSync_CardImported_contentStatus",
+            "unique": false,
+            "columnNames": [
+              "contentStatus"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_FileSync_CardImported_contentStatus` ON `${TABLE_NAME}` (`contentStatus`)"
+          },
+          {
+            "name": "index_FileSync_CardImported_newPreviousCardImportedId",
+            "unique": false,
+            "columnNames": [
+              "newPreviousCardImportedId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_FileSync_CardImported_newPreviousCardImportedId` ON `${TABLE_NAME}` (`newPreviousCardImportedId`)"
+          },
+          {
+            "name": "index_FileSync_CardImported_newNextCardImportedId",
+            "unique": false,
+            "columnNames": [
+              "newNextCardImportedId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_FileSync_CardImported_newNextCardImportedId` ON `${TABLE_NAME}` (`newNextCardImportedId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "FileSync_CardEdge",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `fromCardImportedId` INTEGER NOT NULL, `toCardImportedId` INTEGER NOT NULL, `status` TEXT NOT NULL, `weight` INTEGER NOT NULL, `deleted` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fromCardImportedId",
+            "columnName": "fromCardImportedId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "toCardImportedId",
+            "columnName": "toCardImportedId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weight",
+            "columnName": "weight",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deleted",
+            "columnName": "deleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "FileSync_FileSynced",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `displayName` TEXT NOT NULL, `uri` TEXT NOT NULL, `lastSyncAt` INTEGER NOT NULL, `fileLastUpdatedAt` INTEGER NOT NULL, `deckLastUpdatedAt` INTEGER NOT NULL, `autoSync` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "uri",
+            "columnName": "uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileLastUpdatedAt",
+            "columnName": "fileLastUpdatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deckLastUpdatedAt",
+            "columnName": "deckLastUpdatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "autoSync",
+            "columnName": "autoSync",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_FileSync_FileSynced_uri",
+            "unique": true,
+            "columnNames": [
+              "uri"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_FileSync_FileSynced_uri` ON `${TABLE_NAME}` (`uri`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "FileSync_FileSyncedBackup",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `uri` TEXT NOT NULL, `fileName` TEXT NOT NULL, `fileMimeType` TEXT NOT NULL, `fileBackup` BLOB, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "uri",
+            "columnName": "uri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileName",
+            "columnName": "fileName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileMimeType",
+            "columnName": "fileMimeType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileBackup",
+            "columnName": "fileBackup",
+            "affinity": "BLOB",
+            "notNull": false
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "FileSync_CardImportedRemoved",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `fileSyncedId` INTEGER NOT NULL, `cardId` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`cardId`) REFERENCES `Core_Card`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`fileSyncedId`) REFERENCES `FileSync_FileSynced`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fileSyncedId",
+            "columnName": "fileSyncedId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cardId",
+            "columnName": "cardId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_FileSync_CardImportedRemoved_fileSyncedId_cardId",
+            "unique": true,
+            "columnNames": [
+              "fileSyncedId",
+              "cardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_FileSync_CardImportedRemoved_fileSyncedId_cardId` ON `${TABLE_NAME}` (`fileSyncedId`, `cardId`)"
+          },
+          {
+            "name": "index_FileSync_CardImportedRemoved_cardId",
+            "unique": false,
+            "columnNames": [
+              "cardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_FileSync_CardImportedRemoved_cardId` ON `${TABLE_NAME}` (`cardId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Core_Card",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "cardId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "FileSync_FileSynced",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "fileSyncedId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [
+      {
+        "viewName": "FileSync_View_GraphEdge",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT f.graph as fromGraph, t.graph as toGraph, sum(e.weight) as weight FROM FileSync_CardEdge e LEFT JOIN FileSync_CardImported f ON e.fromCardImportedId = f.id LEFT JOIN FileSync_CardImported t ON e.toCardImportedId = t.id WHERE fromGraph != toGraph AND f.contentStatus NOT IN ('DELETE_BY_FILE','DELETE_BY_DECK') AND t.contentStatus NOT IN ('DELETE_BY_FILE','DELETE_BY_DECK') GROUP BY f.graph, t.graph ORDER BY weight DESC"
+      },
+      {
+        "viewName": "FileSync_View_CountToGraphOnlyNewCards",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT f.graph as fromGraph, count(DISTINCT t.graph) as countToGraph FROM FileSync_CardEdge e LEFT JOIN FileSync_CardImported f ON e.fromCardImportedId = f.id LEFT JOIN FileSync_CardImported t ON e.toCardImportedId = t.id WHERE f.graph != t.graph AND e.deleted=0 AND e.status IN ('DECK_FIRST_NEW','DECK_SECOND_NEW','IMPORTED_FIRST_NEW','IMPORTED_SECOND_NEW')AND f.contentStatus NOT IN ('DELETE_BY_FILE','DELETE_BY_DECK') AND t.contentStatus NOT IN ('DELETE_BY_FILE','DELETE_BY_DECK') GROUP BY fromGraph"
+      },
+      {
+        "viewName": "FileSync_View_GraphEdgeOnlyNewCards",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT f.graph as fromGraph, t.graph as toGraph, c.countToGraph as countToGraph, e.weight as weight FROM FileSync_CardEdge e LEFT JOIN FileSync_CardImported f ON e.fromCardImportedId = f.id LEFT JOIN FileSync_CardImported t ON e.toCardImportedId = t.id LEFT JOIN FileSync_View_CountToGraphOnlyNewCards c ON c.fromGraph = f.graph WHERE fromGraph != toGraph AND f.contentStatus NOT IN ('DELETE_BY_FILE','DELETE_BY_DECK') AND t.contentStatus NOT IN ('DELETE_BY_FILE','DELETE_BY_DECK') AND e.status IN ('DECK_FIRST_NEW','DECK_SECOND_NEW','IMPORTED_FIRST_NEW','IMPORTED_SECOND_NEW')ORDER BY c.countToGraph DESC, weight DESC"
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fe012982612b4b998ab8b4dc5fe70564')"
+    ]
+  }
+}

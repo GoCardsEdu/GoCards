@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    tools:context=".ui.cards.slider.edit.EditCardSliderActivity">
+
+    <TextView
+        android:id="@+id/termLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/card_new_term_label"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/termEditText"
+        android:labelFor="@+id/termLabel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:gravity="center"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:lines="6"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/termLabel"
+        tools:ignore="LabelFor" />
+
+    <TextView
+        android:id="@+id/definitionLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/card_new_definition_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/termEditText" />
+
+    <EditText
+        android:id="@+id/definitionEditText"
+        android:labelFor="@+id/definitionLabel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:gravity="center"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:lines="6"
+        android:scrollbars="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/definitionLabel"
+        tools:ignore="LabelFor" />
+
+    <TextView
+        android:id="@+id/nextReplayAtLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/card_edit_next_replay_at_label"
+        app:layout_constraintTop_toBottomOf="@+id/definitionEditText"
+        tools:layout_editor_absoluteX="26dp" />
+
+    <EditText
+        android:id="@+id/nextReplayAtTextDate"
+        android:labelFor="@+id/nextReplayAtLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        android:enabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nextReplayAtLabel"
+        tools:ignore="Autofill,LabelFor" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/disableSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="@string/card_new_disabled_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nextReplayAtTextDate" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
