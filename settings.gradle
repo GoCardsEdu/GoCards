@@ -1,0 +1,30 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url "https://maven.repository.redhat.com/earlyaccess/all/"
+        }
+        mavenLocal() // android-apache-poi-5
+    }
+}
+
+rootProject.name = "GoCards"
+include ':room'
+include ':app'
+include ':android-apache-poi-5'
+include ':android-apache-poi-5-with-dependencies'
+include ':filesync_sheet'
+include ':filesync_tests'
+include ':filesync'
+include ':filesync_pro'
+include ':filesync_excel'
+include ':filesync_csv'

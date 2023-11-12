@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="@+id/deckListItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingStart="0dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="8dp"
+    tools:ignore="Overdraw">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/decks_list_deck_icon"
+        android:padding="8dp"
+        android:alpha=".40"
+        app:srcCompat="@drawable/ic_outline_description_24" />
+
+    <TextView
+        android:id="@+id/nameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/moreImageView"
+        android:layout_toEndOf="@id/imageView"
+        android:ellipsize="marquee"
+        android:fontFamily="sans-serif-medium"
+
+        android:marqueeRepeatLimit="marquee_forever"
+        android:paddingStart="0dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="@string/decks_list_create_deck_deck_name"
+        android:textAppearance="?attr/textAppearanceTitleLarge"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/totalTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameTextView"
+        android:layout_toEndOf="@id/imageView"
+        android:alpha=".80"
+        android:paddingStart="0dp"
+        android:paddingTop="3dp"
+        android:paddingEnd="4dp"
+        android:text="@string/decks_list_total_zero"
+        android:textAppearance="?attr/textAppearanceBodySmall"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/newTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameTextView"
+        android:layout_toEndOf="@id/totalTextView"
+        android:paddingStart="0dp"
+        android:paddingTop="3dp"
+        android:paddingEnd="4dp"
+        android:textAppearance="?attr/textAppearanceBodySmall"
+        android:textSize="11sp"
+        android:alpha=".80"
+        android:text="@string/decks_list_new_zero" />
+
+    <TextView
+        android:id="@+id/revTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameTextView"
+        android:layout_toEndOf="@id/newTextView"
+        android:paddingTop="3dp"
+        android:textAppearance="?attr/textAppearanceBodySmall"
+        android:textSize="11sp"
+        android:alpha=".80"
+        android:text="@string/decks_list_review_zero" />
+
+    <ImageView
+        android:id="@+id/moreImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="15dp"
+
+        android:alpha=".40"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+
+        android:padding="5dp"
+        app:srcCompat="@drawable/ic_baseline_more_vert_24"
+        android:contentDescription="@string/decks_list_popup_deck_desc" />
+
+</RelativeLayout>

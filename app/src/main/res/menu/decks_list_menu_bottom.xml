@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/sync_excel"
+        android:icon="@drawable/ic_sharp_sync_24"
+        android:title="@string/cards_list_menu_sync" />
+    <item
+        android:id="@+id/export_excel"
+        android:icon="@drawable/ic_round_file_upload_24"
+        android:title="@string/cards_list_menu_export_excel" />
+    <item
+        android:id="@+id/export_csv"
+        android:icon="@drawable/ic_round_file_upload_24"
+        android:title="@string/cards_list_menu_export_csv" />
+    <item
+        android:id="@+id/export_db"
+        android:icon="@drawable/ic_round_file_upload_24"
+        android:title="@string/decks_list_menu_bottom_export_db" />
+    <item
+        android:id="@+id/deck_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/decks_list_menu_bottom_deck_settings" />
+</menu>

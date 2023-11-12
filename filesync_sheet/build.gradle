@@ -1,0 +1,15 @@
+plugins {
+    id 'com.android.library'
+}
+android {
+    namespace 'pl.gocards.filesync.sheet'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 26
+    }
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:1.7.0'
+}

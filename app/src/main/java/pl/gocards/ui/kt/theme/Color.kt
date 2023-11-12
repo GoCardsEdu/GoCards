@@ -1,0 +1,25 @@
+package pl.gocards.ui.kt.theme
+
+import androidx.compose.ui.graphics.Color
+
+@Suppress("unused")
+val Grey50 = Color(0xFFFAFAFA)
+@Suppress("unused")
+val Grey100 = Color(0xFFF5F5F5)
+@Suppress("unused")
+val Grey200 = Color(0xFFEEEEEE)
+@Suppress("unused")
+val Grey300 = Color(0xFFE0E0E0)
+@Suppress("unused")
+val Grey400 = Color(0xFFBDBDBD)
+@Suppress("unused")
+val Grey500 = Color(0xFF9E9E9E)
+@Suppress("unused")
+val Grey600 = Color(0xFF757575)
+@Suppress("unused")
+val Grey700 = Color(0xFF616161)
+@Suppress("unused")
+val Grey800 = Color(0xFF424242)
+val Grey900 = Color(0xFF212121)
+@Suppress("unused")
+val Grey1000 = Color(0xFF0d0d0d)
