@@ -288,19 +288,8 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
     @SuppressWarnings({"OptionalGetWithoutIsPresent"})
     @SuppressLint("CheckResult")
     public void onClickPasteCards(int pasteAfterOrdinal) {
-        int minPosition = Math.min(pasteAfterOrdinal, selectedCards.stream()
-                .mapToInt(Card::getOrdinal)
-                .min()
-                .getAsInt()) - 1;
-
-        int maxPosition = Math.max(pasteAfterOrdinal, selectedCards.stream()
-                .mapToInt(Card::getOrdinal)
-                .max()
-                .getAsInt());
-
         Disposable disposable = Completable.fromAction(() -> pasteCards(pasteAfterOrdinal))
                 .subscribeOn(Schedulers.io())
-                .doOnComplete(() -> loadItems(minPosition, maxPosition - minPosition))
                 .subscribe(EMPTY_ACTION, this::onErrorOnClickPasteCards);
         addToDisposable(disposable);
     }
@@ -308,7 +297,7 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
     protected void pasteCards(int pasteAfterPosition) {
         getDeckDb().cardRxDao().pasteCards(selectedCards, pasteAfterPosition);
         // Refresh ordinal numbers.
-        runOnUiThread(this::refreshSelectedCards, this::onErrorOnClickPasteCards);
+        runOnUiThread(() -> this.refreshSelectedCards(pasteAfterPosition), this::onErrorOnClickPasteCards);
     }
 
     /*
@@ -321,7 +310,7 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
     }
 
     @UiThread
-    private void refreshSelectedCards() {
+    private void refreshSelectedCards(int pasteAfterOrdinal) {
         int[] selectedIds = selectedCards.stream()
                 .mapToInt(card -> Objects.requireNonNull(card.getId()))
                 .toArray();
@@ -329,10 +318,32 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
 
         Disposable disposable = getDeckDb().cardRxDao().findByIds(selectedIds)
                 .subscribeOn(Schedulers.io())
-                .doOnSuccess(cards -> runOnUiThread(() -> selectedCards.addAll(cards), this::onErrorOnClickPasteCards))
+                .doOnSuccess(cards -> runOnUiThread(
+                        () -> {
+                            selectedCards.addAll(cards);
+                            int startPosition = calcStartPosition(pasteAfterOrdinal);
+                            int endPosition = calcEndPosition(pasteAfterOrdinal);
+                            loadItems(startPosition, endPosition - startPosition);
+                        },
+                        this::onErrorOnClickPasteCards
+                ))
                 .ignoreElement()
                 .subscribe(EMPTY_ACTION, this::onErrorOnClickPasteCards);
         addToDisposable(disposable);
+    }
+
+    private int calcStartPosition(int pasteAfterOrdinal) {
+        return Math.min(pasteAfterOrdinal, selectedCards.stream()
+                .mapToInt(Card::getOrdinal)
+                .min()
+                .getAsInt()) - 1;
+    }
+
+    private int calcEndPosition(int pasteAfterOrdinal) {
+        return Math.max(pasteAfterOrdinal, selectedCards.stream()
+                .mapToInt(Card::getOrdinal)
+                .max()
+                .getAsInt());
     }
 
     protected void onErrorOnClickPasteCards(@NonNull Throwable e) {
