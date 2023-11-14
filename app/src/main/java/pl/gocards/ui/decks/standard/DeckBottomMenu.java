@@ -1,7 +1,6 @@
 package pl.gocards.ui.decks.standard;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +8,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import pl.gocards.R;
-import pl.gocards.ui.cards.list.standard.ListCardsActivity;
-import pl.gocards.ui.settings.SettingsActivity;
-
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
+
+import pl.gocards.R;
 
 /**
  * @author Grzegorz Ziemski

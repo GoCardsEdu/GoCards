@@ -3,7 +3,6 @@ package pl.gocards.room.dao.app
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
-import io.reactivex.rxjava3.core.Maybe
 import pl.gocards.room.dao.BaseDao
 import pl.gocards.room.entity.app.Deck
 import pl.gocards.room.util.DbUtil

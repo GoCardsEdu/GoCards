@@ -28,7 +28,7 @@ public class UndoLearningStudyViewModel extends LearningProgressStudyViewModel {
     /**
      * This allows to undo the first click again, only if it happened during the current session.
      */
-    public List<Integer> forgottenInThisSession = new LinkedList<>();
+    public final List<Integer> forgottenInThisSession = new LinkedList<>();
 
     @NonNull
     public Completable onAgainClick() {

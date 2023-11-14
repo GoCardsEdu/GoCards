@@ -3,7 +3,6 @@ package pl.gocards.ui.cards.study.slider.fragment;
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
-
 import static io.reactivex.rxjava3.internal.functions.Functions.EMPTY_ACTION;
 import static pl.gocards.db.deck.DeckDbUtil.getDeckName;
 
@@ -37,13 +36,12 @@ import java.util.Objects;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import pl.gocards.R;
-import pl.gocards.room.util.HtmlUtil;
 import pl.gocards.databinding.ActivityStudyCardBinding;
 import pl.gocards.room.entity.deck.Card;
 import pl.gocards.room.entity.deck.CardLearningHistory;
 import pl.gocards.room.entity.deck.CardLearningProgressAndHistory;
+import pl.gocards.room.util.HtmlUtil;
 import pl.gocards.ui.cards.slider.slider.CardFragment;
 import pl.gocards.ui.cards.study.slider.StudyCardSliderActivity;
 import pl.gocards.ui.cards.study.slider.model.StudyCardViewModel;

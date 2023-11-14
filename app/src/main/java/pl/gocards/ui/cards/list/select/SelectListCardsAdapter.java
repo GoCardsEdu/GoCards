@@ -285,7 +285,6 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
         onClickPasteCards(getOrdinalFromItemPosition(pasteAfterPosition));
     }
 
-    @SuppressWarnings({"OptionalGetWithoutIsPresent"})
     @SuppressLint("CheckResult")
     public void onClickPasteCards(int pasteAfterOrdinal) {
         Disposable disposable = Completable.fromAction(() -> pasteCards(pasteAfterOrdinal))
@@ -332,6 +331,7 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
         addToDisposable(disposable);
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     private int calcStartPosition(int pasteAfterOrdinal) {
         return Math.min(pasteAfterOrdinal, selectedCards.stream()
                 .mapToInt(Card::getOrdinal)
@@ -339,6 +339,7 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
                 .getAsInt()) - 1;
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     private int calcEndPosition(int pasteAfterOrdinal) {
         return Math.max(pasteAfterOrdinal, selectedCards.stream()
                 .mapToInt(Card::getOrdinal)

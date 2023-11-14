@@ -152,15 +152,13 @@ public class MainActivity extends BaseActivity {
 
     private void loadDefaultFragment() {
         Disposable disposable = getAppDb().deckRxDao().findByLastUpdatedAt(1)
-                .doOnSuccess(deck -> {
-                    runOnUiThread(() -> {
-                        if (deck.size() > 0) {
-                            loadRecentDecksFragment();
-                        } else {
-                            loadAllDecksFragment();
-                        }
-                    });
-                })
+                .doOnSuccess(deck -> runOnUiThread(() -> {
+                    if (deck.size() > 0) {
+                        loadRecentDecksFragment();
+                    } else {
+                        loadAllDecksFragment();
+                    }
+                }))
                 .subscribeOn(Schedulers.io())
                 .ignoreElement()
                 .subscribe(EMPTY_ACTION, this::onErrorLoadFragment);
