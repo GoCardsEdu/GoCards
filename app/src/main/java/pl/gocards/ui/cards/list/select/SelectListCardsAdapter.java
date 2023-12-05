@@ -320,31 +320,13 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
                 .doOnSuccess(cards -> runOnUiThread(
                         () -> {
                             selectedCards.addAll(cards);
-                            int startPosition = calcStartPosition(pasteAfterOrdinal);
-                            int endPosition = calcEndPosition(pasteAfterOrdinal);
-                            loadItems(startPosition, endPosition - startPosition);
+                            loadItems();
                         },
                         this::onErrorOnClickPasteCards
                 ))
                 .ignoreElement()
                 .subscribe(EMPTY_ACTION, this::onErrorOnClickPasteCards);
         addToDisposable(disposable);
-    }
-
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
-    private int calcStartPosition(int pasteAfterOrdinal) {
-        return Math.min(pasteAfterOrdinal, selectedCards.stream()
-                .mapToInt(Card::getOrdinal)
-                .min()
-                .getAsInt()) - 1;
-    }
-
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
-    private int calcEndPosition(int pasteAfterOrdinal) {
-        return Math.max(pasteAfterOrdinal, selectedCards.stream()
-                .mapToInt(Card::getOrdinal)
-                .max()
-                .getAsInt());
     }
 
     protected void onErrorOnClickPasteCards(@NonNull Throwable e) {
