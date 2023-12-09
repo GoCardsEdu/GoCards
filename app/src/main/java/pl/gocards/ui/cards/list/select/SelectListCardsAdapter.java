@@ -296,7 +296,7 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
     protected void pasteCards(int pasteAfterPosition) {
         getDeckDb().cardRxDao().pasteCards(selectedCards, pasteAfterPosition);
         // Refresh ordinal numbers.
-        runOnUiThread(() -> this.refreshSelectedCards(pasteAfterPosition), this::onErrorOnClickPasteCards);
+        runOnUiThread(this::refreshSelectedCards, this::onErrorOnClickPasteCards);
     }
 
     /*
@@ -309,7 +309,7 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
     }
 
     @UiThread
-    private void refreshSelectedCards(int pasteAfterOrdinal) {
+    private void refreshSelectedCards() {
         int[] selectedIds = selectedCards.stream()
                 .mapToInt(card -> Objects.requireNonNull(card.getId()))
                 .toArray();
@@ -335,7 +335,7 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
 
     @UiThread
     @Override
-    protected void doOnSuccessDeleteCard(int position, Card card) {
+    protected void doOnSuccessDeleteCard(int position, @NonNull Card card) {
         super.doOnSuccessDeleteCard(position, card);
         showCardHasBeenDeleted(card, selectedCards.contains(card));
         selectedCards.remove(card);

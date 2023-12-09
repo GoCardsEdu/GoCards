@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 public interface Sheet extends Iterable<Row>  {
 
     int getLastRowNum();
+    @Nullable
     Row getRow(int i);
     Row createRow(int i);
     void removeRow(Row row);

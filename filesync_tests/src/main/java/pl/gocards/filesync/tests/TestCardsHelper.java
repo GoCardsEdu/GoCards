@@ -155,7 +155,7 @@ public class TestCardsHelper {
         return maxLengthTerm;
     }
 
-    private int getTermLength(Row row) {
+    private int getTermLength(@NonNull Row row) {
         String term = getTerm(row);
         if (term == null) return 0;
         return term.length();
@@ -169,16 +169,18 @@ public class TestCardsHelper {
         return maxLengthDefinition;
     }
 
-    private int getDefinitionLength(Row row) {
+    private int getDefinitionLength(@NonNull Row row) {
         String term = getDefinition(row);
         if (term == null) return 0;
         return term.length();
     }
 
+    @Nullable
     private String getTerm(@NonNull Row row) {
         return row.getStringCellValue(COLUMN_INDEX_TERM);
     }
 
+    @Nullable
     private String getDefinition(@NonNull Row row) {
         return row.getStringCellValue(COLUMN_INDEX_DEFINITION);
     }

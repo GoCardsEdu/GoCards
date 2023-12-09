@@ -14,12 +14,14 @@ import pl.gocards.filesync.sheet.Workbook;
  */
 public class WorkbookFactory implements pl.gocards.filesync.sheet.WorkbookFactory {
 
+    @NonNull
     public Workbook createWorkbook(@NonNull String fileType) {
         return fileType.equals(MIME_TYPE_XLS)
                 ? new HSSFWorkbook()
                 : new XSSFWorkbook();
     }
 
+    @NonNull
     public Workbook createWorkbook(
             @NonNull InputStream inputStream,
             @NonNull String fileMimeType

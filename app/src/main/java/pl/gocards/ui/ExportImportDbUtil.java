@@ -86,7 +86,7 @@ public class ExportImportDbUtil {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @SuppressLint("CheckResult")
-    protected void exportDb(Uri exportToUri, @NonNull String dbPath) {
+    protected void exportDb(@NonNull Uri exportToUri, @NonNull String dbPath) {
         Completable.fromRunnable(() -> {
                     try {
                         AppDeckDbUtil
@@ -129,7 +129,7 @@ public class ExportImportDbUtil {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @SuppressLint({"Range", "CheckResult"})
-    protected void importDb(@NonNull String importToFolder, Uri importedDbUri) {
+    protected void importDb(@NonNull String importToFolder, @NonNull Uri importedDbUri) {
         Completable.fromRunnable(() -> {
                     AppDeckDbUtil folderDeckDbUtil = AppDeckDbUtil
                             .getInstance(activity.getApplicationContext());

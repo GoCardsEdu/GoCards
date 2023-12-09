@@ -23,6 +23,7 @@ public class FileSyncStudyCardActivity
 
     private boolean editingLocked = false;
 
+    @Nullable
     private Integer cardId = null;
 
     @Nullable

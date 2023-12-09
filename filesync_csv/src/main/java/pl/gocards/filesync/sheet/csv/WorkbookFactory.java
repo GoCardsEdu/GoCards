@@ -12,10 +12,12 @@ import pl.gocards.filesync.sheet.Workbook;
  */
 public class WorkbookFactory implements pl.gocards.filesync.sheet.WorkbookFactory {
 
+    @NonNull
     public Workbook createWorkbook(@NonNull String fileType) {
         return new CsvWorkbook();
     }
 
+    @NonNull
     public Workbook createWorkbook(
             @NonNull InputStream inputStream,
             @NonNull String fileMimeType

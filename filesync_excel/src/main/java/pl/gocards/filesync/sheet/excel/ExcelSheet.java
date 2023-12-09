@@ -15,6 +15,7 @@ import pl.gocards.filesync.sheet.Row;
  */
 @SuppressWarnings("unused")
 public class ExcelSheet implements pl.gocards.filesync.sheet.Sheet {
+    @NonNull
     private final Sheet sheet;
 
     public ExcelSheet(@NonNull Sheet sheet) {
@@ -31,19 +32,21 @@ public class ExcelSheet implements pl.gocards.filesync.sheet.Sheet {
         return sheet.getLastRowNum();
     }
 
+    @Nullable
     @Override
     public ExcelRow getRow(int i) {
         if (sheet.getRow(i) == null) return null;
         return new ExcelRow(sheet.getRow(i));
     }
 
+    @NonNull
     @Override
     public ExcelRow createRow(int i) {
         return new ExcelRow(sheet.createRow(i));
     }
 
     @Override
-    public void removeRow(Row row) {
+    public void removeRow(@NonNull Row row) {
         sheet.removeRow(((ExcelRow)row).getRow());
     }
 

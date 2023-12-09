@@ -13,6 +13,7 @@ public interface Row extends Iterable<Cell> {
     Cell getCell(int position);
     int getRowNum();
     short getLastCellNum();
+    @Nullable
     String getStringCellValue(int position);
     boolean isRowEmpty();
     /** @noinspection unused*/

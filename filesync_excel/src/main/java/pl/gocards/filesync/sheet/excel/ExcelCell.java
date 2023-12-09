@@ -18,6 +18,7 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public class ExcelCell implements pl.gocards.filesync.sheet.Cell {
 
+    @NonNull
     private final Cell cell;
 
     public ExcelCell(@NonNull Cell cell) {

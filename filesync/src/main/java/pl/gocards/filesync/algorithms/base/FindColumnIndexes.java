@@ -37,6 +37,7 @@ public class FindColumnIndexes {
 
     private int rowNum;
     private int colNum;
+    @Nullable
     private String cellValue;
 
     /**
@@ -135,7 +136,7 @@ public class FindColumnIndexes {
     }
 
     protected boolean checkIsTermHeader() {
-        if (hasBlankRowsBefore && cellValue.toLowerCase(Locale.getDefault()).startsWith("term")) {
+        if (hasBlankRowsBefore && cellValue != null && cellValue.toLowerCase(Locale.getDefault()).startsWith("term")) {
             termIndex = colNum;
             headerRow = rowNum;
             Log.i(TAG, "The term header column found=" + this.termIndex);
@@ -146,7 +147,7 @@ public class FindColumnIndexes {
 
     @SuppressWarnings("UnusedReturnValue")
     protected boolean checkIsDefinitionHeader() {
-        if (hasBlankRowsBefore && cellValue.toLowerCase(Locale.getDefault()).startsWith("definition")) {
+        if (hasBlankRowsBefore && cellValue != null && cellValue.toLowerCase(Locale.getDefault()).startsWith("definition")) {
             definitionIndex = colNum;
             headerRow = rowNum;
             Log.i(TAG, "The definition header column found=" + this.definitionIndex);
@@ -157,7 +158,7 @@ public class FindColumnIndexes {
 
     @SuppressWarnings("UnusedReturnValue")
     protected boolean checkIsDisabledHeader() {
-        if (hasBlankRowsBefore && cellValue.toLowerCase(Locale.getDefault()).startsWith("disabled")) {
+        if (hasBlankRowsBefore && cellValue != null && cellValue.toLowerCase(Locale.getDefault()).startsWith("disabled")) {
             disabledIndex = colNum;
             headerRow = rowNum;
             Log.i(TAG, "The disabled header column found=" + this.disabledIndex);
@@ -215,8 +216,10 @@ public class FindColumnIndexes {
         return nonEmptyColIdx == -1 || nonEmptyColIdx > colNum;
     }
 
-    protected String getStringValue(Cell cell) {
+    @Nullable
+    protected String getStringValue(@Nullable Cell cell) {
         if (cell == null) return null;
+        if (cell.getStringValue() == null) return null;
         return cell.getStringValue().trim();
     }
 

@@ -75,6 +75,7 @@ public class CardsSliderViewModel extends ViewModel {
     }
 
     /** @noinspection DataFlowIssue*/
+    @Nullable
     public Integer findIndexByCardId(int cardId) {
         Optional<CardSlider> card = cardSliders.stream()
                 .filter(it -> cardId == it.getId())

@@ -66,6 +66,7 @@ public class ImportFromFileWorker extends FileWorker {
             readFileMetadata(fileUri);
 
             try (InputStream isFile = openInputStream(fileUri)) {
+                Objects.requireNonNull(isFile);
                 deckDbPath = (new ImportFileToDeck(getApplicationContext()))
                         .importFile(
                                 importToFolderPath,

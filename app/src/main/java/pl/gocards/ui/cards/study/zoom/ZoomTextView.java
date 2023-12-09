@@ -39,19 +39,19 @@ public class ZoomTextView extends TextView {
                 }
             };
 
-    public ZoomTextView(Context context) {
+    public ZoomTextView(@NonNull Context context) {
         super(context);
         view = this;
         scaleDetector = new ScaleGestureDetector(context, onScaleGestureListener);
     }
 
-    public ZoomTextView(Context context, AttributeSet attrs) {
+    public ZoomTextView(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
         view = this;
         scaleDetector = new ScaleGestureDetector(context, onScaleGestureListener);
     }
 
-    public ZoomTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ZoomTextView(@NonNull Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         view = this;
         scaleDetector = new ScaleGestureDetector(context, onScaleGestureListener);

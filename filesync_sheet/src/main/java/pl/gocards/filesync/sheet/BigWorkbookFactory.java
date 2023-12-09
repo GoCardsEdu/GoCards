@@ -17,6 +17,7 @@ public class BigWorkbookFactory implements WorkbookFactory {
     @Nullable
     private final WorkbookFactory csvWorkbookFactory = getCsvWorkbookFactory();
 
+    @Nullable
     public Workbook createWorkbook(@NonNull String fileMimeType) {
         switch (fileMimeType) {
             case MIME_TYPE_XLS:
@@ -30,6 +31,7 @@ public class BigWorkbookFactory implements WorkbookFactory {
         throw new RuntimeException("No support for " + fileMimeType);
     }
 
+    @Nullable
     public Workbook createWorkbook(
             @NonNull InputStream inputStream,
             @NonNull String fileMimeType
@@ -46,7 +48,8 @@ public class BigWorkbookFactory implements WorkbookFactory {
         throw new RuntimeException("No support for " + fileMimeType);
     }
 
-    public static String getFileExtension(String fileMimeType) throws SheetWarningException {
+    @NonNull
+    public static String getFileExtension(@NonNull String fileMimeType) throws SheetWarningException {
         switch (fileMimeType) {
             case MIME_TYPE_XLS:
                 return FILE_EXTENSION_XLS;
@@ -58,7 +61,8 @@ public class BigWorkbookFactory implements WorkbookFactory {
         throw new SheetWarningException("No support for mime type: \"" + fileMimeType + "\"");
     }
 
-    public String getDotFileExtension(String fileMimeType) {
+    @Nullable
+    public String getDotFileExtension(@NonNull String fileMimeType) {
         try {
             return "." + getFileExtension(fileMimeType);
         } catch (SheetWarningException e) {
@@ -66,7 +70,8 @@ public class BigWorkbookFactory implements WorkbookFactory {
         }
     }
 
-    public static String getMimeType(String extension) throws SheetWarningException {
+    @NonNull
+    public static String getMimeType(@NonNull String extension) throws SheetWarningException {
         switch (extension) {
             case FILE_EXTENSION_XLS:
                 return MIME_TYPE_XLS;

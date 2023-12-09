@@ -39,7 +39,7 @@ public class FirebaseAnalyticsHelper {
     @Nullable
     private static WeakReference<FirebaseAnalyticsHelper> INSTANCE;
 
-    private FirebaseAnalyticsHelper(Context context) {
+    private FirebaseAnalyticsHelper(@NonNull Context context) {
         this.firebaseAnalytics = FirebaseAnalytics.getInstance(context);
     }
 

@@ -65,7 +65,7 @@ public class ExportToFileWorker extends FileSyncWorker {
 
             try (OutputStream outFile = openFileToWrite(fileUri)) {
                 exportFileToDeck.export(
-                        outFile,
+                        Objects.requireNonNull(outFile),
                         getFileMimeType()
                 );
             }
@@ -112,6 +112,7 @@ public class ExportToFileWorker extends FileSyncWorker {
         return AppDeckDbUtil.getDeckName(dbPath);
     }
 
+    @NonNull
     @Override
     protected String getTag() {
         return TAG;

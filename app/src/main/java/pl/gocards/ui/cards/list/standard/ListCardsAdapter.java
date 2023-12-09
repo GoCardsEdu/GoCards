@@ -240,7 +240,7 @@ public class ListCardsAdapter extends BaseViewAdapter<CardViewHolder> {
         loadItems(position, getItemCount() - position);
     }
 
-    protected void showCardHasBeenDeleted(Card card, boolean wasSelected) {
+    protected void showCardHasBeenDeleted(@NonNull Card card, boolean wasSelected) {
         Snackbar.make(requireActivity().findViewById(R.id.list_cards),
                         R.string.cards_list_toast_deleted_card,
                         Snackbar.LENGTH_LONG)

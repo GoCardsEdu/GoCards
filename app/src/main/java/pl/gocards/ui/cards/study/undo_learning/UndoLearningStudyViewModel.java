@@ -63,7 +63,7 @@ public class UndoLearningStudyViewModel extends LearningProgressStudyViewModel {
         addToDisposable(disposable);
     }
 
-    protected void revertFirst(CardLearningHistory current) {
+    protected void revertFirst(@NonNull CardLearningHistory current) {
         if (current.getCountNotMemorized() == 1) {
             revertFirstNoMemorized(current);
         } else {
@@ -71,7 +71,7 @@ public class UndoLearningStudyViewModel extends LearningProgressStudyViewModel {
         }
     }
 
-    protected void revertFirstNoMemorized(CardLearningHistory current) {
+    protected void revertFirstNoMemorized(@NonNull CardLearningHistory current) {
         if (forgottenInThisSession.contains(current.getCardId())) {
             revertFirstMemorized(current);
         } else {
@@ -81,12 +81,12 @@ public class UndoLearningStudyViewModel extends LearningProgressStudyViewModel {
         }
     }
 
-    protected void revertFirstMemorized(CardLearningHistory current) {
+    protected void revertFirstMemorized(@NonNull CardLearningHistory current) {
         getDeckDb().cardLearningProgressDao().deleteByCardId(current.getCardId());
         deleteLearningHistory(current);
     }
 
-    protected void revertPrevious(CardLearningHistory current, CardLearningHistory previous) {
+    protected void revertPrevious(@NonNull CardLearningHistory current, @NonNull CardLearningHistory previous) {
         if (!Objects.requireNonNull(previous.getWasMemorized())) {
             revertPreviousNoMemorized(current, previous);
         } else {
@@ -97,7 +97,7 @@ public class UndoLearningStudyViewModel extends LearningProgressStudyViewModel {
     /**
      * Restores when "Again" has been clicked
      */
-    protected void revertPreviousNoMemorized(CardLearningHistory current, CardLearningHistory previous) {
+    protected void revertPreviousNoMemorized(@NonNull CardLearningHistory current, @NonNull CardLearningHistory previous) {
         if (forgottenInThisSession.contains(current.getCardId())) {
             revertPreviousMemorized(current, previous);
         } else {
@@ -107,7 +107,7 @@ public class UndoLearningStudyViewModel extends LearningProgressStudyViewModel {
         }
     }
 
-    protected void revertPreviousMemorized(CardLearningHistory current, CardLearningHistory previous) {
+    protected void revertPreviousMemorized(CardLearningHistory current, @NonNull CardLearningHistory previous) {
         setPreviousLearningHistoryAsCurrent(previous);
         deleteLearningHistory(current);
     }

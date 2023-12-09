@@ -18,7 +18,7 @@ public class ExceptionCardViewHolder extends FileSyncCardViewHolder {
 
     public ExceptionCardViewHolder(
             @NonNull ItemCardBinding binding,
-            ExceptionListCardsAdapter adapter
+            @NonNull ExceptionListCardsAdapter adapter
     ) {
         super(binding, adapter);
     }

@@ -1,6 +1,7 @@
 package pl.gocards.filesync.sheet.excel;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.apache.poi.ss.usermodel.Row;
 
@@ -12,6 +13,7 @@ import pl.gocards.filesync.sheet.Cell;
  */
 public class ExcelCellIterator implements Iterator<Cell>  {
 
+    @NonNull
     private final Row row;
 
     int index = 0;
@@ -25,6 +27,7 @@ public class ExcelCellIterator implements Iterator<Cell>  {
         return index <= row.getLastCellNum();
     }
 
+    @Nullable
     @Override
     public ExcelCell next() {
         if (row.getCell(index) == null) {

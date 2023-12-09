@@ -55,7 +55,9 @@ public class ImportFileToDeck extends AnalyzeSheetSchema {
     ) throws IOException, DatabaseException {
         String deckDbPath = findFreeDeckName(importToFolderPath, deckName);
         Workbook workbook = workbookFactory.createWorkbook(inputStream, fileMimeType);
+        Objects.requireNonNull(workbook);
         Sheet sheet = workbook.getSheetAt(0);
+        Objects.requireNonNull(sheet);
         findColumnIndexes(sheet);
         importCardsToFile(
                 sheet,

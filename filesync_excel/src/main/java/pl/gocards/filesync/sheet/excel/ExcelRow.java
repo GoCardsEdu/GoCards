@@ -16,6 +16,7 @@ import java.util.Objects;
 @SuppressWarnings("unused")
 public class ExcelRow implements pl.gocards.filesync.sheet.Row {
 
+    @NonNull
     private final Row row;
 
     public ExcelRow(@NonNull Row row) {
@@ -80,6 +81,7 @@ public class ExcelRow implements pl.gocards.filesync.sheet.Row {
         return value.isEmpty();
     }
 
+    @NonNull
     protected Row getRow() {
         return row;
     }

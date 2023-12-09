@@ -35,6 +35,7 @@ public class CsvSheet implements Sheet {
         return rows.size() - 1;
     }
 
+    @Nullable
     @Override
     public CsvRow getRow(int index) {
         if (index < rows.size()) {
@@ -44,6 +45,7 @@ public class CsvSheet implements Sheet {
         }
     }
 
+    @NonNull
     @Override
     public CsvRow createRow(int index) {
         CsvRow csvRow = new CsvRow(rows);

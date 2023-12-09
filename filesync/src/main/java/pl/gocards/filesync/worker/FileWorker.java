@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import pl.gocards.filesync.sheet.BigWorkbookFactory;
@@ -39,7 +40,7 @@ public abstract class FileWorker extends Worker {
         super(context, workerParams);
     }
 
-    protected void askPermissions(Uri uri) {
+    protected void askPermissions(@NonNull Uri uri) {
         int takeFlags = (Intent.FLAG_GRANT_READ_URI_PERMISSION
                 | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         getApplicationContext().getContentResolver().takePersistableUriPermission(uri, takeFlags);
@@ -48,7 +49,7 @@ public abstract class FileWorker extends Worker {
     /**
      * https://developer.android.com/training/data-storage/shared/documents-files
      */
-    protected void readFileMetadata(Uri fileUri) throws SheetWarningException {
+    protected void readFileMetadata(@NonNull Uri fileUri) throws SheetWarningException {
         try (Cursor cursor = getApplicationContext()
                 .getContentResolver()
                 .query(fileUri, null, null, null)
@@ -61,12 +62,14 @@ public abstract class FileWorker extends Worker {
         }
     }
 
-    protected InputStream openInputStream(Uri uri) throws FileNotFoundException {
-        return getApplicationContext().getContentResolver().openInputStream(uri);
+    @NonNull
+    protected InputStream openInputStream(@NonNull Uri uri) throws FileNotFoundException {
+        return Objects.requireNonNull(getApplicationContext().getContentResolver().openInputStream(uri));
     }
 
-    protected OutputStream openFileToWrite(Uri uri) throws FileNotFoundException {
-        return getApplicationContext().getContentResolver().openOutputStream(uri);
+    @NonNull
+    protected OutputStream openFileToWrite(@NonNull Uri uri) throws FileNotFoundException {
+        return Objects.requireNonNull(getApplicationContext().getContentResolver().openOutputStream(uri));
     }
 
     @NonNull
@@ -92,6 +95,7 @@ public abstract class FileWorker extends Worker {
         }
     }
 
+    @NonNull
     private String guessMimeType() throws SheetWarningException {
         String removeIncrement = fileDisplayName.replaceAll(" [(]\\d+[)]$", "");
         String extension = FilenameUtils.getExtension(removeIncrement);

@@ -15,7 +15,7 @@ public class ExceptionListCardsAdapter extends FileSyncListCardsAdapter {
 
     private static final String TAG = "ExceptionCardViewHolder";
 
-    public ExceptionListCardsAdapter(ExceptionListCardsActivity activity) throws DatabaseException {
+    public ExceptionListCardsAdapter(@NonNull ExceptionListCardsActivity activity) throws DatabaseException {
         super(activity);
     }
 

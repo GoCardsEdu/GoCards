@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import io.cucumber.datatable.DataTable;
@@ -44,6 +45,7 @@ public class ImportFileToDeckStepDefinitions {
 
     protected static final String PATH = "build/tests/import";
 
+    @NonNull
     private final String mimeType;
 
     @Spy
@@ -74,7 +76,7 @@ public class ImportFileToDeckStepDefinitions {
     @SuppressWarnings("NotNullFieldNotInitialized")
     private Sheet sheet;
 
-    public ImportFileToDeckStepDefinitions(String mimeType) {
+    public ImportFileToDeckStepDefinitions(@NonNull String mimeType) {
         this.mimeType = mimeType;
     }
 
@@ -86,7 +88,7 @@ public class ImportFileToDeckStepDefinitions {
     }
 
     protected void createFile() {
-        workbook = workbookFactory.createWorkbook(getFileMimeType());
+        workbook = Objects.requireNonNull(workbookFactory.createWorkbook(getFileMimeType()));
         sheet = workbook.createSheet(scenario.getName());
     }
 
@@ -112,12 +114,12 @@ public class ImportFileToDeckStepDefinitions {
         }
     }
 
-    protected void createRow(List<String> cellsTest, int rowNum) {
+    protected void createRow(@NonNull List<String> cellsTest, int rowNum) {
         Row rowFile = sheet.createRow(rowNum);
         createCells(cellsTest, rowFile);
     }
 
-    protected void createCells(List<String> cellsTest, Row rowFile) {
+    protected void createCells(@NonNull List<String> cellsTest, @NonNull Row rowFile) {
         int colNum = 0;
         for (String value : cellsTest) {
             Cell cell = rowFile.createCell(colNum);
@@ -182,6 +184,7 @@ public class ImportFileToDeckStepDefinitions {
         return cell;
     }
 
+    @NonNull
     protected String getFileMimeType() {
         return mimeType;
     }

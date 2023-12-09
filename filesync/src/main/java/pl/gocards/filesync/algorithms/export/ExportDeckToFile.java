@@ -41,7 +41,7 @@ public class ExportDeckToFile extends OpenFile {
             @NonNull OutputStream os,
             @NonNull String fileMimeType
     ) throws IOException {
-        setWorkbook(getWorkbookFactory().createWorkbook(fileMimeType));
+        setWorkbook(Objects.requireNonNull(getWorkbookFactory().createWorkbook(fileMimeType)));
         setSheet(getWorkbook().createSheet(getDeckName(getDeckDbPath())));
 
         setTermIndex(0);

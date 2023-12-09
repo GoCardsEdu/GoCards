@@ -1,6 +1,7 @@
 package pl.gocards.filesync.sheet;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,8 +28,10 @@ public interface WorkbookFactory {
 
     String[] SUPPORTED_EXTENSIONS = new String[]{FILE_EXTENSION_XLS, FILE_EXTENSION_XLSX, FILE_EXTENSION_CSV};
 
+    @Nullable
     Workbook createWorkbook(@NonNull String fileMimeType);
 
+    @Nullable
     Workbook createWorkbook(
             @NonNull InputStream inputStream,
             @NonNull String fileMimeType

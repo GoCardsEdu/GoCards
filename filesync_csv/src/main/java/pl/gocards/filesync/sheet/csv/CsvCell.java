@@ -11,13 +11,14 @@ import pl.gocards.filesync.sheet.Cell;
 @SuppressWarnings("unused")
 public class CsvCell implements Cell {
 
+    @Nullable
     private String value;
 
     public CsvCell(@Nullable String value) {
         this.value = value;
     }
 
-    @NonNull
+    @Nullable
     @Override
     public String getStringValue() {
         return value;
@@ -30,7 +31,7 @@ public class CsvCell implements Cell {
     }
 
     @Override
-    public void setCellValue(String value) {
+    public void setCellValue(@Nullable String value) {
         this.value = value;
     }
 

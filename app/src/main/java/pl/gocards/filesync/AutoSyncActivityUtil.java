@@ -47,7 +47,9 @@ import pl.gocards.util.ExceptionHandler;
  */
 public class AutoSyncActivityUtil {
     private static final int SECONDS_5 = 5000;
+    @NonNull
     private final CompositeDisposable disposable;
+    @NonNull
     private final AppCompatActivity activity;
     @NotNull
     private final DeckDatabase deckDb;
@@ -58,6 +60,7 @@ public class AutoSyncActivityUtil {
     private boolean startAutoSyncDone = false;
     @NonNull
     private final String deckDbPath;
+    @NonNull
     private final AutoSyncListener autoSyncListener;
 
     private AutoSyncActivityUtil(
@@ -78,11 +81,11 @@ public class AutoSyncActivityUtil {
         );
     }
 
-    public AutoSyncActivityUtil(FileSyncListCardsActivity activity) {
+    public AutoSyncActivityUtil(@NonNull FileSyncListCardsActivity activity) {
         this(activity, activity, activity.getDeckDbPath(), activity.getDisposable());
     }
 
-    public AutoSyncActivityUtil(FileSyncStudyCardActivity activity) {
+    public AutoSyncActivityUtil(@NonNull FileSyncStudyCardActivity activity) {
         this(activity, activity, activity.getDeckDbPath(), activity.getDisposable());
     }
 
@@ -172,7 +175,7 @@ public class AutoSyncActivityUtil {
     @SuppressLint("CheckResult")
     private void checkIfEditingIsLockedRunnable(
             @NonNull Handler handler,
-            Runnable runnable
+            @NonNull Runnable runnable
     ) {
         Disposable disposable = deckDb.deckConfigRxDao()
                 .getByKey(DeckConfig.FILE_SYNC_EDITING_BLOCKED_AT)

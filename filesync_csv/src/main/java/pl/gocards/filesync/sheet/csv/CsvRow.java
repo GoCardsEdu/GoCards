@@ -16,8 +16,10 @@ import pl.gocards.filesync.sheet.Row;
 @SuppressWarnings("unused")
 public class CsvRow implements Row {
 
+    @NonNull
     private final List<CsvRow> rows;
 
+    @NonNull
     private final List<CsvCell> cells;
 
     public CsvRow(@NonNull List<CsvRow> rows) {

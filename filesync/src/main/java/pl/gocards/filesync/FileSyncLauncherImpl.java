@@ -70,7 +70,7 @@ public class FileSyncLauncherImpl extends FileSyncBean implements FileSyncLaunch
     }
 
     @NotNull
-    protected ActivityResultLauncher<String> initExportFileLauncher(String mimeType) {
+    protected ActivityResultLauncher<String> initExportFileLauncher(@NonNull String mimeType) {
         return activity.registerForActivityResult(
                 new ActivityResultContracts.CreateDocument(mimeType),
                 exportedFileUri -> {

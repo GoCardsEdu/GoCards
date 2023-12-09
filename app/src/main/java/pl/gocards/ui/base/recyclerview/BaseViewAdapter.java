@@ -41,6 +41,7 @@ public abstract class BaseViewAdapter<VH extends RecyclerView.ViewHolder> extend
         requireActivity().runOnUiThread(action);
     }
 
+    @NonNull
     protected String getString(@StringRes int resId) {
         return applicationContext.getString(resId);
     }
