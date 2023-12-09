@@ -25,6 +25,7 @@ import pl.gocards.db.room.DeckDatabase;
 import pl.gocards.db.storage.DatabaseException;
 import pl.gocards.ui.base.BaseDialogFragment;
 import pl.gocards.ui.main.MainActivity;
+import pl.gocards.util.FirebaseAnalyticsHelper;
 
 /**
  * D_C_06 Create a new deck
@@ -108,6 +109,10 @@ public class CreateDeckDialog extends BaseDialogFragment {
     protected void onComplete(String deckName) {
         requireParentActivity().refreshItems();
         runOnUiThread(() -> showDatabaseCreatedToast(deckName), this::onError);
+
+        FirebaseAnalyticsHelper
+                .getInstance(getApplicationContext())
+                .createDeck();
     }
 
     @UiThread

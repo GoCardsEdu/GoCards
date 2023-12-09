@@ -31,6 +31,7 @@ import pl.gocards.ui.cards.slider.delete.DeleteCardSliderActivity;
 import pl.gocards.ui.cards.slider.slider.CardFragment;
 import pl.gocards.ui.cards.slider.slider.CardSliderActivity;
 import pl.gocards.ui.cards.slider.slider.CardsSliderViewModel;
+import pl.gocards.util.FirebaseAnalyticsHelper;
 
 /**
  * C_C_23 Create a new card
@@ -239,6 +240,10 @@ public class NewCardFragment extends CardFragment {
     protected void doOnCompleteSaveCard() {
         showCardAddedToast();
         runOnUiThread(() -> requireSliderActivity().stopNewCard(cardId), this::onErrorCreateCard);
+
+        FirebaseAnalyticsHelper
+                .getInstance(getApplicationContext())
+                .createCard();
     }
 
     private void showCardAddedToast() {

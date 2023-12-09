@@ -188,6 +188,10 @@ public class CreateSampleDeck {
                 .doOnComplete(doOnComplete)
                 .subscribe(EMPTY_ACTION, e -> this.onErrorCreateSampleDeck(e, activity));
         activityDisposable.add(disposable);
+
+        FirebaseAnalyticsHelper
+                .getInstance(applicationContext)
+                .createSampleDeck();
     }
 
     protected void onErrorCreateSampleDeck(

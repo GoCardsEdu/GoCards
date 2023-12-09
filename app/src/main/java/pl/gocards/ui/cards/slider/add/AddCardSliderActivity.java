@@ -76,7 +76,7 @@ public class AddCardSliderActivity extends EditCardSliderActivity {
                     .subscribeOn(Schedulers.io())
                     .doOnEvent((value, error) -> {
                         if (value == null && error == null) {
-                            addNewCardToSlider(position, 1);
+                            runOnUiThread(() -> addNewCardToSlider(position, 1));
                         }
                     })
                     .doOnSuccess(lastCardId -> runOnUiThread(() -> {

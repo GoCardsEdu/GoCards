@@ -26,6 +26,7 @@ import pl.gocards.filesync.db.FileSyncDeckDatabase;
 import pl.gocards.filesync.sheet.SheetWarningException;
 import pl.gocards.room.entity.filesync.FileSynced;
 import pl.gocards.util.ExceptionHandler;
+import pl.gocards.util.FirebaseAnalyticsHelper;
 import pl.gocards.util.WarningException;
 
 /**
@@ -80,6 +81,11 @@ public class ImportFromFileWorker extends FileWorker {
             }
 
             showSuccessNotification();
+
+            FirebaseAnalyticsHelper
+                    .getInstance(getApplicationContext())
+                    .importDeck();
+
             return Result.success();
         } catch (WarningException | SheetWarningException e) {
             showWarningDialog(e);

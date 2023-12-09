@@ -18,6 +18,7 @@ import pl.gocards.filesync.sheet.SheetWarningException;
 import pl.gocards.room.entity.filesync.FileSynced;
 import pl.gocards.filesync.algorithms.export.ExportDeckToFile;
 import pl.gocards.filesync.db.FileSyncDeckDatabase;
+import pl.gocards.util.FirebaseAnalyticsHelper;
 
 /**
  * This class separates the Android API from the algorithm.
@@ -72,6 +73,11 @@ public class ExportToFileWorker extends FileSyncWorker {
             exportFileToDeck.saveFileSynced();
             unlockDeckEditing(deckDbPath);
             showSuccessNotification();
+
+            FirebaseAnalyticsHelper
+                    .getInstance(getApplicationContext())
+                    .exportDeck();
+
             return Result.success();
         } catch (SheetWarningException e) {
             showWarningDialog(e);
