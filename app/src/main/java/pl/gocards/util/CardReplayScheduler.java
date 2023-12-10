@@ -36,7 +36,7 @@ public class CardReplayScheduler {
      * First interval if memorized:
      * 5 minutes * {@link CardReplayScheduler#QUICK_FACTOR_PERCENT} = 5 minutes
      */
-    private static final int QUICK_FIRST_INTERVAL_MINUTES = 1;
+    private static final int QUICK_FIRST_INTERVAL_MINUTES = 5;
 
     /**
      * First interval if memorized:
