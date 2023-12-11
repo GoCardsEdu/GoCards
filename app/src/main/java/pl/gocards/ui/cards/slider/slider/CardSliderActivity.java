@@ -244,9 +244,9 @@ public abstract class CardSliderActivity extends IconInToolbarActivity {
         return getActiveFragment().getCardId();
     }
 
-    @NonNull
+    @Nullable
     public CardFragment getActiveFragment() {
-        return Objects.requireNonNull(activeFragment);
+        return activeFragment;
     }
 
     public void setActiveFragment(@Nullable CardFragment activeFragment) {
