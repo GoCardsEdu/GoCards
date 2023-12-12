@@ -47,6 +47,7 @@
     <string name="decks_list_menu_import_excel">Import Excel</string>
     <string name="decks_list_menu_import_csv">Import CSV</string>
     <string name="decks_list_menu_import_db">Import DB</string>
+    <string name="decks_list_menu_discord">Discord</string>
     <string name="decks_list_menu_app_settings">Settings</string>
     <string name="decks_list_paste_folder_here">Paste the folder here</string>
     <string name="decks_list_paste_folder_toast_merged">\"%s\" has been merged with another folder.</string>

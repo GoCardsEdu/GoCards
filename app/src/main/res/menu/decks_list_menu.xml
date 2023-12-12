@@ -32,8 +32,13 @@
         android:title="@string/decks_list_menu_import_db"
         app:showAsAction="never" />
     <item
-        android:id="@+id/app_settings"
+        android:id="@+id/discord"
         android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/decks_list_menu_discord"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/app_settings"
+        android:icon="@drawable/discord"
         android:title="@string/decks_list_menu_app_settings"
         app:showAsAction="never" />
 </menu>

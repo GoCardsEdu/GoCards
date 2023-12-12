@@ -165,6 +165,10 @@ public class ListDecksFragment extends IconInToolbarFragment {
                 R.drawable.ic_round_file_download_24
         );
         menuIconWithText(
+                menu.findItem(R.id.discord),
+                R.drawable.discord
+        );
+        menuIconWithText(
                 menu.findItem(R.id.app_settings),
                 R.drawable.ic_baseline_settings_24
         );
@@ -187,6 +191,10 @@ public class ListDecksFragment extends IconInToolbarFragment {
             }
             case R.id.import_db -> {
                 importDb();
+                return true;
+            }
+            case R.id.discord -> {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.com/channels/1184261506859274332/")));
                 return true;
             }
             case R.id.app_settings -> {
