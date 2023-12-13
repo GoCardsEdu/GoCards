@@ -104,13 +104,7 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
         if (selectedCards.size() == 1) {
             // Add selection mode options to the menu.
             this.requireActivity().refreshMenuOnAppBar();
-
-            int colorItemSelected = MaterialColors.getColor(
-                    getActivity().findViewById(android.R.id.content).getRootView(),
-                    R.attr.colorItemSelected
-            );
-            requireActivity().getWindow().setStatusBarColor(colorItemSelected);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(colorItemSelected));
+            selectionActionBar();
 
             if (hintsOnce) {
                 showShortToastMessage(R.string.cards_list_toast_single_tap);
@@ -147,7 +141,7 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
         selectedCards.remove(card);
         countSelectedCardsOnSupportActionBar();
         if (selectedCards.isEmpty()) {
-            resetSupportActionBar();
+            resetActionBar();
             // Remove selection mode options from the menu.
             this.requireActivity().refreshMenuOnAppBar();
         }
@@ -159,7 +153,7 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
     @SuppressLint("NotifyDataSetChanged")
     public void onClickDeselectAll() {
         if (!selectedCards.isEmpty()) {
-            resetSupportActionBar();
+            resetActionBar();
             selectedCards.clear();
             // Remove selection mode options from the menu.
             this.requireActivity().refreshMenuOnAppBar();
@@ -168,7 +162,16 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
         }
     }
 
-    protected void resetSupportActionBar() {
+    private void selectionActionBar() {
+        int colorItemSelected = MaterialColors.getColor(
+                getActivity().findViewById(android.R.id.content).getRootView(),
+                R.attr.colorItemSelected
+        );
+        requireActivity().getWindow().setStatusBarColor(colorItemSelected);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(colorItemSelected));
+    }
+
+    private void resetActionBar() {
         int defaultColor = SurfaceColors.SURFACE_2.getColor(this.requireActivity());
         requireActivity().getWindow().setStatusBarColor(defaultColor);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(defaultColor));
@@ -197,7 +200,7 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
                     getCurrentList().removeAll(deleteCards);
                     // It must be before refresh recycler so that the colors are right when binding.
                     selectedCards.clear();
-                    resetSupportActionBar();
+                    resetActionBar();
 
                     onCompleteDeleteSelectedRefreshDataSet(deleteCardsOrderByLast);
                     showCardsDeletedSnackbar(deleteCards);
@@ -246,8 +249,12 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
                 .doOnComplete(() -> runOnUiThread(() -> {
                     selectedCards.addAll(cards);
                     loadItems();
+
                     // Enable the toolbar menu in selection mode.
                     this.requireActivity().refreshMenuOnAppBar();
+                    countSelectedCardsOnSupportActionBar();
+                    selectionActionBar();
+
                     showCardsRestoredToast(cards);
                 }, this::onErrorRevertCards))
                 .subscribe(EMPTY_ACTION, this::onErrorRevertCards);

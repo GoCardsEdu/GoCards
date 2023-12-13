@@ -293,7 +293,7 @@ abstract class CardRxDao : BaseSyncRxDao<Card>() {
         for (card in sorted) {
             card.deletedAt = null
             increaseOrdinalByGreaterThanEqual(card.ordinal)
-            updateAll(card)
+            updateAllSync(card)
         }
     }
 }
