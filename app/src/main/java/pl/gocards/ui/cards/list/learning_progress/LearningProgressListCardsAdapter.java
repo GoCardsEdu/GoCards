@@ -17,6 +17,7 @@ import java.util.Set;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import pl.gocards.R;
 import pl.gocards.db.storage.DatabaseException;
 import pl.gocards.room.entity.app.AppConfig;
@@ -154,18 +155,21 @@ public class LearningProgressListCardsAdapter extends SearchListCardsAdapter {
     private Maybe<List<Integer>> getDisabledCards() {
         return getDeckDb().cardRxDao()
                 .findIdsByDisabledTrueCards()
+                .subscribeOn(Schedulers.io())
                 .doOnSuccess(cardIds -> runOnUiThread(() -> disabledCards = new HashSet<>(cardIds)));
     }
 
     private Maybe<List<Integer>> getForgottenCards() {
         return getDeckDb().cardLearningProgressRxDao()
                 .findCardIdsByForgotten()
+                .subscribeOn(Schedulers.io())
                 .doOnSuccess(cardIds -> runOnUiThread(() -> forgottenCards = new HashSet<>(cardIds)));
     }
 
     private Maybe<List<Integer>> getRememberedCards() {
         return getDeckDb().cardLearningProgressRxDao()
                 .findCardIdsByRemembered()
+                .subscribeOn(Schedulers.io())
                 .doOnSuccess(cardIds -> runOnUiThread(() -> rememberedCards = new HashSet<>(cardIds)));
     }
 
