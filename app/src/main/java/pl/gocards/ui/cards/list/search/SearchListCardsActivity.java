@@ -24,8 +24,16 @@ import pl.gocards.ui.cards.list.select.SelectListCardsActivity;
 @SuppressWarnings("JavadocLinkAsPlainText")
 public class SearchListCardsActivity extends SelectListCardsActivity implements SearchView.OnQueryTextListener {
 
+    /**
+     * Used to restore the search after refreshing the menu
+     */
     @Nullable
-    private String lastSearchQuery = null;
+    private String restoreSearchQuery = null;
+
+    /**
+     * This is to avoid double loading of cards when opened.
+     */
+    private boolean skipInitSearch = true;
 
     /* -----------------------------------------------------------------------------------------
      * OnCreate
@@ -71,16 +79,16 @@ public class SearchListCardsActivity extends SelectListCardsActivity implements 
         super.onPrepareOptionsMenu(menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.search_cards).getActionView();
         Objects.requireNonNull(searchView);
-        if (lastSearchQuery != null) {
-            searchView.setQuery(lastSearchQuery, false);
-            lastSearchQuery = null;
+        if (restoreSearchQuery != null) {
+            searchView.setQuery(restoreSearchQuery, false);
+            restoreSearchQuery = null;
         }
         return true;
     }
 
     @Override
     public void refreshMenuOnAppBar() {
-        lastSearchQuery = getAdapter().getSearchQuery();
+        restoreSearchQuery = getAdapter().getSearchQuery();
         invalidateOptionsMenu();
     }
 
@@ -90,7 +98,7 @@ public class SearchListCardsActivity extends SelectListCardsActivity implements 
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if (lastSearchQuery == null) {
+        if (restoreSearchQuery == null) {
             getAdapter().setSearchQuery(query);
             getAdapter().loadItems();
         }
@@ -99,9 +107,13 @@ public class SearchListCardsActivity extends SelectListCardsActivity implements 
 
     @Override
     public boolean onQueryTextChange(String query) {
-        if (lastSearchQuery == null) {
-            getAdapter().setSearchQuery(query);
-            getAdapter().loadItems();
+        if (restoreSearchQuery == null) {
+            if (skipInitSearch) {
+                skipInitSearch = false;
+            } else {
+                getAdapter().setSearchQuery(query);
+                getAdapter().loadItems();
+            }
         }
         return true;
     }
@@ -111,7 +123,7 @@ public class SearchListCardsActivity extends SelectListCardsActivity implements 
      * ----------------------------------------------------------------------------------------- */
 
     public boolean isSearchMode() {
-        return lastSearchQuery != null;
+        return restoreSearchQuery != null;
     }
 
     /* -----------------------------------------------------------------------------------------
