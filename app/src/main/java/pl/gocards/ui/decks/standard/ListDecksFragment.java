@@ -194,7 +194,10 @@ public class ListDecksFragment extends IconInToolbarFragment {
                 return true;
             }
             case R.id.discord -> {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://discord.com/channels/1184261506859274332/")));
+                startActivity(new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://discord.gg/jYyRnD27JP")
+                ));
                 return true;
             }
             case R.id.app_settings -> {
