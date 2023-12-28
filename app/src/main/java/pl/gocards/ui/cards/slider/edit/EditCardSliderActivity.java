@@ -43,16 +43,20 @@ public class EditCardSliderActivity extends CardSliderActivity {
 
     @UiThread
     public void startEditCurrentCard() {
-        Card card = Objects.requireNonNull(getActiveCard());
-        getAdapter().getEditCardIds().add(card.getId());
-        getAdapter().notifyItemChanged(getCurrentPosition());
+        Card card = getActiveCard();
+        if (card != null) {
+            getAdapter().getEditCardIds().add(card.getId());
+            getAdapter().notifyItemChanged(getCurrentPosition());
+        }
     }
 
     @UiThread
     public void stopEditCurrentCard() {
-        Card card = Objects.requireNonNull(getActiveCard());
-        getAdapter().getEditCardIds().remove(card.getId());
-        getAdapter().notifyItemChanged(getCurrentPosition());
+        Card card = getActiveCard();
+        if (card != null) {
+            getAdapter().getEditCardIds().remove(card.getId());
+            getAdapter().notifyItemChanged(getCurrentPosition());
+        }
     }
 
     @NonNull
