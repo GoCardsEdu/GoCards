@@ -39,7 +39,9 @@ public class LearningProgressListCardsAdapter extends SearchListCardsAdapter {
 
     private String rightEdgeBar;
 
-    public LearningProgressListCardsAdapter(@NonNull LearningProgressListCardsActivity activity) throws DatabaseException {
+    public LearningProgressListCardsAdapter(
+            @NonNull LearningProgressListCardsActivity activity
+    ) throws DatabaseException {
         super(activity);
     }
 
@@ -60,7 +62,8 @@ public class LearningProgressListCardsAdapter extends SearchListCardsAdapter {
         return getAppDb().appConfigRxDao().load(
                 AppConfig.LEFT_EDGE_BAR,
                 AppConfig.LEFT_EDGE_BAR_DEFAULT,
-                s -> runOnUiThread(() -> leftEdgeBar = s)
+                // Do not use runOnUiThread, otherwise null is read by other Rx.
+                s -> leftEdgeBar = s
         ).ignoreElements();
     }
 
@@ -69,7 +72,8 @@ public class LearningProgressListCardsAdapter extends SearchListCardsAdapter {
         return getAppDb().appConfigRxDao().load(
                 AppConfig.RIGHT_EDGE_BAR,
                 AppConfig.RIGHT_EDGE_BAR_DEFAULT,
-                s -> runOnUiThread(() -> rightEdgeBar = s)
+                // Do not use runOnUiThread, otherwise null is read by other Rx.
+                s -> rightEdgeBar = s
         ).ignoreElements();
     }
 
@@ -121,11 +125,16 @@ public class LearningProgressListCardsAdapter extends SearchListCardsAdapter {
 
     @Override
     protected @NonNull Completable beforeLoadItems() {
-        if (isShownLearningStatus()) {
-            return Completable.mergeArray(super.beforeLoadItems(), loadCardLearningProgress());
-        } else {
-            return super.beforeLoadItems();
-        }
+        return Completable.fromAction(() -> {
+            if (isShownLearningStatus()) {
+                Completable.mergeArray(
+                        super.beforeLoadItems(),
+                        loadCardLearningProgress()
+                ).blockingSubscribe();
+            } else {
+                super.beforeLoadItems().blockingSubscribe();
+            }
+        });
     }
 
     @NonNull
@@ -143,17 +152,20 @@ public class LearningProgressListCardsAdapter extends SearchListCardsAdapter {
     }
 
     private Maybe<List<Integer>> getDisabledCards() {
-        return getDeckDb().cardRxDao().findIdsByDisabledTrueCards()
+        return getDeckDb().cardRxDao()
+                .findIdsByDisabledTrueCards()
                 .doOnSuccess(cardIds -> runOnUiThread(() -> disabledCards = new HashSet<>(cardIds)));
     }
 
     private Maybe<List<Integer>> getForgottenCards() {
-        return getDeckDb().cardLearningProgressRxDao().findCardIdsByForgotten()
+        return getDeckDb().cardLearningProgressRxDao()
+                .findCardIdsByForgotten()
                 .doOnSuccess(cardIds -> runOnUiThread(() -> forgottenCards = new HashSet<>(cardIds)));
     }
 
     private Maybe<List<Integer>> getRememberedCards() {
-        return getDeckDb().cardLearningProgressRxDao().findCardIdsByRemembered()
+        return getDeckDb().cardLearningProgressRxDao()
+                .findCardIdsByRemembered()
                 .doOnSuccess(cardIds -> runOnUiThread(() -> rememberedCards = new HashSet<>(cardIds)));
     }
 
