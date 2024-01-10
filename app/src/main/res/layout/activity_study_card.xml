@@ -31,6 +31,8 @@
 
             <pl.gocards.ui.cards.study.zoom.ZoomTextView
                 android:id="@+id/termTextView"
+                android:autoLink="web"
+                android:linksClickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="center"
@@ -99,6 +101,8 @@
 
             <pl.gocards.ui.cards.study.zoom.ZoomTextView
                 android:id="@+id/definitionTextView"
+                android:autoLink="web"
+                android:linksClickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="center"

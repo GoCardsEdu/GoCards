@@ -74,6 +74,8 @@ data class Card(
 
         private fun setTermHtmlFlags(card: Card) {
             val term = card.term
+            card.isTermSimpleHtml = false
+            card.isTermFullHtml = false
             if (htmlUtil.isSimpleHtml(term)) {
                 card.isTermSimpleHtml = true
                 if (htmlUtil.isFullHtml(term)) {
@@ -83,6 +85,8 @@ data class Card(
         }
 
         private fun setDefinitionHtmlFlags(card: Card) {
+            card.isDefinitionSimpleHtml = false
+            card.isDefinitionFullHtml = false
             val definition = card.definition
             if (htmlUtil.isSimpleHtml(definition)) {
                 card.isDefinitionSimpleHtml = true

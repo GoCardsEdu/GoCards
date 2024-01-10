@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -182,6 +183,7 @@ public class StudyCardSliderFragment extends CardFragment {
 
     @UiThread
     protected void initTermView() {
+        Linkify.addLinks(getDefinitionTextView(), Linkify.ALL);
         getTermTextView().setMovementMethod(new ScrollingMovementMethod());
         getTermTextView().setVisibility(GONE);
     }
@@ -196,7 +198,8 @@ public class StudyCardSliderFragment extends CardFragment {
 
     @UiThread
     protected void initDefinitionView() {
-        getDefinitionTextView().setMovementMethod(new ScrollingMovementMethod());
+        Linkify.addLinks(getDefinitionTextView(), Linkify.ALL);
+        getDefinitionTextView().setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
     @UiThread
