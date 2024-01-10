@@ -9,7 +9,6 @@ import static pl.gocards.db.deck.DeckDbUtil.getDeckName;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +19,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -184,8 +184,7 @@ public class StudyCardSliderFragment extends CardFragment {
     @UiThread
     protected void initTermView() {
         Linkify.addLinks(getDefinitionTextView(), Linkify.ALL);
-        getTermTextView().setMovementMethod(new ScrollingMovementMethod());
-        getTermTextView().setVisibility(GONE);
+        getTermScrollView().setVisibility(GONE);
     }
 
     @UiThread
@@ -199,7 +198,6 @@ public class StudyCardSliderFragment extends CardFragment {
     @UiThread
     protected void initDefinitionView() {
         Linkify.addLinks(getDefinitionTextView(), Linkify.ALL);
-        getDefinitionTextView().setMovementMethod(ScrollingMovementMethod.getInstance());
     }
 
     @UiThread
@@ -351,20 +349,20 @@ public class StudyCardSliderFragment extends CardFragment {
                 getTermWebView().setVisibility(VISIBLE);
             } else if (card.isTermSimpleHtml()) {
                 getTermTextView().setText(htmlUtil.fromHtml(card.getTerm()));
-                getTermTextView().setVisibility(VISIBLE);
+                getTermScrollView().setVisibility(VISIBLE);
             } else {
                 getTermTextView().setText(card.getTerm());
-                getTermTextView().setVisibility(VISIBLE);
+                getTermScrollView().setVisibility(VISIBLE);
             }
 
             if (card.isDefinitionFullHtml()) {
                 setText(getDefinitionWebView(), card.getDefinition());
             } else if (card.isDefinitionSimpleHtml()) {
                 getDefinitionTextView().setText(htmlUtil.fromHtml(card.getDefinition()));
-                getDefinitionTextView().setVisibility(VISIBLE);
+                getDefinitionScrollView().setVisibility(VISIBLE);
             } else {
                 getDefinitionTextView().setText(card.getDefinition());
-                getDefinitionTextView().setVisibility(VISIBLE);
+                getDefinitionScrollView().setVisibility(VISIBLE);
             }
 
         });
@@ -400,9 +398,9 @@ public class StudyCardSliderFragment extends CardFragment {
             Card card = Objects.requireNonNull(getCard());
             if (card.isDefinitionFullHtml()) {
                 getDefinitionWebView().setVisibility(VISIBLE);
-                getDefinitionTextView().setVisibility(INVISIBLE);
+                getDefinitionScrollView().setVisibility(INVISIBLE);
             } else {
-                getDefinitionTextView().setVisibility(VISIBLE);
+                getDefinitionScrollView().setVisibility(VISIBLE);
                 getDefinitionWebView().setVisibility(INVISIBLE);
             }
             getGradeButtonsLayout().setVisibility(VISIBLE);
@@ -412,10 +410,9 @@ public class StudyCardSliderFragment extends CardFragment {
 
     private void hideDefinition() {
         runOnUiThread(() -> {
-            getDefinitionTextView().setVisibility(INVISIBLE);
+            getDefinitionScrollView().setVisibility(INVISIBLE);
             getDefinitionWebView().setVisibility(INVISIBLE);
             getGradeButtonsLayout().setVisibility(INVISIBLE);
-            getDefinitionTextView().setVisibility(INVISIBLE);
             getShowDefinitionView().setVisibility(VISIBLE);
         });
     }
@@ -548,6 +545,11 @@ public class StudyCardSliderFragment extends CardFragment {
     }
 
     @NonNull
+    protected ScrollView getTermScrollView() {
+        return getBinding().termScrollView;
+    }
+
+    @NonNull
     protected ZoomTextView getTermTextView() {
         return getBinding().termTextView;
     }
@@ -555,6 +557,11 @@ public class StudyCardSliderFragment extends CardFragment {
     @NonNull
     protected WebView getTermWebView() {
         return getBinding().termWebView;
+    }
+
+    @NonNull
+    protected ScrollView getDefinitionScrollView() {
+        return getBinding().definitionScrollView;
     }
 
     @NonNull

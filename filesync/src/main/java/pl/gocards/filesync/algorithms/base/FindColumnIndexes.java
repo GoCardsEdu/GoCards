@@ -150,6 +150,7 @@ public class FindColumnIndexes {
         if (hasBlankRowsBefore && cellValue != null && cellValue.toLowerCase(Locale.getDefault()).startsWith("definition")) {
             definitionIndex = colNum;
             headerRow = rowNum;
+            // TODO: Take the first column you find, not the last one.
             Log.i(TAG, "The definition header column found=" + this.definitionIndex);
             return true;
         }
