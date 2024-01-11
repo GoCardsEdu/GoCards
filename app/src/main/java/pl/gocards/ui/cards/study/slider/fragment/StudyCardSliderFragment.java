@@ -7,6 +7,7 @@ import static io.reactivex.rxjava3.internal.functions.Functions.EMPTY_ACTION;
 import static pl.gocards.db.deck.DeckDbUtil.getDeckName;
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.util.Linkify;
@@ -188,10 +189,12 @@ public class StudyCardSliderFragment extends CardFragment {
     }
 
     @UiThread
+    @SuppressLint("SetJavaScriptEnabled")
     protected void initTermWebView() {
         getTermWebView().setBackgroundColor(Color.TRANSPARENT);
         getTermWebView().getSettings().setBuiltInZoomControls(true);
         getTermWebView().getSettings().setDisplayZoomControls(false);
+        getTermWebView().getSettings().setJavaScriptEnabled(true);
         getTermWebView().setVisibility(GONE);
     }
 
@@ -201,10 +204,12 @@ public class StudyCardSliderFragment extends CardFragment {
     }
 
     @UiThread
+    @SuppressLint("SetJavaScriptEnabled")
     protected void initDefinitionWebView() {
         getDefinitionWebView().setBackgroundColor(Color.TRANSPARENT);
         getDefinitionWebView().getSettings().setBuiltInZoomControls(true);
         getDefinitionWebView().getSettings().setDisplayZoomControls(false);
+        getDefinitionWebView().getSettings().setJavaScriptEnabled(true);
         getDefinitionWebView().setVisibility(GONE);
     }
 
@@ -373,12 +378,13 @@ public class StudyCardSliderFragment extends CardFragment {
         int intColor = MaterialColors.getColor(getDefinitionTextView(), com.google.android.material.R.attr.colorOnSurfaceVariant, Color.BLACK);
         String hexColor = String.format("#%06X", (0xFFFFFF & intColor));
 
+        int width = pxToDp(Resources.getSystem().getDisplayMetrics().widthPixels) - 20;
+        value = htmlUtil.replaceYtIframe(value, width);
         value = value.replace("\n", "<br/>");
+
         String content = "<header><style>*{margin:0;padding:0;} img{max-width: 95%}</style></header><body style='color:" + hexColor +";font-family:Roboto;font-size:x-large;display:flex;height:100%;text-align:center;'><div style='margin:auto;'><div style='margin-top:20px;margin-bottom:20px;'>" + value + "</div></div></body>";
         webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null);
         webView.setBackgroundColor(Color.TRANSPARENT);
-        webView.getSettings().setBuiltInZoomControls(true);
-        webView.getSettings().setDisplayZoomControls(false);
     }
 
     private void onClickShowDefinition(View ignoredView) {

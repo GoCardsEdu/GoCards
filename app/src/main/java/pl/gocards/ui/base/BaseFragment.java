@@ -91,6 +91,10 @@ public class BaseFragment extends Fragment {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
+    protected static int pxToDp(int px) {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+    }
+
     @UiThread
     protected void showShortToastMessage(@StringRes int resId) {
         Toast.makeText(
