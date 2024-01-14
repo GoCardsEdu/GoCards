@@ -48,6 +48,7 @@ import pl.gocards.ui.cards.slider.slider.CardFragment;
 import pl.gocards.ui.cards.study.slider.StudyCardSliderActivity;
 import pl.gocards.ui.cards.study.slider.model.StudyCardViewModel;
 import pl.gocards.ui.cards.study.zoom.ZoomTextView;
+import pl.gocards.util.FirebaseAnalyticsHelper;
 
 /**
  * C_R_30 Study the cards
@@ -311,6 +312,10 @@ public class StudyCardSliderFragment extends CardFragment {
                 ))
                 .subscribe(EMPTY_ACTION, this::onErrorUpdateCardLearningProgress);
         addToDisposable(disposable);
+
+        FirebaseAnalyticsHelper
+                .getInstance(getApplicationContext())
+                .again();
     }
 
     /**
@@ -318,6 +323,10 @@ public class StudyCardSliderFragment extends CardFragment {
      */
     private void onQuickClick(View v) {
         updateLearningProgress(getCardModel().onQuickClick(), v);
+
+        FirebaseAnalyticsHelper
+                .getInstance(getApplicationContext())
+                .quick();
     }
 
     /**
@@ -325,6 +334,10 @@ public class StudyCardSliderFragment extends CardFragment {
      */
     private void onEasyClick(View v) {
         updateLearningProgress(getCardModel().onEasyClick(), v);
+
+        FirebaseAnalyticsHelper
+                .getInstance(getApplicationContext())
+                .easy();
     }
 
     /**
@@ -332,6 +345,10 @@ public class StudyCardSliderFragment extends CardFragment {
      */
     private void onHardClick(View v) {
         updateLearningProgress(getCardModel().onHardClick(), v);
+
+        FirebaseAnalyticsHelper
+                .getInstance(getApplicationContext())
+                .hard();
     }
 
     @SuppressLint("CheckResult")

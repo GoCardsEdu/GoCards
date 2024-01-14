@@ -34,6 +34,18 @@ public class FirebaseAnalyticsHelper {
     public static final String CREATE_CARD = "create_card";
 
     @NonNull
+    public static final String CLICK_AGAIN = "click_again";
+
+    @NonNull
+    public static final String CLICK_QUICK = "click_quick";
+
+    @NonNull
+    public static final String CLICK_EASY = "click_easy";
+
+    @NonNull
+    public static final String CLICK_HARD = "click_hard";
+
+    @NonNull
     private final FirebaseAnalytics firebaseAnalytics;
 
     @Nullable
@@ -74,5 +86,22 @@ public class FirebaseAnalyticsHelper {
 
     public void createCard() {
         firebaseAnalytics.logEvent(CREATE_CARD, new Bundle());
+    }
+
+    public void again() {
+        firebaseAnalytics.logEvent(CLICK_AGAIN, new Bundle());
+    }
+
+    public void quick() {
+        firebaseAnalytics.logEvent(CLICK_QUICK, new Bundle());
+    }
+
+    public void easy() {
+        firebaseAnalytics.logEvent(CLICK_EASY, new Bundle());
+    }
+
+
+    public void hard() {
+        firebaseAnalytics.logEvent(CLICK_HARD, new Bundle());
     }
 }
