@@ -19,6 +19,7 @@ public class HtmlUtil {
     private final static Pattern HTML_PATTERN = Pattern.compile(DETECT_HTML_PATTERN);
     private final static String DETECT_FULL_HTML_PATTERN = "(?:<[img|div|span|iframe].*?>)|(?:yt:)";
     private final static Pattern FULL_HTML_PATTERN = Pattern.compile(DETECT_FULL_HTML_PATTERN);
+    @SuppressWarnings("EscapedSpace")
     private final static String DETECT_YT_IFRAME_PATTERN = "yt:(http[^\s\n]*)";
     private final static Pattern YT_IFRAME_PATTERN = Pattern.compile(DETECT_YT_IFRAME_PATTERN);
 

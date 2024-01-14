@@ -3,8 +3,6 @@ package pl.gocards.ui.cards.slider.edit;
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 
-import java.util.Objects;
-
 import pl.gocards.room.entity.deck.Card;
 import pl.gocards.ui.cards.slider.slider.CardSliderActivity;
 import pl.gocards.ui.cards.slider.slider.CardSliderAdapter;

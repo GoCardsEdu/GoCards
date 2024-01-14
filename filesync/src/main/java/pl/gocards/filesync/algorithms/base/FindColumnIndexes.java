@@ -64,18 +64,20 @@ public class FindColumnIndexes {
         ROWS:
         for (rowNum = 0; rowIt.hasNext(); rowNum++) {
             Row currentRow = rowIt.next();
-            Iterator<Cell> cellIt = currentRow.iterator();
-            if (hasBlankRowsBefore) {
-                hasBlankRowsBefore = !termHeaderFound() && !defHeaderFound() && !isFound(firstNonEmptyColIdx);
+            if (currentRow != null) {
+                Iterator<Cell> cellIt = currentRow.iterator();
                 if (hasBlankRowsBefore) {
-                    skipEmptyRows = rowNum - 1;
+                    hasBlankRowsBefore = !termHeaderFound() && !defHeaderFound() && !isFound(firstNonEmptyColIdx);
+                    if (hasBlankRowsBefore) {
+                        skipEmptyRows = rowNum - 1;
+                    }
                 }
-            }
 
-            for (colNum = 0; cellIt.hasNext(); colNum++) {
-                cellValue = getStringValue(cellIt.next());
-                if (nonEmpty(cellValue) && processCell()) {
-                    break ROWS;
+                for (colNum = 0; cellIt.hasNext(); colNum++) {
+                    cellValue = getStringValue(cellIt.next());
+                    if (nonEmpty(cellValue) && processCell()) {
+                        break ROWS;
+                    }
                 }
             }
         }
