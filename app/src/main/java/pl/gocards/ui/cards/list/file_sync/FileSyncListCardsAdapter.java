@@ -109,7 +109,7 @@ public class FileSyncListCardsAdapter extends LearningProgressListCardsAdapter {
                                         getRecentlyAddedFileCards(deckModifiedAt).toObservable(),
                                         getRecentlyUpdatedFileCards(deckModifiedAt).toObservable()
                                 )
-                                .doOnComplete(this.requireActivity()::refreshMenuOnAppBar)
+                                .doOnComplete(() -> runOnUiThread(() -> this.requireActivity().refreshMenuOnAppBar()))
                                 .blockingSubscribe(listMaybe -> {}, this::errorShowRecentlySynced)
                 ).toObservable().ignoreElements();
     }

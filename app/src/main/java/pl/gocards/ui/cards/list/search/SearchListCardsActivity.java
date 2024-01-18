@@ -7,6 +7,7 @@ import android.view.Menu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
 import androidx.appcompat.widget.SearchView;
 
 import java.util.Objects;
@@ -87,6 +88,7 @@ public class SearchListCardsActivity extends SelectListCardsActivity implements 
     }
 
     @Override
+    @UiThread
     public void refreshMenuOnAppBar() {
         restoreSearchQuery = getAdapter().getSearchQuery();
         invalidateOptionsMenu();
