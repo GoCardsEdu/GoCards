@@ -15,6 +15,8 @@ public interface FileSyncLauncher {
 
     String TAG = "FileSync";
 
+    String FILESYNC_DECK_DB_PATH = "FILESYNC_DECK_DB_PATH";
+
     @Nullable
     static FileSyncLauncher getInstance(
             @NonNull AppCompatActivity activity,
@@ -45,4 +47,9 @@ public interface FileSyncLauncher {
      * FS_I Import the file as a new deck.
      */
     void launchImportFile(@NonNull String importToFolder);
+
+    @Nullable
+    String getDeckDbPath();
+
+    void setDeckDbPath(@Nullable String deckDbPath);
 }

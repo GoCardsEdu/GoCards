@@ -1,6 +1,8 @@
 package pl.gocards.ui.main;
 
 import static io.reactivex.rxjava3.internal.functions.Functions.EMPTY_ACTION;
+import static pl.gocards.filesync.FileSyncLauncher.FILESYNC_DECK_DB_PATH;
+import static pl.gocards.filesync.FileSyncProLauncher.FILESYNC_PRO_DECK_DB_PATH;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -271,12 +273,24 @@ public class MainActivity extends BaseActivity {
     public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt(CURRENT_FRAGMENT_ID, currentFragmentId);
+        if (fileSyncLauncher != null) {
+            savedInstanceState.putString(FILESYNC_DECK_DB_PATH, fileSyncLauncher.getDeckDbPath());
+        }
+        if (fileSyncProLauncher != null) {
+            savedInstanceState.putString(FILESYNC_PRO_DECK_DB_PATH, fileSyncProLauncher.getDeckDbPath());
+        }
     }
 
     @Override
     public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         currentFragmentId = savedInstanceState.getInt(CURRENT_FRAGMENT_ID);
+        if (fileSyncLauncher != null) {
+            fileSyncLauncher.setDeckDbPath(savedInstanceState.getString(FILESYNC_DECK_DB_PATH));
+        }
+        if (fileSyncProLauncher != null) {
+            fileSyncProLauncher.setDeckDbPath(savedInstanceState.getString(FILESYNC_PRO_DECK_DB_PATH));
+        }
     }
 
     /* -----------------------------------------------------------------------------------------

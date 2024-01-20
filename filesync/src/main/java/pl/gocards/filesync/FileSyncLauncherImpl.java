@@ -110,4 +110,13 @@ public class FileSyncLauncherImpl extends FileSyncBean implements FileSyncLaunch
     protected String getDeckName(@NonNull String dbPath) {
         return AppDeckDbUtil.getDeckName(dbPath);
     }
+
+    @Nullable
+    public String getDeckDbPath() {
+        return deckDbPath;
+    }
+
+    public void setDeckDbPath(@Nullable String deckDbPath) {
+        this.deckDbPath = deckDbPath;
+    }
 }

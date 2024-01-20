@@ -15,6 +15,8 @@ import pl.gocards.db.storage.DatabaseException;
  */
 public interface FileSyncProLauncher {
 
+    String FILESYNC_PRO_DECK_DB_PATH = "FILESYNC_PRO_DECK_DB_PATH";
+
     @Nullable
     static FileSyncProLauncher getInstance(
             @NonNull AppCompatActivity activity,
@@ -43,6 +45,11 @@ public interface FileSyncProLauncher {
             @NonNull OnSyncSuccess onSyncSuccess,
             long afterTime
     ) throws DatabaseException;
+
+    @Nullable
+    String getDeckDbPath();
+
+    void setDeckDbPath(@Nullable String deckDbPath);
 
     interface OnSyncSuccess {
         /** @noinspection unused*/

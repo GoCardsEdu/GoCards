@@ -186,7 +186,7 @@ public class StudyCardSliderFragment extends CardFragment {
     @UiThread
     protected void initTermView() {
         Linkify.addLinks(getDefinitionTextView(), Linkify.ALL);
-        getTermScrollView().setVisibility(GONE);
+        // getTermScrollView().setVisibility(GONE);
     }
 
     @UiThread
@@ -381,12 +381,9 @@ public class StudyCardSliderFragment extends CardFragment {
                 setText(getDefinitionWebView(), card.getDefinition());
             } else if (card.isDefinitionSimpleHtml()) {
                 getDefinitionTextView().setText(htmlUtil.fromHtml(card.getDefinition()));
-                getDefinitionScrollView().setVisibility(VISIBLE);
             } else {
                 getDefinitionTextView().setText(card.getDefinition());
-                getDefinitionScrollView().setVisibility(VISIBLE);
             }
-
         });
     }
 
