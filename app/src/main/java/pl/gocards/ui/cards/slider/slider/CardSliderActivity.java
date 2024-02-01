@@ -237,10 +237,14 @@ public abstract class CardSliderActivity extends IconInToolbarActivity {
 
     @Nullable
     public Card getActiveCard() {
+        CardFragment fragment = getActiveFragment();
+        if (fragment == null) return null;
         return getActiveFragment().getCard();
     }
 
-    protected int getActiveCardId() {
+    protected Integer getActiveCardId() {
+        CardFragment fragment = getActiveFragment();
+        if (fragment == null) return null;
         return getActiveFragment().getCardId();
     }
 

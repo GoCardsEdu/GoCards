@@ -1,4 +1,4 @@
-package pl.gocards.filesync.tests;
+package pl.gocards.filesync.tests.steps;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -37,6 +37,7 @@ import pl.gocards.filesync.sheet.Cell;
 import pl.gocards.filesync.sheet.Row;
 import pl.gocards.filesync.sheet.Sheet;
 import pl.gocards.filesync.sheet.Workbook;
+import pl.gocards.filesync.tests.TestCardsHelper;
 import pl.gocards.room.entity.deck.Card;
 
 public class ImportFileToDeckStepDefinitions {

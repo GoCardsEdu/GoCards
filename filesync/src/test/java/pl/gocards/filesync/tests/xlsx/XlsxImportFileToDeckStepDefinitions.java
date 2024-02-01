@@ -12,11 +12,11 @@ import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pl.gocards.filesync.tests.ImportFileToDeckStepDefinitions;
+import pl.gocards.filesync.tests.steps.ImportFileToDeckStepDefinitions;
 
 public class XlsxImportFileToDeckStepDefinitions {
 
-    private final ImportFileToDeckStepDefinitions stepDefinitions = new ImportFileToDeckStepDefinitions(MIME_TYPE_XLSX);
+    private final ImportFileToDeckStepDefinitions stepDefinitions = new ImportFileToDeckStepDefinitions(getMimeType());
 
     @Before
     public void before(Scenario scenario) {
@@ -41,11 +41,19 @@ public class XlsxImportFileToDeckStepDefinitions {
 
     @When("Import the file into the deck.")
     public void import_the_file_into_the_deck() throws Exception {
-        stepDefinitions.import_the_file_into_the_deck(FILE_EXTENSION_XLSX);
+        stepDefinitions.import_the_file_into_the_deck(getFileExtension());
     }
 
     @Then("New deck with the following cards:")
     public void new_deck_with_the_following_cards_imported(@NonNull DataTable expectedCards) {
         stepDefinitions.new_deck_with_the_following_cards_imported(expectedCards);
+    }
+
+    protected String getMimeType() {
+        return MIME_TYPE_XLSX;
+    }
+
+    protected String getFileExtension() {
+        return FILE_EXTENSION_XLSX;
     }
 }

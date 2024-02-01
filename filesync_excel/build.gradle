@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.dynamic-feature'
+    id 'org.jetbrains.kotlin.android' // without this, it takes other dependencies than app
 }
 android {
     namespace 'pl.gocards.filesync.sheet.excel'
@@ -14,7 +15,7 @@ dependencies {
     implementation project(':app')
     implementation project(":filesync_sheet")
     implementation project(":android-apache-poi-5-with-dependencies")
-    androidTestImplementation 'androidx.annotation:annotation:1.7.0'
+    androidTestImplementation 'androidx.annotation:annotation:1.7.1'
 }
 
 tasks.named("preBuild").configure {

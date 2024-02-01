@@ -11,8 +11,6 @@ android {
     defaultConfig {
         testApplicationId "pl.gocards.filesync.test"
         minSdkVersion 26
-        testInstrumentationRunner "pl.gocards.filesync.tests.xlsx.RunXlsxFileSyncUnitTest"
-        // testInstrumentationRunner "pl.gocards.filesync.tests.xls.RunXlsFileSyncUnitTest"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -45,8 +43,8 @@ dependencies {
     implementation 'commons-io:commons-io:2.15.0'
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'io.cucumber:cucumber-java:7.13.0'
-    testImplementation 'io.cucumber:cucumber-junit:7.13.0'
+    testImplementation 'io.cucumber:cucumber-java:7.14.0'
+    testImplementation 'io.cucumber:cucumber-junit:7.14.0'
     testImplementation 'org.hamcrest:hamcrest-core:2.2'
     testImplementation('org.mockito:mockito-core:5.4.0') {
         exclude group: 'org.hamcrest', module: 'hamcrest-core'

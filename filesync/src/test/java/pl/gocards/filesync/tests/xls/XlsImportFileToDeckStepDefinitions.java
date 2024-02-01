@@ -12,7 +12,7 @@ import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pl.gocards.filesync.tests.ImportFileToDeckStepDefinitions;
+import pl.gocards.filesync.tests.steps.ImportFileToDeckStepDefinitions;
 import pl.gocards.filesync.tests.xlsx.XlsxImportFileToDeckStepDefinitions;
 
 /**
@@ -20,7 +20,7 @@ import pl.gocards.filesync.tests.xlsx.XlsxImportFileToDeckStepDefinitions;
  */
 public class XlsImportFileToDeckStepDefinitions extends XlsxImportFileToDeckStepDefinitions {
 
-    private final ImportFileToDeckStepDefinitions stepDefinitions = new ImportFileToDeckStepDefinitions(MIME_TYPE_XLS);
+    private final ImportFileToDeckStepDefinitions stepDefinitions = new ImportFileToDeckStepDefinitions(getMimeType());
 
     @Before
     public void before(Scenario scenario) {
@@ -45,11 +45,20 @@ public class XlsImportFileToDeckStepDefinitions extends XlsxImportFileToDeckStep
 
     @When("Import the file into the deck.")
     public void import_the_file_into_the_deck() throws Exception {
-        stepDefinitions.import_the_file_into_the_deck(FILE_EXTENSION_XLS);
+        stepDefinitions.import_the_file_into_the_deck(getFileExtension());
     }
 
     @Then("New deck with the following cards:")
     public void new_deck_with_the_following_cards_imported(@NonNull DataTable expectedCards) {
         stepDefinitions.new_deck_with_the_following_cards_imported(expectedCards);
+    }
+
+    @Override
+    protected String getMimeType() {
+        return MIME_TYPE_XLS;
+    }
+    @Override
+    protected String getFileExtension() {
+        return FILE_EXTENSION_XLS;
     }
 }

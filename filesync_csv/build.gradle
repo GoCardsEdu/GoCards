@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.dynamic-feature'
+    id 'org.jetbrains.kotlin.android' // without this, it takes other dependencies than app
 }
 android {
     namespace 'pl.gocards.filesync.sheet.csv'
@@ -15,13 +16,5 @@ dependencies {
     implementation project(":filesync_sheet")
     implementation 'commons-io:commons-io:2.15.0'
     implementation 'org.apache.commons:commons-csv:1.10.0'
-    implementation project(":android-apache-poi-5-with-dependencies")
-    androidTestImplementation 'androidx.annotation:annotation:1.7.0'
-}
-
-tasks.named("preBuild").configure {
-    dependsOn(
-            ":android-apache-poi-5-with-dependencies:build",
-            ":android-apache-poi-5-with-dependencies:publishMavenPublicationToMavenLocal"
-    )
+    androidTestImplementation 'androidx.annotation:annotation:1.7.1'
 }

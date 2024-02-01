@@ -24,7 +24,7 @@ abstract class DeckDao : BaseDao<Deck> {
     abstract fun deleteByStartWithPath(path: String)
 
     @Transaction
-    open fun refreshLastUpdatedAt(path: String): Deck {
+    open fun refreshLastUpdatedAt(path: String) {
         val pathWithDb = DbUtil.addDbExtension(path)
         var deck = findByKey(pathWithDb)
         if (deck != null) {
@@ -38,6 +38,5 @@ abstract class DeckDao : BaseDao<Deck> {
             )
             insert(deck)
         }
-        return deck
     }
 }
