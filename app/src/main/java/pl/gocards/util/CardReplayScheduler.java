@@ -9,6 +9,7 @@ import java.util.Date;
 import pl.gocards.room.entity.deck.CardLearningHistory;
 import pl.gocards.room.entity.deck.CardLearningProgress;
 import pl.gocards.room.entity.deck.CardLearningProgressAndHistory;
+import pl.gocards.room.util.TimeUtil;
 
 /**
  * Available grades:
@@ -209,7 +210,13 @@ public class CardReplayScheduler {
     public CardLearningProgressAndHistory scheduleHardNextReplay(
             @NonNull CardLearningProgressAndHistory progressAndHistory
     ) {
-        return scheduleNextReplay(progressAndHistory, HARD_FACTOR_PERCENT);
+        if (progressAndHistory.getProgress().isMemorized()) {
+            int newInterval = calcNewInterval(progressAndHistory.getHistory().getInterval(), HARD_FACTOR_PERCENT);
+            return createMemorized(progressAndHistory, newInterval);
+        } else {
+            int newInterval = calcNewIntervalForgotten(progressAndHistory.getHistory());
+            return updateNotMemorized(progressAndHistory, newInterval);
+        }
     }
 
     /**
@@ -227,20 +234,18 @@ public class CardReplayScheduler {
     public CardLearningProgressAndHistory scheduleEasyNextReplay(
             @NonNull CardLearningProgressAndHistory progressAndHistory
     ) {
-        return scheduleNextReplay(progressAndHistory, EASY_FACTOR_PERCENT);
-    }
-
-    @NonNull
-    protected CardLearningProgressAndHistory scheduleNextReplay(
-            @NonNull CardLearningProgressAndHistory progressAndHistory, int factor
-    ) {
         if (progressAndHistory.getProgress().isMemorized()) {
-            int newInterval = calcNewInterval(progressAndHistory.getHistory().getInterval(), factor);
+            long memorizedDuration = secondsToMinutes(TimeUtil.getNowEpochSec() - progressAndHistory.getHistory().getCreatedAt());
+            int newInterval = calcNewInterval((int) memorizedDuration, EASY_FACTOR_PERCENT);
             return createMemorized(progressAndHistory, newInterval);
         } else {
             int newInterval = calcNewIntervalForgotten(progressAndHistory.getHistory());
             return updateNotMemorized(progressAndHistory, newInterval);
         }
+    }
+
+    protected long secondsToMinutes(long seconds) {
+        return seconds / 60;
     }
 
     /**
