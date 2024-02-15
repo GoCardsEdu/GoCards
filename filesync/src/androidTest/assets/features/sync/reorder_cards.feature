@@ -59,7 +59,8 @@ Feature: Sync the file with the deck: Reorder the cards in the deck
     Then Check the cards in the file.
 
 
-  Scenario: SE_RO_04 2 cards swapped places in the deck, 2 cards swapped places changed in the imported file.
+  Scenario: SE_RO_04 2 cards swapped places in the deck,
+      2 cards swapped places changed in the imported file.
     Given Add the following cards into the deck:
       | Term          | Definition          | updatedAt |
       | Sample Term 1 | Sample Definition 1 | 2         |
@@ -81,7 +82,9 @@ Feature: Sync the file with the deck: Reorder the cards in the deck
     Then Check the cards in the file.
 
 
-  Scenario: SE_RO_05 2 cards swapped places in the deck, 2 cards swapped places changed in the imported file, 2 cards moved to the beginning in the deck.
+  Scenario: SE_RO_05 2 cards swapped places in the deck,
+      2 cards swapped places changed in the imported file,
+      2 cards moved to the beginning in the deck.
     Given Add the following cards into the deck:
       | Term          | Definition          | updatedAt |
       | Sample Term 1 | Sample Definition 1 | 2         |
@@ -103,7 +106,8 @@ Feature: Sync the file with the deck: Reorder the cards in the deck
     Then Check the cards in the file.
 
 
-  Scenario: SE_RO_06 3 cards swapped places in the deck, 3 cards swapped places in the imported file.
+  Scenario: SE_RO_06 3 cards swapped places in the deck,
+      3 cards swapped places in the imported file.
     Given Add the following cards into the deck:
       | Term          | Definition          | updatedAt |
       | Sample Term 1 | Sample Definition 1 | 2         |
@@ -131,7 +135,9 @@ Feature: Sync the file with the deck: Reorder the cards in the deck
     Then Check the cards in the file.
 
 
-  Scenario: SE_RO_07 3 cards swapped places in the deck, 3 cards swapped places in the imported file, 3 cards moved to the beginning in the deck.
+  Scenario: SE_RO_07 3 cards swapped places in the deck,
+      3 cards swapped places in the imported file,
+      3 cards moved to the beginning in the deck.
     Given Add the following cards into the deck:
       | Term          | Definition          | updatedAt |
       | Sample Term 1 | Sample Definition 1 | 2         |
