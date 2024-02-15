@@ -11,7 +11,7 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file("../../key-gocards.jks")
+            storeFile file("../../key-gocards/gocards.jks")
             storePassword project.property('RELEASE_STORE_PASSWORD')
             keyAlias project.property('RELEASE_KEY_ALIAS')
             keyPassword project.property('RELEASE_KEY_PASSWORD')
