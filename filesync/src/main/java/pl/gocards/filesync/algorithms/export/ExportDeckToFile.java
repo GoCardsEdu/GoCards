@@ -39,7 +39,8 @@ public class ExportDeckToFile extends OpenFile {
 
     public void export(
             @NonNull OutputStream os,
-            @NonNull String fileMimeType
+            @NonNull String fileMimeType,
+            long lastSyncAt
     ) throws IOException {
         setWorkbook(Objects.requireNonNull(getWorkbookFactory().createWorkbook(fileMimeType)));
         setSheet(getWorkbook().createSheet(getDeckName(getDeckDbPath())));
@@ -51,6 +52,8 @@ public class ExportDeckToFile extends OpenFile {
 
         createHeader();
         createCards(os);
+
+        saveFileSynced(lastSyncAt);
     }
 
     public void createCards(@NonNull OutputStream os) throws IOException {
@@ -99,11 +102,7 @@ public class ExportDeckToFile extends OpenFile {
         cell.setHeaderStyle();
     }
 
-    public void saveFileSynced() {
-        saveFileSynced(TimeUtil.getNowEpochSec());
-    }
-
-    public void saveFileSynced(long lastSyncAt) {
+    private void saveFileSynced(long lastSyncAt) {
         if (getFileSynced().getLastSyncAt() < lastSyncAt) {
             getFileSynced().setLastSyncAt(lastSyncAt);
         }

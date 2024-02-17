@@ -4,11 +4,11 @@ Feature: Export the deck to a file
 
   Scenario: EX_01 Export the deck to a file.
     Given Add the following cards into the deck:
-      | Term          | Definition          | updatedAt |
-      | Sample Term 1 | Sample Definition 1 | 2         |
-      | Sample Term 2 | Sample Definition 2 | 2         |
-      | Sample Term 3 | Sample Definition 3 | 2         |
-    When Export the deck to a file.
+      | Term          | Definition          |
+      | Sample Term 1 | Sample Definition 1 |
+      | Sample Term 2 | Sample Definition 2 |
+      | Sample Term 3 | Sample Definition 3 |
+    When Export the deck to a file syncAt=1.
     Then The expected deck with cards:
       | Sample Term 1 | Sample Definition 1 |
       | Sample Term 2 | Sample Definition 2 |

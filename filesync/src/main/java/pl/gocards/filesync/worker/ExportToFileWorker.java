@@ -18,6 +18,7 @@ import pl.gocards.filesync.sheet.SheetWarningException;
 import pl.gocards.room.entity.filesync.FileSynced;
 import pl.gocards.filesync.algorithms.export.ExportDeckToFile;
 import pl.gocards.filesync.db.FileSyncDeckDatabase;
+import pl.gocards.room.util.TimeUtil;
 import pl.gocards.util.FirebaseAnalyticsHelper;
 
 /**
@@ -66,11 +67,11 @@ public class ExportToFileWorker extends FileSyncWorker {
             try (OutputStream outFile = openFileToWrite(fileUri)) {
                 exportFileToDeck.export(
                         Objects.requireNonNull(outFile),
-                        getFileMimeType()
+                        getFileMimeType(),
+                        TimeUtil.getNowEpochSec()
                 );
             }
 
-            exportFileToDeck.saveFileSynced();
             unlockDeckEditing(deckDbPath);
             showSuccessNotification();
 

@@ -36,7 +36,17 @@ data class Card(
     var createdAt: Long = TimeUtil.getNowEpochSec(),
     var updatedAt: Long = TimeUtil.getNowEpochSec(),
     var deletedAt: Long? = null,
+
+    /**
+     * Used to color code in a list:
+     * the new card created in the file
+     */
     var fileSyncCreatedAt: Long? = null,
+
+    /**
+     * Used to color code in a list:
+     * the card updated in the file
+     */
     var fileSyncModifiedAt: Long? = null,
     var isTermSimpleHtml: Boolean = false,
     var isTermFullHtml: Boolean = false,
