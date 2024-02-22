@@ -4,6 +4,9 @@ import static io.reactivex.rxjava3.internal.functions.Functions.EMPTY_ACTION;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.android.material.color.MaterialColors;
 
 import java.io.File;
 import java.io.IOException;
@@ -123,42 +128,74 @@ public class DeckViewAdapter extends BaseViewAdapter<BaseViewHolder> {
     }
 
     @SuppressLint("CheckResult")
-    protected void calcNew(@NonNull DeckViewHolder deckViewHolder, @NonNull DeckDatabase deckDb) {
+    private void calcNew(@NonNull DeckViewHolder deckViewHolder, @NonNull DeckDatabase deckDb) {
         Disposable disposable = deckDb.cardLearningProgressRxDao().countByNew()
                 .subscribeOn(Schedulers.io())
                 .doOnSuccess(
-                        countByNew -> {
-                            if (countByNew > 0) deckViewHolder.setNoCardsToRepeat(false);
-                            runOnUiThread(
-                                    () -> deckViewHolder.getNewTextView().setText(
-                                            String.format(Locale.getDefault(), getString(R.string.decks_list_new), countByNew)
-                                    ),
-                                    this::onErrorItemLoading
-                            );
-                        }
+                        countByNew -> runOnUiThread(
+                                () -> calcNewDoOnSuccess(deckViewHolder, countByNew),
+                                this::onErrorItemLoading
+                        )
                 ).ignoreElement()
                 .subscribe(EMPTY_ACTION, this::onErrorItemLoadingNoDialog);
         addToDisposable(disposable);
     }
 
+    private void calcNewDoOnSuccess(@NonNull DeckViewHolder deckViewHolder, int countByNew) {
+        if (countByNew > 0) {
+            deckViewHolder.setNoCardsToRepeat(false);
+
+            int intColor = MaterialColors.getColor(deckViewHolder.itemView, R.attr.colorItemRememberedCards);
+            String hexColor = String.format("#%06X", (0xFFFFFF & intColor));
+
+            String text = String.format(
+                    Locale.getDefault(),
+                    "<font color=\"%s\">" + getString(R.string.decks_list_new) + "</font>",
+                    hexColor,
+                    countByNew
+            );
+            Spanned html = Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT);
+            deckViewHolder.getNewTextView().setText(html);
+        } else {
+            String text = String.format(Locale.getDefault(), getString(R.string.decks_list_new_zero));
+            deckViewHolder.getNewTextView().setText(text);
+        }
+    }
+
     @SuppressLint("CheckResult")
-    protected void calcRev(@NonNull DeckViewHolder deckViewHolder, @NonNull DeckDatabase deckDb) {
+    private void calcRev(@NonNull DeckViewHolder deckViewHolder, @NonNull DeckDatabase deckDb) {
         Disposable disposable = deckDb.cardLearningProgressRxDao().countByForgotten()
                 .subscribeOn(Schedulers.io())
                 .doOnSuccess(
-                        countByForgotten -> {
-                            if (countByForgotten > 0) deckViewHolder.setNoCardsToRepeat(false);
-                            runOnUiThread(
-                                    () -> deckViewHolder.getRevTextView().setText(
-                                            String.format(Locale.getDefault(), getString(R.string.decks_list_review), countByForgotten)
-                                    ),
-                                    this::onErrorItemLoading
-                            );
-                        }
+                        countByForgotten -> runOnUiThread(
+                                () -> calcRevDoOnSuccess(deckViewHolder, countByForgotten),
+                                this::onErrorItemLoading
+                        )
                 )
                 .ignoreElement()
                 .subscribe(EMPTY_ACTION, this::onErrorItemLoadingNoDialog);
         addToDisposable(disposable);
+    }
+
+    private void calcRevDoOnSuccess(@NonNull DeckViewHolder deckViewHolder, int countByForgotten) {
+        if (countByForgotten > 0) {
+            deckViewHolder.setNoCardsToRepeat(false);
+
+            int intColor = MaterialColors.getColor(deckViewHolder.itemView, R.attr.colorItemForgottenCard);
+            String hexColor = String.format("#%06X", (0xFFFFFF & intColor));
+
+            String text = String.format(
+                    Locale.getDefault(),
+                    "<font color=\"%s\">" + getString(R.string.decks_list_review) + "</font>",
+                    hexColor,
+                    countByForgotten
+            );
+            Spanned html = Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT);
+            deckViewHolder.getRevTextView().setText(html);
+        } else {
+            String text = String.format(Locale.getDefault(), getString(R.string.decks_list_review_zero));
+            deckViewHolder.getRevTextView().setText(text);
+        }
     }
 
     @NonNull

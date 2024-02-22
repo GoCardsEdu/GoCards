@@ -38,9 +38,9 @@
     <string name="decks_list_folder_icon">Folder icon</string>
     <string name="decks_list_total">Total: %d</string>
     <string name="decks_list_total_zero">Total: 0</string>
-    <string name="decks_list_new">New: %d</string>
+    <string name="decks_list_new"><![CDATA[New: <b>%d</b>]]></string>
     <string name="decks_list_new_zero">New: 0</string>
-    <string name="decks_list_review">Rev: %d</string>
+    <string name="decks_list_review"><![CDATA[Rev: <b>%d</b>]]></string>
     <string name="decks_list_review_zero">Rev: 0</string>
     <string name="decks_list_menu_new_deck">New deck</string>
     <string name="decks_list_menu_new_folder">New folder</string>
