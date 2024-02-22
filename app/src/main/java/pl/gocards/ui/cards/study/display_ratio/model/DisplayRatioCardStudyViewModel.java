@@ -36,8 +36,7 @@ public class DisplayRatioCardStudyViewModel extends ZoomCardStudyViewModel {
                 .update(
                         getCardId(),
                         CardConfig.STUDY_CARD_TD_DISPLAY_RATIO,
-                        Float.toString(displayRatioToSave),
-                        Float.toString(CardConfig.STUDY_CARD_TD_DISPLAY_RATIO_DEFAULT)
+                        Float.toString(displayRatioToSave)
                 );
     }
 

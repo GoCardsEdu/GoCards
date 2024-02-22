@@ -163,7 +163,7 @@ public class DisplayRatioStudyCardFragment extends ZoomStudyCardFragment {
 
     @Override
     protected void resetView() {
-        setDisplayRatio(CardConfig.STUDY_CARD_TD_DISPLAY_RATIO_DEFAULT);
+        setDisplayRatioByTouch(CardConfig.STUDY_CARD_TD_DISPLAY_RATIO_DEFAULT);
         super.resetView();
     }
 

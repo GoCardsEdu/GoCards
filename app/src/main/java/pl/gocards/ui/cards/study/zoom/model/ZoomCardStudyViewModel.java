@@ -45,8 +45,7 @@ public class ZoomCardStudyViewModel extends StudyCardViewModel {
                 .update(
                         getCardId(),
                         DeckConfig.STUDY_CARD_TERM_FONT_SIZE,
-                        Float.toString(termFontSizeToSave),
-                        Float.toString(DeckConfig.STUDY_CARD_FONT_SIZE_DEFAULT)
+                        Float.toString(termFontSizeToSave)
                 );
     }
 
@@ -57,8 +56,7 @@ public class ZoomCardStudyViewModel extends StudyCardViewModel {
                 .update(
                         getCardId(),
                         DeckConfig.STUDY_CARD_DEFINITION_FONT_SIZE,
-                        Float.toString(definitionFontSizeToSave),
-                        Float.toString(DeckConfig.STUDY_CARD_FONT_SIZE_DEFAULT)
+                        Float.toString(definitionFontSizeToSave)
                 );
     }
 

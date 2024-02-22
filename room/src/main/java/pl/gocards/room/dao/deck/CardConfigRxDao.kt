@@ -41,25 +41,19 @@ abstract class CardConfigRxDao: BaseSyncRxDao<CardConfig>() {
     fun update(
         cardId: Int,
         key: String,
-        value: String,
-        defaultValue: String
+        value: String
     ) : Completable {
-        if (value == defaultValue) {
-            return deleteByKey(cardId, key)
-                .subscribeOn(Schedulers.io())
-        } else {
-            return getByKey(cardId, key)
-                .subscribeOn(Schedulers.io())
-                .doOnEvent { deckConfig: CardConfig?, throwable: Throwable? ->
-                    if (deckConfig == null && throwable == null) {
-                        insertSync(CardConfig(cardId, key, value))
-                    }
+        return getByKey(cardId, key)
+            .subscribeOn(Schedulers.io())
+            .doOnEvent { deckConfig: CardConfig?, throwable: Throwable? ->
+                if (deckConfig == null && throwable == null) {
+                    insertSync(CardConfig(cardId, key, value))
                 }
-                .doOnSuccess { deckConfig: CardConfig ->
-                    deckConfig.value = value
-                    updateSync(deckConfig)
-                }
-                .ignoreElement()
-        }
+            }
+            .doOnSuccess { deckConfig: CardConfig ->
+                deckConfig.value = value
+                updateSync(deckConfig)
+            }
+            .ignoreElement()
     }
 }

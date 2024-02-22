@@ -53,6 +53,8 @@ public class ZoomStudyCardFragment extends StudyCardSliderFragment {
     protected void resetView() {
         setTermFontSize(DeckConfig.STUDY_CARD_FONT_SIZE_DEFAULT);
         setDefinitionFontSize(DeckConfig.STUDY_CARD_FONT_SIZE_DEFAULT);
+        getCardModel().setTermFontSizeToSave(DeckConfig.STUDY_CARD_FONT_SIZE_DEFAULT);
+        getCardModel().setDefinitionFontSizeToSave(DeckConfig.STUDY_CARD_FONT_SIZE_DEFAULT);
     }
 
     /* -----------------------------------------------------------------------------------------
