@@ -149,8 +149,7 @@ public class FolderDeckViewAdapter extends DeckViewAdapter {
      */
     protected void openFolder(int position) {
         loadItems(paths.get(position));
-        requireActivity().showBackArrow();
-        getSupportActionBar().setTitle(getCurrentFolder().getFileName().toString());
+        refreshTopBar();
     }
 
     /**
@@ -179,9 +178,16 @@ public class FolderDeckViewAdapter extends DeckViewAdapter {
 
     public void goFolderUp() {
         loadItems(currentFolder.getParent());
+        refreshTopBar();
+    }
+
+    public void refreshTopBar() {
         if (isRootFolder()) {
             requireActivity().hideBackArrow();
             getSupportActionBar().setTitle(getString(R.string.app_name));
+        } else {
+            requireActivity().showBackArrow();
+            getSupportActionBar().setTitle(getCurrentFolder().getFileName().toString());
         }
     }
 

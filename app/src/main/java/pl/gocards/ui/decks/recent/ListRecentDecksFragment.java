@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+
+import java.util.Objects;
 
 import io.reactivex.rxjava3.functions.Consumer;
 import pl.gocards.R;
@@ -64,6 +67,8 @@ public class ListRecentDecksFragment extends NoDecksFragment {
         requireMainActivity().getNavView().setSelectedItemId(R.id.recent_decks);
         // Fix for screen rotation
         requireMainActivity().getAdapter().setRecentDecksFragment(this);
+        getSupportActionBar().setTitle(getString(R.string.app_name));
+        requireMainActivity().hideBackArrow();
     }
 
     /* -----------------------------------------------------------------------------------------
@@ -93,4 +98,9 @@ public class ListRecentDecksFragment extends NoDecksFragment {
      */
     @Override
     public void clearSearch() {}
+
+    @NonNull
+    protected ActionBar getSupportActionBar() {
+        return Objects.requireNonNull(requireMainActivity().getSupportActionBar());
+    }
 }

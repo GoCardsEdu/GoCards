@@ -78,6 +78,12 @@ public class ListFoldersDecksFragment extends ListDecksFragment {
         );
     }
 
+    @Override
+    protected void onResumeFragment() {
+        super.onResumeFragment();
+        getAdapter().refreshTopBar();
+    }
+
     /* -----------------------------------------------------------------------------------------
      * Fragment methods overridden
      * ----------------------------------------------------------------------------------------- */
