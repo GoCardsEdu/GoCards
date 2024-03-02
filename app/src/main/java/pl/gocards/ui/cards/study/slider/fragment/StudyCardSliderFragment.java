@@ -396,7 +396,7 @@ public class StudyCardSliderFragment extends CardFragment {
         value = htmlUtil.replaceYtIframe(value, width);
         value = value.replace("\n", "<br/>");
 
-        String content = "<header><style>*{margin:0;padding:0;} img{max-width: 95%}</style></header><body style='color:" + hexColor +";font-family:Roboto;font-size:x-large;display:flex;height:100%;text-align:center;'><div style='margin:auto;'><div style='margin-top:20px;margin-bottom:20px;'>" + value + "</div></div></body>";
+        String content = "<header><style>*{margin:0;padding:0;-webkit-user-select: none;} img{max-width: 95%}</style></header><body style='color:" + hexColor +";font-family:Roboto;font-size:x-large;display:flex;height:100%;text-align:center;'><div style='margin:auto;'><div style='margin-top:20px;margin-bottom:20px;'>" + value + "</div></div></body>";
         webView.loadDataWithBaseURL(null, content, "text/html", "UTF-8", null);
         webView.setBackgroundColor(Color.TRANSPARENT);
     }

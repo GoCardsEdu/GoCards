@@ -42,11 +42,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autoLink="web"
+                    android:clickable="true"
                     android:gravity="center"
                     android:linksClickable="true"
                     android:text=""
                     android:textAlignment="center"
-                    android:textIsSelectable="true"
                     android:textSize="24sp" />
             </ScrollView>
 
@@ -121,11 +121,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:autoLink="web"
+                    android:clickable="true"
                     android:gravity="center"
                     android:linksClickable="true"
                     android:text=""
                     android:textAlignment="center"
-                    android:textIsSelectable="true"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
