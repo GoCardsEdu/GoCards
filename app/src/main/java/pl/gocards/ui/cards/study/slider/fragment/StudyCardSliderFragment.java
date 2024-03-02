@@ -392,8 +392,10 @@ public class StudyCardSliderFragment extends CardFragment {
         int intColor = MaterialColors.getColor(getDefinitionTextView(), com.google.android.material.R.attr.colorOnSurfaceVariant, Color.BLACK);
         String hexColor = String.format("#%06X", (0xFFFFFF & intColor));
 
-        int width = pxToDp(Resources.getSystem().getDisplayMetrics().widthPixels) - 20;
-        value = htmlUtil.replaceYtIframe(value, width);
+        int width = pxToDp(Resources.getSystem().getDisplayMetrics().widthPixels);
+        int height = pxToDp(Resources.getSystem().getDisplayMetrics().heightPixels);
+        value = htmlUtil.replaceYtIframe(value, width, height);
+        value = htmlUtil.replaceYtPortraitIframe(value, height);
         value = value.replace("\n", "<br/>");
 
         String content = "<header><style>*{margin:0;padding:0;-webkit-user-select: none;} img{max-width: 95%}</style></header><body style='color:" + hexColor +";font-family:Roboto;font-size:x-large;display:flex;height:100%;text-align:center;'><div style='margin:auto;'><div style='margin-top:20px;margin-bottom:20px;'>" + value + "</div></div></body>";
