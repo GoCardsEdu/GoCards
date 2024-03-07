@@ -35,7 +35,7 @@ import pl.gocards.filesync.ui.SetUpAutoSyncFileDialog;
 import pl.gocards.filesync.worker.FileSyncWorker;
 import pl.gocards.filesync.worker.ExportToFileWorker;
 import pl.gocards.filesync.worker.ImportFromFileWorker;
-import pl.gocards.ui.main.MainActivity;
+import pl.gocards.ui.main.xml.MainActivity;
 import pl.gocards.util.ExceptionHandler;
 import pl.gocards.room.util.TimeUtil;
 

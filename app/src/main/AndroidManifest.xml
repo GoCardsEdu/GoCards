@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
         <activity
-            android:name=".ui.main.ExceptionMainActivity"
+            android:name=".ui.main.xml.ExceptionMainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,17 +20,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.cards.study.exception.ExceptionStudyCardActivity"
+            android:name=".ui.cards.xml.study.exception.ExceptionStudyCardActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".ui.cards.slider.delete.DeleteCardSliderActivity"
+            android:name=".ui.cards.xml.slider.delete.DeleteCardSliderActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".ui.cards.list.exception.ExceptionListCardsActivity"
+            android:name=".ui.cards.xml.list.exception.ExceptionListCardsActivity"
             android:exported="false"
-            android:parentActivityName=".ui.main.ExceptionMainActivity">
+            android:parentActivityName=".ui.main.xml.ExceptionMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

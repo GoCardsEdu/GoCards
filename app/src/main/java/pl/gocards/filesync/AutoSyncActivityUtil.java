@@ -36,8 +36,8 @@ import pl.gocards.db.deck.AppDeckDbUtil;
 import pl.gocards.db.room.DeckDatabase;
 import pl.gocards.db.storage.DatabaseException;
 import pl.gocards.room.entity.deck.DeckConfig;
-import pl.gocards.ui.cards.list.file_sync.FileSyncListCardsActivity;
-import pl.gocards.ui.cards.study.file_sync.FileSyncStudyCardActivity;
+import pl.gocards.ui.cards.xml.list.file_sync.FileSyncListCardsActivity;
+import pl.gocards.ui.cards.xml.study.file_sync.FileSyncStudyCardActivity;
 import pl.gocards.util.ExceptionHandler;
 
 /**

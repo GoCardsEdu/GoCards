@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:stretchColumns="1"
-    tools:context=".ui.cards.study.exception.ExceptionStudyCardActivity">
+    tools:context=".ui.cards.xml.study.exception.ExceptionStudyCardActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/displayRatioLayout"
@@ -37,7 +37,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <pl.gocards.ui.cards.study.zoom.ZoomTextView
+                <pl.gocards.ui.cards.xml.study.zoom.ZoomTextView
                     android:id="@+id/termTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <pl.gocards.ui.cards.study.zoom.ZoomTextView
+                <pl.gocards.ui.cards.xml.study.zoom.ZoomTextView
                     android:id="@+id/definitionTextView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

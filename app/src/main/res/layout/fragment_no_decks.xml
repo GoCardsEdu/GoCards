@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.decks.empty.NoDecksFragment">
+    tools:context=".ui.decks.xml.empty.NoDecksFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.decks.empty.NoDecksFragment"
+        tools:context=".ui.decks.xml.empty.NoDecksFragment"
         tools:ignore="ScrollViewSize">
 
         <androidx.constraintlayout.widget.ConstraintLayout

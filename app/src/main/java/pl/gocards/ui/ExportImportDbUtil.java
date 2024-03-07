@@ -27,7 +27,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import pl.gocards.room.util.DbUtil;
 import pl.gocards.db.deck.AppDeckDbUtil;
 import pl.gocards.db.storage.DatabaseException;
-import pl.gocards.ui.main.MainActivity;
+import pl.gocards.ui.main.xml.MainActivity;
 import pl.gocards.util.ExceptionHandler;
 
 /**
