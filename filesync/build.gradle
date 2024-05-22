@@ -39,6 +39,7 @@ dependencies {
 
     // Android
     implementation "androidx.work:work-runtime:$work_version"
+    implementation "com.google.guava:guava:31.1-android"
 
     implementation 'commons-io:commons-io:2.15.0'
 
