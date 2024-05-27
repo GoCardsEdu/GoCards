@@ -135,7 +135,7 @@ public class SearchListCardsActivity extends SelectListCardsActivity implements 
 
     @NonNull
     @Override
-    protected SearchListCardsAdapter getAdapter() {
+    public SearchListCardsAdapter getAdapter() {
         return (SearchListCardsAdapter) super.getAdapter();
     }
 }

@@ -1,12 +1,9 @@
 package pl.gocards.ui.decks.xml.folder;
 
-import android.annotation.SuppressLint;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import pl.gocards.R;
 import pl.gocards.ui.decks.xml.standard.DeckViewHolder;
 
 /**
@@ -19,14 +16,13 @@ public class FolderDeckViewHolder extends DeckViewHolder {
         super(itemView, adapter);
     }
 
-    @SuppressLint("NonConstantResourceId")
     @Override
-    protected boolean onMenuMoreClick(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.cut_card) {
-            getAdapter().cut(getBindingAdapterPosition());
-            return true;
-        }
-        return super.onMenuMoreClick(item);
+    protected void showPopupMenu(View moreTextView) {
+        new FolderDeckPopupMenu(
+                getAdapter(),
+                getBindingAdapterPosition(),
+                moreTextView
+        ).showPopupMenu();
     }
 
     @NonNull

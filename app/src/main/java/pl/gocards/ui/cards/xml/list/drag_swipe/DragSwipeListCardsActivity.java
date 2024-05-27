@@ -62,7 +62,7 @@ public class DragSwipeListCardsActivity extends ListCardsActivity {
 
     @NonNull
     @Override
-    protected DragSwipeListCardsAdapter getAdapter() {
+    public DragSwipeListCardsAdapter getAdapter() {
         return (DragSwipeListCardsAdapter) super.getAdapter();
     }
 }

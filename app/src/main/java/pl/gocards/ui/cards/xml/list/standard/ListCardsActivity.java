@@ -205,7 +205,7 @@ public class ListCardsActivity extends IconInToolbarActivity {
     }
 
     @NonNull
-    protected ListCardsAdapter getAdapter() {
+    public ListCardsAdapter getAdapter() {
         return adapter;
     }
 

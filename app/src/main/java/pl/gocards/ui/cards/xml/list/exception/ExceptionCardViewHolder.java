@@ -1,13 +1,12 @@
 package pl.gocards.ui.cards.xml.list.exception;
 
-import android.view.MenuItem;
 import android.view.MotionEvent;
 
 import androidx.annotation.NonNull;
 
-import pl.gocards.ui.cards.xml.list.file_sync.FileSyncListCardsActivity;
 import pl.gocards.databinding.ItemCardBinding;
 import pl.gocards.ui.cards.xml.list.file_sync.FileSyncCardViewHolder;
+import pl.gocards.ui.cards.xml.list.file_sync.FileSyncListCardsActivity;
 
 /**
  * @author Grzegorz Ziemski
@@ -21,20 +20,6 @@ public class ExceptionCardViewHolder extends FileSyncCardViewHolder {
             @NonNull ExceptionListCardsAdapter adapter
     ) {
         super(binding, adapter);
-    }
-
-    /* -----------------------------------------------------------------------------------------
-     * C_02_01 When no card is selected and tap on the card, show the popup menu.
-     * ----------------------------------------------------------------------------------------- */
-
-    @Override
-    protected boolean onPopupMenuItemClick(@NonNull MenuItem item) {
-        try {
-            return super.onPopupMenuItemClick(item);
-        } catch (Exception e) {
-            this.onError(e);
-            return false;
-        }
     }
 
     /* -----------------------------------------------------------------------------------------

@@ -1,10 +1,6 @@
 package pl.gocards.ui.decks.xml.standard;
 
-import android.annotation.SuppressLint;
-import android.os.Build;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,50 +23,17 @@ public class DeckViewHolder extends BaseViewHolder implements View.OnClickListen
         itemView.setOnClickListener(this);
     }
 
-    protected void initMoreImageView() {
+    private void initMoreImageView() {
         View moreTextView = getMoreImageView();
-        moreTextView.setOnClickListener(v -> {
-            PopupMenu popup = new PopupMenu(v.getContext(), moreTextView);
-            popup.getMenuInflater().inflate(R.menu.decks_list_popup_deck, popup.getMenu());
-            popup.setOnMenuItemClickListener(this::onMenuMoreClick);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) popup.setForceShowIcon(true);
-            popup.show();
-        });
+        moreTextView.setOnClickListener(this::showPopupMenu);
     }
 
-    @SuppressLint("NonConstantResourceId")
-    protected boolean onMenuMoreClick(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.list_cards -> {
-                getAdapter().newListCardsActivity(getBindingAdapterPosition());
-                return true;
-            }
-            case R.id.add_card -> {
-                getAdapter().newNewCardActivity(getBindingAdapterPosition());
-                return true;
-            }
-            case R.id.delete_deck -> {
-                getAdapter().showDeleteDeckDialog(getBindingAdapterPosition());
-                return true;
-            }
-            case R.id.rename_deck -> {
-                getAdapter().showRenameDeckDialog(getBindingAdapterPosition());
-                return true;
-            }
-            case R.id.more -> {
-                DeckBottomMenu deckBottomMenu = new DeckBottomMenu(getAdapter(), getBindingAdapterPosition());
-                deckBottomMenu.show(requireActivity().getSupportFragmentManager(), "DeckBottomMenu");
-                return true;
-            }
-        }
-        throw new UnsupportedOperationException(
-                String.format(
-                        "Not implemented itemId=\"%d\" name=\"%s\" title=\"%s\"",
-                        item.getItemId(),
-                        requireActivity().getResources().getResourceEntryName(item.getItemId()),
-                        item.getTitle()
-                )
-        );
+    protected void showPopupMenu(View moreTextView) {
+        new DeckPopupMenu(
+                getAdapter(),
+                getBindingAdapterPosition(),
+                moreTextView
+        ).showPopupMenu();
     }
 
     @Override

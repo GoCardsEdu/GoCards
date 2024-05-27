@@ -1,6 +1,5 @@
 package pl.gocards.ui.decks.xml.all_decks_exception;
 
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -19,19 +18,6 @@ public class ExceptionDeckViewHolder extends FolderDeckViewHolder {
             @NonNull ExceptionDeckViewAdapter adapter
     ) {
         super(itemView, adapter);
-    }
-
-    @Override
-    protected boolean onMenuMoreClick(@NonNull MenuItem item) {
-        try {
-            return super.onMenuMoreClick(item);
-        } catch (Exception e) {
-            getExceptionHandler().handleException(
-                    e, getActivity(), TAG,
-                    "Error clicking on item in the more menu."
-            );
-            return false;
-        }
     }
 
     @Override

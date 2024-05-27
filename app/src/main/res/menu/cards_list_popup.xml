@@ -10,16 +10,9 @@
     <item
         android:id="@+id/select_card"
         android:icon="@drawable/ic_round_content_cut_24"
-        android:title="@string/cards_list_popup_select_card"
-        android:visible="false" />
-    <item
-        android:id="@+id/paste_card"
-        android:icon="@drawable/ic_round_content_paste_24"
-        android:title="@string/paste"
-        android:visible="false" />
+        android:title="@string/cards_list_popup_select_card" />
     <item
         android:id="@+id/add_card"
         android:icon="@drawable/ic_round_add_card_24"
         android:title="@string/cards_list_popup_add_card_here" />
-
 </menu>

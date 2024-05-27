@@ -96,7 +96,7 @@ public class SelectListCardsActivity extends DragSwipeListCardsActivity {
 
     @NonNull
     @Override
-    protected SelectListCardsAdapter getAdapter() {
+    public SelectListCardsAdapter getAdapter() {
         return (SelectListCardsAdapter) super.getAdapter();
     }
 }

@@ -296,7 +296,7 @@ public class ListCardsAdapter extends BaseViewAdapter<CardViewHolder> {
     /**
      * C_C_24 Edit the card
      */
-    protected void startEditCardActivity(int position) {
+    public void startEditCardActivity(int position) {
         Intent intent = new Intent(requireActivity(), DeleteCardSliderActivity.class);
         intent.putExtra(CardSliderActivity.DECK_DB_PATH, deckDbPath);
         intent.putExtra(EditCardSliderActivity.EDIT_CARD_ID, getItem(position).getId());
@@ -306,7 +306,7 @@ public class ListCardsAdapter extends BaseViewAdapter<CardViewHolder> {
     /**
      * C_R_07 Add a new card here
      */
-    protected void startNewCardActivity(int position) {
+    public void startNewCardActivity(int position) {
         Intent intent = new Intent(requireActivity(), DeleteCardSliderActivity.class);
         intent.putExtra(CardSliderActivity.DECK_DB_PATH, deckDbPath);
         intent.putExtra(AddCardSliderActivity.NEW_CARD_AFTER_CARD_ID, getItem(position).getId());

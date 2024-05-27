@@ -1,6 +1,5 @@
 package pl.gocards.ui.decks.xml.recent_exception;
 
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -19,20 +18,6 @@ public class ExceptionRecentDeckViewHolder extends RecentDeckViewHolder {
             @NonNull ExceptionRecentDeckViewAdapter adapter
     ) {
         super(itemView, adapter);
-    }
-
-    @Override
-    @SuppressWarnings("unused")
-    protected boolean onMenuMoreClick(@NonNull MenuItem item) {
-        try {
-            return super.onMenuMoreClick(item);
-        } catch (Exception e) {
-            getExceptionHandler().handleException(
-                    e, getActivity(), TAG,
-                    "Error clicking on item in the more menu."
-            );
-            return false;
-        }
     }
 
     @Override
