@@ -1,30 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- https://materialui.co/colors/ -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <color name="white">#FFFFFF</color>
 
-    <color name="purple_50"  tools:ignore="UnusedResources">#FFF3E5F5</color>
-    <color name="purple_100" tools:ignore="UnusedResources">#FFE1BEE7</color>
-    <color name="purple_200" tools:ignore="UnusedResources">#FFCE93D8</color>
-    <color name="purple_300" tools:ignore="UnusedResources">#FFBA68C8</color>
-    <color name="purple_400" tools:ignore="UnusedResources">#FFAB47BC</color>
     <color name="purple_500">#FF9C27B0</color>
-    <color name="purple_600" tools:ignore="UnusedResources">#FF8E24AA</color>
-    <color name="purple_700" tools:ignore="UnusedResources">#FF7B1FA2</color>
     <color name="purple_800">#FF6A1B9A</color>
     <color name="purple_900">#FF4A148C</color>
-
-    <color name="deep_purple_50"  tools:ignore="UnusedResources">#FFEDE7F6</color>
-    <color name="deep_purple_100" tools:ignore="UnusedResources">#FFD1C4E9</color>
-    <color name="deep_purple_200" tools:ignore="UnusedResources">#FFB39DDB</color>
-    <color name="deep_purple_300" tools:ignore="UnusedResources">#FF9575CD</color>
-    <color name="deep_purple_400" tools:ignore="UnusedResources">#FF7E57C2</color>
-    <color name="deep_purple_500" tools:ignore="UnusedResources">#FF673AB7</color>
-    <color name="deep_purple_600" tools:ignore="UnusedResources">#FF5E35B1</color>
-    <color name="deep_purple_700" tools:ignore="UnusedResources">#FF512DA8</color>
-    <color name="deep_purple_800" tools:ignore="UnusedResources">#FF4527A0</color>
-    <color name="deep_purple_900" tools:ignore="UnusedResources">#FF311B92</color>
 
     <color name="green_400">#FF9CCC65</color>
     <color name="green_700">#FF388E3C</color>
@@ -36,74 +18,17 @@
 
     <color name="red_900">#FFB71C1C</color>
 
-    <color name="indigo_50" tools:ignore="UnusedResources">#FFE8EAF6</color>
     <color name="indigo_100">#FFC5CAE9</color>
     <color name="indigo_200">#FF9FA8DA</color>
-    <color name="indigo_300" tools:ignore="UnusedResources">#FF7986CB</color>
-    <color name="indigo_400" tools:ignore="UnusedResources">#FF5C6BC0</color>
-    <color name="indigo_500" tools:ignore="UnusedResources">#FF3F51B5</color>
-    <color name="indigo_600" tools:ignore="UnusedResources">#FF3949AB</color>
-    <color name="indigo_700" tools:ignore="UnusedResources">#FF3949AB</color>
-    <color name="indigo_800" tools:ignore="UnusedResources">#FF283593</color>
-    <color name="indigo_900" tools:ignore="UnusedResources">#FF1A237E</color>
+    <color name="indigo_300">#FF7986CB</color>
 
-    <color name="blue_50"  tools:ignore="UnusedResources">#FFE3F2FD</color>
-    <color name="blue_100" tools:ignore="UnusedResources">#FFBBDEFB</color>
-    <color name="blue_200" tools:ignore="UnusedResources">#FF90CAF9</color>
-    <color name="blue_300" tools:ignore="UnusedResources">#FF64B5F6</color>
-    <color name="blue_400" tools:ignore="UnusedResources">#FF42A5F5</color>
-    <color name="blue_500" tools:ignore="UnusedResources">#FF2196F3</color>
-    <color name="blue_600" tools:ignore="UnusedResources">#FF1E88E5</color>
-    <color name="blue_700" tools:ignore="UnusedResources">#FF0288D1</color>
+
     <color name="blue_800">#FF1565C0</color>
-    <color name="blue_900" tools:ignore="UnusedResources">#FF0D47A1</color>
 
-    <color name="light_blue_50"  tools:ignore="UnusedResources">#FFE1F5FE</color>
-    <color name="light_blue_100" tools:ignore="UnusedResources">#FFB3E5FC</color>
-    <color name="light_blue_200" tools:ignore="UnusedResources">#FF81D4FA</color>
-    <color name="light_blue_300" tools:ignore="UnusedResources">#FF4FC3F7</color>
-    <color name="light_blue_400" tools:ignore="UnusedResources">#FF29B6F6</color>
-    <color name="light_blue_500" tools:ignore="UnusedResources">#FF03A9F4</color>
-    <color name="light_blue_600" tools:ignore="UnusedResources">#FF039BE5</color>
-    <color name="light_blue_700" tools:ignore="UnusedResources">#FF0288D1</color>
-    <color name="light_blue_800" tools:ignore="UnusedResources">#FF0277BD</color>
-    <color name="light_blue_900" tools:ignore="UnusedResources">#FF01579B</color>
-
-    <color name="cyan_50"  tools:ignore="UnusedResources">#FFE0F7FA</color>
-    <color name="cyan_100" tools:ignore="UnusedResources">#FFB2EBF2</color>
-    <color name="cyan_200" tools:ignore="UnusedResources">#FF80CBC4</color>
-    <color name="cyan_300" tools:ignore="UnusedResources">#FF4DB6AC</color>
-    <color name="cyan_400" tools:ignore="UnusedResources">#FF26C6DA</color>
-    <color name="cyan_500" tools:ignore="UnusedResources">#FF009688</color>
-    <color name="cyan_600" tools:ignore="UnusedResources">#FF00ACC1</color>
-    <color name="cyan_700" tools:ignore="UnusedResources">#FF0097A7</color>
-    <color name="cyan_800" tools:ignore="UnusedResources">#FF00838F</color>
-    <color name="cyan_900" tools:ignore="UnusedResources">#FF006064</color>
-
-
-    <color name="grey_50"   tools:ignore="UnusedResources">#FFFAFAFA</color>
-    <color name="grey_100"  tools:ignore="UnusedResources">#FFF5F5F5</color>
-    <color name="grey_200"  tools:ignore="UnusedResources">#FFEEEEEE</color>
     <color name="grey_300">#FFE0E0E0</color>
-    <color name="grey_400"  tools:ignore="UnusedResources">#FFBDBDBD</color>
-    <color name="grey_500"  tools:ignore="UnusedResources">#FF9E9E9E</color>
     <color name="grey_600">#FF757575</color>
-    <color name="grey_700"  tools:ignore="UnusedResources">#FF616161</color>
     <color name="grey_800">#FF424242</color>
-    <color name="grey_900"  tools:ignore="UnusedResources">#FF212121</color>
-    <color name="grey_1000" tools:ignore="UnusedResources">#FF0d0d0d</color>
 
-
-    <color name="opacity_0" tools:ignore="UnusedResources">#00000000</color>
-    <color name="opacity_5" tools:ignore="UnusedResources">#0D000000</color>
-    <color name="opacity_10" tools:ignore="UnusedResources">#1A000000</color>
-    <color name="opacity_15" tools:ignore="UnusedResources">#26000000</color>
-    <color name="opacity_20" tools:ignore="UnusedResources">#33000000</color>
-    <color name="opacity_30" tools:ignore="UnusedResources">#4F000000</color>
-    <color name="opacity_40" tools:ignore="UnusedResources">#66000000</color>
-    <color name="opacity_50" tools:ignore="UnusedResources">#80000000</color>
-    <color name="opacity_60" tools:ignore="UnusedResources">#99000000</color>
-    <color name="opacity_70" tools:ignore="UnusedResources">#B3000000</color>
     <color name="opacity_80">#CC000000</color>
     <color name="opacity_100">#FF000000</color>
 </resources>
