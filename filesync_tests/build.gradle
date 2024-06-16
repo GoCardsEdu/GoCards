@@ -14,11 +14,11 @@ android {
 dependencies {
     implementation project(':room')
     implementation project(":filesync_sheet")
-    implementation 'androidx.annotation:annotation:1.7.1'
+    implementation 'androidx.annotation:annotation:1.8.0'
 
     // Tests
     implementation 'junit:junit:4.13.2'
     implementation 'org.hamcrest:hamcrest-core:2.2'
     //noinspection GradleDependency (version from cumber-android)
-    implementation 'io.cucumber:datatable:7.13.0'
+    implementation 'io.cucumber:datatable:7.18.0'
 }

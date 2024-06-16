@@ -16,5 +16,5 @@ dependencies {
     implementation project(":filesync_sheet")
     implementation 'commons-io:commons-io:2.15.0'
     implementation 'org.apache.commons:commons-csv:1.10.0'
-    androidTestImplementation 'androidx.annotation:annotation:1.7.1'
+    androidTestImplementation 'androidx.annotation:annotation:1.8.0'
 }
