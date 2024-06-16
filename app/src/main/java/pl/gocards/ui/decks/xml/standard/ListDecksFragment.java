@@ -35,7 +35,7 @@ import pl.gocards.ui.decks.xml.standard.dialog.CreateDeckDialog;
 import pl.gocards.ui.settings.SettingsActivity;
 import pl.gocards.util.Config;
 import pl.gocards.R;
-import pl.gocards.ui.ExportImportDbUtil;
+import pl.gocards.ui.decks.xml.ExportImportDbRxUtil;
 import pl.gocards.ui.base.IconInToolbarFragment;
 import pl.gocards.ui.main.xml.MainActivity;
 
@@ -293,7 +293,7 @@ public class ListDecksFragment extends IconInToolbarFragment {
     }
 
     @NonNull
-    protected ExportImportDbUtil getExportImportDbUtil() {
+    protected ExportImportDbRxUtil getExportImportDbUtil() {
         return requireMainActivity().getExportImportDbUtil();
     }
 

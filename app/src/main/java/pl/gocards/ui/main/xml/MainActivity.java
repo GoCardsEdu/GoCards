@@ -33,7 +33,7 @@ import pl.gocards.room.entity.app.AppConfig;
 import pl.gocards.db.deck.AppDeckDbUtil;
 import pl.gocards.filesync.FileSyncLauncher;
 import pl.gocards.filesync.FileSyncProLauncher;
-import pl.gocards.ui.ExportImportDbUtil;
+import pl.gocards.ui.decks.xml.ExportImportDbRxUtil;
 import pl.gocards.ui.base.BaseActivity;
 import pl.gocards.ui.decks.xml.recent.ListRecentDecksFragment;
 import pl.gocards.ui.decks.xml.search.SearchDecksFragment;
@@ -66,7 +66,10 @@ public class MainActivity extends BaseActivity {
     private final FileSyncProLauncher fileSyncProLauncher = FileSyncProLauncher.getInstance(this, null, getDisposable());
 
     @NonNull
-    private final ExportImportDbUtil exportImportDbUtil = new ExportImportDbUtil(this);
+    private final ExportImportDbRxUtil exportImportDbUtil = new ExportImportDbRxUtil(this, () -> {
+        refreshItems();
+        return null;
+    });
 
     /* -----------------------------------------------------------------------------------------
      * Constructor
@@ -364,7 +367,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @NonNull
-    public ExportImportDbUtil getExportImportDbUtil() {
+    public ExportImportDbRxUtil getExportImportDbUtil() {
         return exportImportDbUtil;
     }
 

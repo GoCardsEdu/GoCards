@@ -31,7 +31,7 @@ import pl.gocards.db.room.DeckDatabase;
 import pl.gocards.db.storage.DatabaseException;
 import pl.gocards.filesync.FileSyncLauncher;
 import pl.gocards.filesync.FileSyncProLauncher;
-import pl.gocards.ui.ExportImportDbUtil;
+import pl.gocards.ui.decks.xml.ExportImportDbRxUtil;
 import pl.gocards.ui.base.recyclerview.BaseViewAdapter;
 import pl.gocards.ui.base.recyclerview.BaseViewHolder;
 import pl.gocards.ui.cards.xml.list.exception.ExceptionListCardsActivity;
@@ -366,7 +366,7 @@ public class DeckViewAdapter extends BaseViewAdapter<BaseViewHolder> {
     }
 
     @NonNull
-    protected ExportImportDbUtil getExportImportDbUtil() {
+    protected ExportImportDbRxUtil getExportImportDbUtil() {
         return requireActivity().getExportImportDbUtil();
     }
 
