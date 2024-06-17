@@ -1,104 +1,192 @@
 package pl.gocards.ui.kt.theme
 
-import android.app.Activity
 import android.os.Build
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.unit.dp
-import androidx.core.view.WindowCompat
+import androidx.compose.ui.res.colorResource
 
-val DarkColorScheme = darkColorScheme(
+private val DarkColorScheme = darkColorScheme(
     //primary = Color(0xff76d1ff),
     //surface = Color(0xff191c1e),
     //secondaryContainer = Color(0xff374955),
     //background = Color(0xff191c1e)
 
 )
-val LightColorScheme = lightColorScheme(
-    primary = Color(0xff00668b),
-    surface = Color(0xfffcfcff),
+private val LightColorScheme = lightColorScheme(
+    //primary = Color(0xff00668b),
+    //surface = Color(0xfffcfcff),DarkColorScheme
 )
+
+@Immutable
+data class ExtendedColors(
+    val behindWindowBackground: Color,
+    val cardBorder: Color,
+
+    // Card list
+    val colorListDivider: Color,
+    val colorItemTextColor: Color,
+    val colorItemSearch: Color,
+    val colorItemDisabledCard: Color,
+    val colorItemForgottenCard: Color,
+    val colorItemRememberedCards: Color,
+    val colorItemSelected: Color,
+    val colorItemActive: Color,
+
+    //Show last synced
+    val colorItemRecentlyAddedDeckCard: Color,
+    val colorItemRecentlyAddedFileCard: Color,
+    val colorItemRecentlyUpdatedDeckCard: Color,
+    val colorItemRecentlyUpdatedFileCard: Color,
+)
+
+private val LocalExtendedColors = staticCompositionLocalOf {
+    ExtendedColors(
+        behindWindowBackground = Color.Unspecified,
+        cardBorder = Color.Unspecified,
+
+        // Card list
+        colorListDivider = Color.Unspecified,
+        colorItemTextColor = Color.Unspecified,
+        colorItemSearch = Color.Unspecified,
+        colorItemDisabledCard = Color.Unspecified,
+        colorItemForgottenCard = Color.Unspecified,
+        colorItemRememberedCards = Color.Unspecified,
+        colorItemSelected = Color.Unspecified,
+        colorItemActive = Color.Unspecified,
+
+        //Show last synced
+        colorItemRecentlyAddedDeckCard = Color.Unspecified,
+        colorItemRecentlyAddedFileCard = Color.Unspecified,
+        colorItemRecentlyUpdatedDeckCard = Color.Unspecified,
+        colorItemRecentlyUpdatedFileCard = Color.Unspecified
+    )
+}
 
 @Composable
 fun AppTheme(
-    isDarkTheme: Boolean,
+    isDarkTheme: Boolean? = isSystemInDarkTheme(),
+    preview: Boolean = false,
     dynamicColor: Boolean = true,
-    preview: Boolean,
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (isDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-        isDarkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val isSdk31 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    val isDarkTheme = isDarkTheme ?: isSystemInDarkTheme()
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        shapes = Shapes,
-        content = content,
-    )
+    val extendedColors = when {
+        isSdk31 && isDarkTheme -> ExtendedColors(
+            behindWindowBackground = colorResource(android.R.color.system_accent2_900),
+            cardBorder = colorResource(android.R.color.system_accent2_800),
 
-    if (!preview) BarColorsTheme(isDarkTheme, colorScheme)
-}
+            // Card list
+            colorListDivider = colorResource(android.R.color.system_neutral2_800),
+            colorItemTextColor = colorResource(android.R.color.white),
+            colorItemSearch = colorResource(android.R.color.system_accent3_500),
+            colorItemDisabledCard = Grey800,
+            colorItemForgottenCard = Orange900,
+            colorItemRememberedCards = Green800,
+            colorItemSelected = colorResource(android.R.color.system_accent2_700),
+            colorItemActive = colorResource(android.R.color.system_accent3_800),
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun AppBar(
-    isDarkTheme: Boolean,
-    title: @Composable () -> Unit,
-    onBack: () -> Unit,
-    navigationIcon: @Composable (() -> Unit) = {
-        IconButton(onClick = onBack) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
-        }
-    },
-    actions: @Composable RowScope.() -> Unit = {},
-) {
-    TopAppBar(
-        title = title,
-        //modifier = Modifier.shadow(elevation = 3.dp),
-        navigationIcon = navigationIcon,
-        actions = actions,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp),
-            titleContentColor = if (isDarkTheme)Color.White else Color.Black,
+            //Show last synced
+            colorItemRecentlyAddedDeckCard = Green700,
+            colorItemRecentlyAddedFileCard = Green400,
+            colorItemRecentlyUpdatedDeckCard = Orange900,
+            colorItemRecentlyUpdatedFileCard = Orange500
         )
-    )
+        isSdk31 && !isDarkTheme -> ExtendedColors(
+            behindWindowBackground = colorResource(android.R.color.system_accent2_200),
+            cardBorder = colorResource(android.R.color.system_accent2_300),
+
+            // Card list
+            colorListDivider = colorResource(android.R.color.system_neutral2_200),
+            colorItemTextColor = colorResource(android.R.color.white),
+            colorItemSearch = colorResource(android.R.color.system_accent3_500),
+            colorItemDisabledCard = Grey800,
+            colorItemForgottenCard = Orange900,
+            colorItemRememberedCards = Green800,
+            colorItemSelected = colorResource(android.R.color.system_accent2_200),
+            colorItemActive = colorResource(android.R.color.system_accent3_200),
+
+            //Show last synced
+            colorItemRecentlyAddedDeckCard = Green700,
+            colorItemRecentlyAddedFileCard = Green400,
+            colorItemRecentlyUpdatedDeckCard = Orange900,
+            colorItemRecentlyUpdatedFileCard = Orange500
+        )
+        isDarkTheme -> ExtendedColors(
+            behindWindowBackground = Grey800,
+            cardBorder = Grey800,
+
+            // Card list
+            colorListDivider = Grey800,
+            colorItemTextColor = colorResource(android.R.color.white),
+            colorItemSearch = Purple500,
+            colorItemDisabledCard = Grey800,
+            colorItemForgottenCard = Orange900,
+            colorItemRememberedCards = Green800,
+            colorItemSelected = Purple900,
+            colorItemActive = Purple800,
+
+            //Show last synced
+            colorItemRecentlyAddedDeckCard = Green700,
+            colorItemRecentlyAddedFileCard = Green400,
+            colorItemRecentlyUpdatedDeckCard = Orange900,
+            colorItemRecentlyUpdatedFileCard = Orange500
+        )
+        else -> ExtendedColors(
+            behindWindowBackground = Color(0xffb5cad7),
+            cardBorder = Color(0xff9aaebb),
+
+            // Card list
+            colorListDivider = Grey300,
+            colorItemTextColor = colorResource(android.R.color.black),
+            colorItemSearch = Indigo300,
+            colorItemDisabledCard = Grey800,
+            colorItemForgottenCard = Orange900,
+            colorItemRememberedCards = Green800,
+            colorItemSelected = Indigo100,
+            colorItemActive = Indigo200,
+
+            //Show last synced
+            colorItemRecentlyAddedDeckCard = Green700,
+            colorItemRecentlyAddedFileCard = Green400,
+            colorItemRecentlyUpdatedDeckCard = Orange900,
+            colorItemRecentlyUpdatedFileCard = Orange500
+        )
+    }
+
+    CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
+        val colorScheme = when {
+            dynamicColor && isSdk31 && isDarkTheme -> dynamicDarkColorScheme(LocalContext.current)
+            dynamicColor && isSdk31 && !isDarkTheme -> dynamicLightColorScheme(LocalContext.current)
+            isDarkTheme -> DarkColorScheme
+            else -> LightColorScheme
+        }
+
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            shapes = Shapes,
+            content = content,
+        )
+
+        if (!preview) BarColorsTheme(isDarkTheme, colorScheme)
+    }
 }
 
-@Composable
-fun BarColorsTheme(isDarkTheme: Boolean, colorScheme: ColorScheme) {
-    val color = colorScheme.surfaceColorAtElevation(2.dp)
-    val view = LocalView.current
-    SideEffect {
-        val window = (view.context as Activity).window
-        window.statusBarColor = color.toArgb()
-        window.navigationBarColor = color.toArgb()
-
-        WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !isDarkTheme
-        WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = !isDarkTheme
-    }
+// Use with eg. ExtendedTheme.colors.tertiary
+object ExtendedTheme {
+    val colors: ExtendedColors
+        @Composable
+        get() = LocalExtendedColors.current
 }

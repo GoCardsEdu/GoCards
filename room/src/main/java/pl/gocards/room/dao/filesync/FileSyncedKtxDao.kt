@@ -15,5 +15,11 @@ import pl.gocards.room.entity.filesync.FileSynced
 interface FileSyncedKtxDao: BaseKtxDao<FileSynced> {
 
     @Query("SELECT * FROM FileSync_FileSynced WHERE autoSync = 1")
-    suspend fun findByAutoSyncTrue(): FileSynced
+    suspend fun findByAutoSyncTrue(): FileSynced?
+
+    @Query("SELECT deckLastUpdatedAt FROM FileSync_FileSynced ORDER BY deckLastUpdatedAt DESC")
+    suspend fun findDeckModifiedAt(): Long?
+
+    @Query("SELECT * FROM FileSync_FileSynced WHERE uri=:uri")
+    suspend fun findByUri(uri: String): FileSynced?
 }

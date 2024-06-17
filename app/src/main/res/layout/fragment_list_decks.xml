@@ -73,7 +73,7 @@
             android:id="@+id/paste_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/decks_list_paste_here"
+            android:text="@string/decks_list_paste_deck_here"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/cancel_button"
             app:layout_constraintStart_toStartOf="parent"

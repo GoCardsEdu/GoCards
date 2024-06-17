@@ -22,7 +22,7 @@ public class NoMoreCardsToRepeatDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(getString(R.string.card_study_no_more_cards_repeat))
-                .setPositiveButton(R.string.close, (dialog, which) -> requireActivity().finish())
+                .setPositiveButton(R.string.ok, (dialog, which) -> requireActivity().finish())
                 .create();
     }
 

@@ -97,7 +97,7 @@ public class AddCardSliderActivity extends EditCardSliderActivity {
 
     @UiThread
     protected void addNewCardToSlider(int position, int newCardId) {
-        getCurrentList().add(position, new CardSlider(newCardId, false));
+        getCurrentList().add(position, new CardSlider(newCardId, 0, false));
         getAdapter().getNewCardIds().add(newCardId);
         getAdapter().notifyItemInserted(position);
         getViewPager().setCurrentItem(position);

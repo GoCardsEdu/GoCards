@@ -16,4 +16,7 @@ interface DeckConfigLiveDataDao {
 
     @Query("SELECT * FROM Core_DeckConfig WHERE `key`=:key")
     fun findByKey(key: String): LiveData<DeckConfig>
+
+    @Query("SELECT value FROM Core_DeckConfig WHERE `key`=:key")
+    fun getLongByKey(key: String): LiveData<Long>
 }

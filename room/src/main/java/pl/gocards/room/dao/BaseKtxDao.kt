@@ -9,6 +9,9 @@ import androidx.room.Update
 interface BaseKtxDao<T> {
 
     @Insert
+    suspend fun insert(obj: T): Long
+
+    @Insert
     suspend fun insertAll(vararg obj: T)
 
     @Insert

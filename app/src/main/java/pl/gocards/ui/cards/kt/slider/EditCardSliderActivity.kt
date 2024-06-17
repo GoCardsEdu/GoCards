@@ -1,0 +1,67 @@
+package pl.gocards.ui.cards.kt.slider
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.LaunchedEffect
+import pl.gocards.App
+import pl.gocards.db.deck.DeckDbUtil
+import pl.gocards.ui.cards.kt.slider.model.SliderCardsViewModel
+import pl.gocards.ui.cards.kt.slider.slider.CardSliderScaffold
+import pl.gocards.ui.cards.kt.slider.slider.CardSliderScaffoldInputFactory
+import pl.gocards.ui.cards.kt.slider.slider.model.Mode
+
+/**
+ * C_C_24 Edit the card
+ * @author Grzegorz Ziemski
+ */
+class EditCardSliderActivity : ComponentActivity() {
+
+    companion object {
+        const val DECK_DB_PATH = "DECK_DB_PATH"
+        const val ADD_NEW_CARD = "ADD_NEW_CARD"
+        const val NEW_CARD_AFTER_CARD_ID = "NEW_CARD_AFTER_CARD_ID"
+        const val EDIT_CARD_ID = "EDIT_CARD_ID"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val deckDbPath = intent.getStringExtra(DECK_DB_PATH) ?: return
+        val addNewCard = intent.getBooleanExtra(ADD_NEW_CARD, false)
+        val newCardAfterCardId = intent.getIntExtra(NEW_CARD_AFTER_CARD_ID, 0)
+        val editCardId = intent.getIntExtra(EDIT_CARD_ID, 0)
+
+        val application = application as App
+        val viewModel = SliderCardsViewModel.getInstance(this, deckDbPath, Mode.EDIT, this)
+
+        setContent {
+
+            LaunchedEffect(true) {
+                if (!viewModel.isLoaded()) {
+                    if (addNewCard) {
+                        viewModel.loadAllCardsAndAddNewCard()
+                    } else if (newCardAfterCardId != 0) {
+                        viewModel.loadAllCardsAndAddNewCard(newCardAfterCardId)
+                    } else if (editCardId != 0) {
+                        viewModel.loadAllCardsAndSetCardId(editCardId)
+                    } else {
+                        viewModel.loadAllCards()
+                    }
+                }
+            }
+
+
+            CardSliderScaffold(
+                CardSliderScaffoldInputFactory().getInstance(
+                    onBack = { super.finish() },
+                    deckName = DeckDbUtil.getDeckName(deckDbPath),
+                    viewModel = viewModel,
+                    autoSyncCardsModel = null,
+                    showRateButtons = true,
+                    application = application
+                )
+            )
+        }
+    }
+}

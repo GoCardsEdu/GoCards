@@ -9,11 +9,27 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -26,27 +42,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pl.gocards.App
 import pl.gocards.R
-import pl.gocards.room.entity.app.AppConfig
-import pl.gocards.room.entity.deck.DeckConfig
 import pl.gocards.db.app.AppDbUtil
 import pl.gocards.db.deck.AppDeckDbUtil
-import pl.gocards.ui.cards.xml.list.standard.ListCardsActivity
+import pl.gocards.room.entity.app.AppConfig
+import pl.gocards.room.entity.deck.DeckConfig
 import pl.gocards.ui.kt.theme.AppBar
 import pl.gocards.ui.kt.theme.AppTheme
 import pl.gocards.ui.kt.theme.Grey900
+import pl.gocards.ui.settings.dialog.AutoSyncAlertDialog
 import pl.gocards.ui.settings.dialog.AutoSyncDialogEntity
 import pl.gocards.ui.settings.dialog.DarkModeAlertDialog
 import pl.gocards.ui.settings.dialog.DarkModeAlertDialogEntity
 import pl.gocards.ui.settings.dialog.EdgeBarAlertDialog
 import pl.gocards.ui.settings.dialog.EdgeBarAlertDialogEntity
-import pl.gocards.ui.settings.dialog.AutoSyncAlertDialog
 import pl.gocards.ui.settings.dialog.LimitForgottenCardsDialog
 import pl.gocards.ui.settings.dialog.LimitForgottenCardsDialogEntity
 import pl.gocards.ui.settings.dialog.MaxLinesDialog
 import pl.gocards.ui.settings.dialog.MaxLinesDialogEntity
 import pl.gocards.ui.settings.dialog.getShowEdgeBarLabel
 import pl.gocards.ui.settings.model.SettingsViewModel
-import java.util.*
 
 @Preview(showBackground = true)
 @Composable
@@ -102,25 +116,37 @@ fun PreviewSettings() {
  * @author Grzegorz Ziemski
  */
 class SettingsActivity : ComponentActivity() {
+    companion object {
+        const val DECK_DB_PATH = "DECK_DB_PATH"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val dbPath = intent.getStringExtra(ListCardsActivity.DECK_DB_PATH)
+            val dbPath = intent.getStringExtra(DECK_DB_PATH)
+            val context = LocalContext.current
+            val application = LocalContext.current.applicationContext as App
+            val darkMode = application.darkMode ?: isSystemInDarkTheme()
+
             DeckSettings(
                 onBack = { super.finish() },
                 viewModel = SettingsViewModel(
-                    AppDbUtil.getInstance(LocalContext.current).getDatabase(LocalContext.current),
-                    dbPath?.let {  AppDeckDbUtil.getInstance(LocalContext.current).getDatabase(LocalContext.current, dbPath) },
-                    isSystemInDarkTheme(),
-                    LocalContext.current.applicationContext as App
-                )
+                    AppDbUtil.getInstance(context).getDatabase(context),
+                    dbPath?.let {  AppDeckDbUtil.getInstance(context).getDatabase(context, dbPath) },
+                    darkMode,
+                    application
+                ),
+                darkMode
             )
         }
     }
 }
 
 @Composable
-fun DeckSettings(onBack: () -> Unit = {}, viewModel: SettingsViewModel) {
+fun DeckSettings(
+    onBack: () -> Unit = {},
+    viewModel: SettingsViewModel,
+    isDarkTheme: Boolean
+) {
     val tabIndex = remember { mutableIntStateOf(0) }
     val isShownDeckAutoSyncDialog = remember { mutableStateOf(false) }
     val isShownDeckLimitLearningCardsDialog = remember { mutableStateOf(false) }
@@ -287,14 +313,17 @@ fun DeckSettings(onBack: () -> Unit = {}, viewModel: SettingsViewModel) {
         ),
 
         onBack = onBack,
-        isDarkTheme = viewModel.darkMode.isDarkTheme.observeAsState(initial = isSystemInDarkTheme()),
+        isDarkTheme = viewModel.darkMode.isDarkTheme.observeAsState(initial = isDarkTheme),
         preview = false
     )
 }
 
-@Suppress("LocalVariableName", "unused")
+
 @Composable
+@Suppress("LocalVariableName")
 @SuppressLint("PrivateResource")
+@SuppressWarnings("unused")
+@OptIn(ExperimentalMaterial3Api::class)
 fun SettingsScaffold(
     tabIndex: State<Int>,
     Tab_OnClick: (Int) -> Unit = {},
@@ -364,6 +393,7 @@ fun SettingsScaffold(
         Scaffold(
             topBar = {
                 AppBar(
+                    modifier = Modifier,
                     isDarkTheme = isDarkTheme.value,
                     title = { Text(stringResource(R.string.settings_title)) },
                     onBack = onBack
@@ -499,8 +529,8 @@ private fun GroupSettings(title: String) {
     }
 }
 
-@Suppress("unused")
 @Composable
+@SuppressWarnings("unused")
 fun SettingField(
     isDarkTheme: Boolean,
     title: String,

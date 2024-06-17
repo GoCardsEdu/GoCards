@@ -14,12 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 
-@Suppress("unused")
 @Composable
 fun SettingsAlertDialog(
     title: String,
     body: @Composable (() -> Unit)? = null,
+    @SuppressWarnings("unused")
     onSave: () -> Unit = {},
+    @SuppressWarnings("unused")
     onDismiss: () -> Unit = {},
 ) {
     AlertDialog(
@@ -39,8 +40,8 @@ fun SettingsAlertDialog(
     )
 }
 
-@Suppress("unused")
 @Composable
+@SuppressWarnings("unused")
 fun <T> RadioButton(
     label: String,
     option: T,

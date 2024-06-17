@@ -7,9 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import pl.gocards.App
-import pl.gocards.room.entity.app.AppConfig
 import pl.gocards.db.room.AppDatabase
+import pl.gocards.room.entity.app.AppConfig
 
 /**
  * S_U_09 App: Dark mode
@@ -17,13 +18,13 @@ import pl.gocards.db.room.AppDatabase
  */
 class DarkModeModel(
     private val appDb: AppDatabase,
-    private val isSystemInDarkTheme: Boolean,
+    private val isDarkThemeDefault: Boolean,
     val application: App
 ) : AndroidViewModel(application) {
 
     val darkMode: MutableLiveData<String> = MutableLiveData(AppConfig.DARK_MODE_DEFAULT)
     val darkModeDb: MutableLiveData<String> = MutableLiveData(AppConfig.DARK_MODE_DEFAULT)
-    val isDarkTheme: MutableLiveData<Boolean> = MutableLiveData(isSystemInDarkTheme)
+    val isDarkTheme: MutableLiveData<Boolean> = MutableLiveData(isDarkThemeDefault)
 
     @SuppressLint("CheckResult")
     fun init() {
@@ -44,7 +45,7 @@ class DarkModeModel(
                     when (AppCompatDelegate.getDefaultNightMode()) {
                         AppCompatDelegate.MODE_NIGHT_NO -> isDarkTheme.postValue(false)
                         AppCompatDelegate.MODE_NIGHT_YES -> isDarkTheme.postValue(true)
-                        else -> isDarkTheme.postValue(isSystemInDarkTheme)
+                        else -> isDarkTheme.postValue(isDarkThemeDefault)
                     }
                 }
                 AppConfig.DARK_MODE_ON -> isDarkTheme.postValue(true)
@@ -65,11 +66,10 @@ class DarkModeModel(
                     it, AppConfig.DARK_MODE_DEFAULT
                 )
                 darkModeDb.postValue(darkMode.value)
-            }
-            when (darkMode.value) {
-                AppConfig.DARK_MODE_ON -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                AppConfig.DARK_MODE_OFF -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                else -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+
+                withContext(Dispatchers.Main) {
+                    application.reloadDarkMode()
+                }
             }
         }
     }

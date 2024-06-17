@@ -1,4 +1,4 @@
-package pl.gocards.ui.decks.xml
+package pl.gocards.ui.decks.kt.decks.service
 
 import android.annotation.SuppressLint
 import android.content.Context

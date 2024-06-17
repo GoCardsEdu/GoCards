@@ -84,7 +84,7 @@ public class TestCardsHelper {
 
     @NonNull
     public String printDbCards(@NonNull List<Card> cards) {
-        if (cards.size() == 0) {
+        if (cards.isEmpty()) {
             return "No cards in DB.";
         }
 

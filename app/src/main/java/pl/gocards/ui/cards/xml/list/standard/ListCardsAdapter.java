@@ -244,7 +244,7 @@ public class ListCardsAdapter extends BaseViewAdapter<CardViewHolder> {
         Snackbar.make(requireActivity().findViewById(R.id.list_cards),
                         R.string.cards_list_toast_deleted_card,
                         Snackbar.LENGTH_LONG)
-                .setAction(R.string.undo, v -> revertCard(card, wasSelected))
+                .setAction(R.string.restore, v -> revertCard(card, wasSelected))
                 .show();
     }
 

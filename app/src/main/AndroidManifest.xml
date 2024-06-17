@@ -11,6 +11,7 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
+        <!--
         <activity
             android:name=".ui.main.xml.ExceptionMainActivity"
             android:exported="true">
@@ -19,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        -->
         <activity
             android:name=".ui.cards.xml.study.exception.ExceptionStudyCardActivity"
             android:exported="false">
@@ -37,6 +39,31 @@
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
+        </activity>
+
+        <activity
+            android:name=".ui.main.kt.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.cards.kt.slider.StudyCardSliderActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".ui.cards.kt.slider.EditCardSliderActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".ui.cards.kt.slider.BrowseCardSliderActivity"
+            android:exported="false">
+        </activity>
+        <activity
+            android:name=".ui.cards.kt.list.ListCardsActivity"
+            android:exported="false">
         </activity>
         <activity
             android:name=".ui.settings.SettingsActivity"

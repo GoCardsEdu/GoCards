@@ -18,6 +18,9 @@ abstract class AppConfigKtxDao : BaseKtxDao<AppConfig> {
     abstract suspend fun getByKey(key: String): AppConfig?
 
     @Query("SELECT value FROM AppConfig WHERE `key`=:key")
+    abstract suspend fun getStringByKey(key: String): String?
+
+    @Query("SELECT value FROM AppConfig WHERE `key`=:key")
     abstract suspend fun getLongByKey(key: String): Long?
 
     @Query("SELECT value FROM AppConfig WHERE `key`=:key")
@@ -29,7 +32,7 @@ abstract class AppConfigKtxDao : BaseKtxDao<AppConfig> {
     suspend fun update(
         key: String,
         value: String,
-        defaultValue: String
+        defaultValue: String?
     ) {
         if (value == defaultValue) {
             deleteByKey(key)

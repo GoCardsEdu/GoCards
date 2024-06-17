@@ -231,7 +231,7 @@ public class SelectListCardsAdapter extends DragSwipeListCardsAdapter {
         }
 
         Snackbar.make(this.requireActivity().getListCardsView(), text, Snackbar.LENGTH_LONG)
-                .setAction(R.string.undo, v -> revertCards(cardsToRevert))
+                .setAction(R.string.restore, v -> revertCards(cardsToRevert))
                 .show();
     }
 

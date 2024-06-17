@@ -4,11 +4,11 @@ import androidx.lifecycle.AndroidViewModel
 import pl.gocards.App
 import pl.gocards.db.room.AppDatabase
 import pl.gocards.db.room.DeckDatabase
-import pl.gocards.ui.settings.model.app.DarkModeModel
 import pl.gocards.ui.settings.model.all_decks.MaxForgottenCardsModel
 import pl.gocards.ui.settings.model.all_decks.MaxLinesModel
 import pl.gocards.ui.settings.model.all_decks.ShowLeftEdgeBarModel
 import pl.gocards.ui.settings.model.all_decks.ShowRightEdgeBarModel
+import pl.gocards.ui.settings.model.app.DarkModeModel
 import pl.gocards.ui.settings.model.deck.DeckAutoSyncModel
 import pl.gocards.ui.settings.model.deck.DeckMaxForgottenCardsModel
 import pl.gocards.ui.settings.model.deck.DeckMaxLinesModel
@@ -20,7 +20,7 @@ import pl.gocards.ui.settings.model.deck.DeckMaxLinesModel
 class SettingsViewModel(
     appDb: AppDatabase,
     deckDb: DeckDatabase?,
-    isSystemInDarkTheme: Boolean,
+    darkModeMode: Boolean,
     application: App
 ) : AndroidViewModel(application) {
 
@@ -31,7 +31,7 @@ class SettingsViewModel(
     val appMaxLines = MaxLinesModel(appDb, application)
     val showLeftEdgeBar = ShowLeftEdgeBarModel(appDb, application)
     val showRightEdgeBar = ShowRightEdgeBarModel(appDb, application)
-    val darkMode: DarkModeModel = DarkModeModel(appDb, isSystemInDarkTheme, application)
+    val darkMode: DarkModeModel = DarkModeModel(appDb, darkModeMode, application)
 
     init {
         if (deckDb != null) {

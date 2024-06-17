@@ -1,5 +1,8 @@
 package pl.gocards.db.deck;
 
+import static io.reactivex.rxjava3.internal.functions.Functions.EMPTY_ACTION;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -25,13 +28,13 @@ import java.util.stream.Stream;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import pl.gocards.room.util.DbUtil;
 import pl.gocards.db.app.AppDbUtil;
 import pl.gocards.db.room.AppDatabase;
 import pl.gocards.db.storage.AppStorageDb;
 import pl.gocards.db.storage.DatabaseException;
 import pl.gocards.db.storage.ExternalStorageDb;
 import pl.gocards.db.storage.StorageDb;
+import pl.gocards.room.util.DbUtil;
 import pl.gocards.util.Config;
 
 /**
@@ -254,6 +257,33 @@ public abstract class DeckDbUtil<DB extends RoomDatabase> {
     /* -----------------------------------------------------------------------------------------
      * Renaming, moving, copying the database
      * ----------------------------------------------------------------------------------------- */
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @SuppressLint("CheckResult")
+    public void renameDatabase(
+            @NonNull Context context,
+            @NonNull Path currentDeckPath,
+            @NonNull String newName,
+            Runnable onSuccess,
+            Runnable onExists
+    ) throws DatabaseException {
+        if (Objects.equals(newName, AppDeckDbUtil.getDeckName(currentDeckPath))) {
+            if (onSuccess != null) onSuccess.run();
+            return;
+        }
+
+        Path newDbPath = Paths.get(currentDeckPath.getParent().toString(), newName);
+        if (exists(newDbPath)) {
+            if (onExists != null) onExists.run();
+            return;
+        }
+
+        renameDatabase(context, currentDeckPath, newName)
+                .subscribeOn(Schedulers.io())
+                .doOnSuccess(deckName -> onSuccess.run())
+                .ignoreElement()
+                .subscribe(EMPTY_ACTION);
+    }
 
     /**
      * @return New file name. If the file already exists, a number is added to the end.

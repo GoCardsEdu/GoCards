@@ -125,7 +125,7 @@ public class DeleteCardSliderActivity extends UndoDeleteCardSliderActivity {
         Snackbar.make(findViewById(android.R.id.content),
                         getString(R.string.cards_list_toast_deleted_card),
                         Snackbar.LENGTH_LONG)
-                .setAction(getString(R.string.undo), v -> restoreCard(position, card))
+                .setAction(getString(R.string.restore), v -> restoreCard(position, card))
                 .show();
     }
 

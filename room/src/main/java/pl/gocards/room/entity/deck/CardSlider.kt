@@ -13,13 +13,14 @@ import androidx.room.PrimaryKey
 data class CardSlider(
     @PrimaryKey
     var id: Int? = null,
+    var ordinal: Int? = 0,
     @Ignore
     var isSaved: Boolean = true
 ) {
 
     constructor(card: Card) : this(card.id)
 
-    constructor(id: Int?) : this(id, true)
+    constructor(id: Int?) : this(id, 0, true)
 
     override fun equals(other: Any?): Boolean {
         return if (other is CardSlider) {

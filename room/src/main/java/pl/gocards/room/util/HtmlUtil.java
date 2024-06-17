@@ -36,6 +36,7 @@ public class HtmlUtil {
         return INSTANCE;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean isSimpleHtml(@Nullable String s) {
         boolean ret = false;
         if (s != null) {
@@ -73,7 +74,7 @@ public class HtmlUtil {
     }
 
     public String replaceYtPortraitIframe(String source, int height) {
-        int newHeight = (int) (0.60 * height);
+        int newHeight = (int) (0.80 * height);
         int newWidth =  (int) (0.5625 * newHeight);
         return replaceYtIframe(source, YT_PORTRAIT_IFRAME_PATTERN, newWidth, newHeight);
     }

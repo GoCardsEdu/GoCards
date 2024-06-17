@@ -18,7 +18,7 @@ data class AppConfig(
         const val DARK_MODE_ON = "On"
         const val DARK_MODE_OFF = "Off"
         val DARK_MODE_OPTIONS = listOf(DARK_MODE_DEFAULT, DARK_MODE_ON, DARK_MODE_OFF)
-        const val EDGE_BAR_Off = "Off"
+        const val EDGE_BAR_OFF = "Off"
         const val EDGE_BAR_SHOW_LEARNING_STATUS = "LearningStatus"
         const val EDGE_BAR_SHOW_RECENTLY_SYNCED = "RecentlySynced"
         const val LEFT_EDGE_BAR = "LeftEdgeBar"

@@ -7,10 +7,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.material.color.DynamicColors;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import pl.gocards.db.app.AppDbMainThreadUtil;
+import pl.gocards.db.room.AppDatabase;
+import pl.gocards.room.entity.app.AppConfig;
 
 /**
  * @author Grzegorz Ziemski
@@ -27,11 +31,74 @@ public class App extends Application implements Application.ActivityLifecycleCal
     @NonNull
     private final CompositeDisposable disposable = new CompositeDisposable();
 
+
+    private Boolean darkMode;
+
     @Override
     public void onCreate() {
         super.onCreate();
         DynamicColors.applyToActivitiesIfAvailable(this);
         registerActivityLifecycleCallbacks(this);
+
+        try {
+            reloadDarkMode();
+        } catch (IllegalStateException e) {
+            getAppDbMainThreadUtil().deleteDatabase(this.getApplicationContext());
+        }
+    }
+
+    /* -----------------------------------------------------------------------------------------
+     * DarkMode
+     * ----------------------------------------------------------------------------------------- */
+
+    public void reloadDarkMode() {
+        setDarkMode(getDarkModeDb());
+    }
+
+    protected Boolean getDarkModeDb() {
+        String darkMode = getAppDbMainThread()
+                .appConfigDao()
+                .getStringByKey(AppConfig.DARK_MODE);
+
+        if (darkMode == null) return null;
+
+        switch (darkMode) {
+            case AppConfig.DARK_MODE_ON -> {
+                return true;
+            }
+            case AppConfig.DARK_MODE_OFF -> {
+                return false;
+            }
+            default -> {
+                return null;
+            }
+        }
+    }
+
+    public void setDarkMode(Boolean darkMode) {
+        this.darkMode = darkMode;
+        if (darkMode == null) {
+            setDarkMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        } else if (darkMode) {
+            setDarkMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            setDarkMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    protected void setDarkMode(@AppCompatDelegate.NightMode int mode) {
+        AppCompatDelegate.setDefaultNightMode(mode);
+        // setBarSameColoursAsToolbar();
+    }
+
+    protected AppDbMainThreadUtil getAppDbMainThreadUtil() {
+        return AppDbMainThreadUtil
+                .getInstance(getApplicationContext());
+    }
+
+    protected AppDatabase getAppDbMainThread() {
+        return getAppDbMainThreadUtil()
+                .getDatabase(getApplicationContext());
     }
 
     /* -----------------------------------------------------------------------------------------
@@ -81,6 +148,10 @@ public class App extends Application implements Application.ActivityLifecycleCal
         return (AppCompatActivity) activeActivity;
     }
 
+    /* -----------------------------------------------------------------------------------------
+     * Gets/sets
+     * ----------------------------------------------------------------------------------------- */
+
     @Nullable
     public Throwable getExceptionToDisplay() {
         return exceptionToDisplay;
@@ -93,5 +164,9 @@ public class App extends Application implements Application.ActivityLifecycleCal
     @NonNull
     public CompositeDisposable getDisposable() {
         return disposable;
+    }
+
+    public Boolean getDarkMode() {
+        return darkMode;
     }
 }

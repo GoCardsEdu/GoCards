@@ -51,8 +51,8 @@ fun EdgeBarAlertDialog(entity: EdgeBarAlertDialogEntity) {
             // https://developer.android.com/reference/kotlin/androidx/compose/material/package-summary#RadioButton(kotlin.Boolean,kotlin.Function0,androidx.compose.ui.Modifier,kotlin.Boolean,androidx.compose.foundation.interaction.MutableInteractionSource,androidx.compose.material.RadioButtonColors)
             Column(Modifier.selectableGroup()) {
                 RadioButton(
-                    getShowEdgeBarLabel(AppConfig.EDGE_BAR_Off),
-                    AppConfig.EDGE_BAR_Off,
+                    getShowEdgeBarLabel(AppConfig.EDGE_BAR_OFF),
+                    AppConfig.EDGE_BAR_OFF,
                     entity.edgeBar, entity.onSelectRadio
                 )
                 RadioButton(
@@ -76,7 +76,7 @@ fun EdgeBarAlertDialog(entity: EdgeBarAlertDialogEntity) {
 @Composable
 fun getShowEdgeBarLabel(value: String): String {
     when (value) {
-        AppConfig.EDGE_BAR_Off -> return stringResource(R.string.off)
+        AppConfig.EDGE_BAR_OFF -> return stringResource(R.string.off)
         AppConfig.EDGE_BAR_SHOW_LEARNING_STATUS -> return stringResource(R.string.settings_edge_bar_show_learning_status)
         AppConfig.EDGE_BAR_SHOW_RECENTLY_SYNCED -> return stringResource(R.string.settings_edge_bar_show_recently_synced)
     }

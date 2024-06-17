@@ -23,7 +23,7 @@ public class NoMoreCardsToDisplayDialog extends DialogFragment {
         // TODO Undo deleting can be added.
         return new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(getString(R.string.cards_slider_no_more_cards))
-                .setPositiveButton(R.string.close, (dialog, which) -> requireActivity().finish())
+                .setPositiveButton(R.string.ok, (dialog, which) -> requireActivity().finish())
                 .create();
     }
 

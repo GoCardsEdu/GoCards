@@ -61,7 +61,7 @@ public abstract class FileSyncWorker extends FileWorker {
     protected void showWarningDialog(@NonNull Exception exception) {
         getExceptionHandler().showWarningDialog(
                 exception,
-                ((App) getApplicationContext()).getActiveActivity(),
+                getApplication().getActiveActivity(),
                 getTag()
         );
     }
@@ -69,7 +69,7 @@ public abstract class FileSyncWorker extends FileWorker {
     protected void showErrorDialog(String message) {
         getExceptionHandler().showExceptionDialog(
                 null,
-                ((App) getApplicationContext()).getActiveActivity(),
+                getApplication().getActiveActivity(),
                 getTag(),
                 message,
                 null
@@ -88,8 +88,8 @@ public abstract class FileSyncWorker extends FileWorker {
     protected void handleException(@NonNull Exception exception, String message) {
         getExceptionHandler().handleException(
                 exception,
-                ((App) getApplicationContext()).getActiveActivity(),
-                getTag(), message, true
+                getApplication().getActiveActivity(),
+                getTag(), message
         );
     }
 
@@ -115,6 +115,10 @@ public abstract class FileSyncWorker extends FileWorker {
     @NonNull
     protected ExceptionHandler getExceptionHandler() {
         return ExceptionHandler.getInstance();
+    }
+
+    protected App getApplication() {
+        return (App) getApplicationContext();
     }
 
     protected abstract String getTag();
