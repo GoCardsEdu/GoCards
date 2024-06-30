@@ -24,9 +24,9 @@ import pl.gocards.ui.common.SliderDropdownMenuItem
  * @author Grzegorz Ziemski
  */
 data class ListAllDecksMenuData(
-    val onClickSearch: () -> Unit,
+    val onClickSearch: (() -> Unit)?,
     val onClickNewDeck: () -> Unit,
-    val onClickNewFolder: () -> Unit,
+    val onClickNewFolder: (() -> Unit)?,
     val onClickImportExcel: (() -> Unit)?,
     val onClickImportCsv: (() -> Unit)?,
     val onClickImportDb: () -> Unit,
@@ -36,13 +36,15 @@ data class ListAllDecksMenuData(
 
 @Composable
 fun ListAllDecksMenu(input: ListAllDecksMenuData) {
-    SearchButton(input.onClickSearch)
+    input.onClickSearch?.let { SearchButton(it) }
     CreateNewDeckButton(input.onClickNewDeck)
 
     val showDropDown = remember { mutableStateOf(false) }
     MoreButton(showDropDown)
     DropdownMenu(showDropDown.value, { showDropDown.value = false }) {
-        CreateNewFolderMenuItem(showDropDown, input.onClickNewFolder)
+        input.onClickNewFolder?.let {
+            CreateNewFolderMenuItem(showDropDown, it)
+        }
         input.onClickImportExcel?.let {
             ImportExcelMenuItem(showDropDown, it)
         }

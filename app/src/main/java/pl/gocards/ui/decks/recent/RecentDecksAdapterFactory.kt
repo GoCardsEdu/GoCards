@@ -17,6 +17,7 @@ class RecentDecksAdapterFactory {
 
     fun create(
         isShownMoreDeckMenu: MutableState<Path?>,
+        isPremium: Boolean,
         onSuccess: () -> Unit,
         colors: ExtendedColors,
         activity: Activity,
@@ -35,6 +36,7 @@ class RecentDecksAdapterFactory {
                 application
             ),
             isShownMoreDeckMenu,
+            isPremium,
             colors,
             activity,
             scope,

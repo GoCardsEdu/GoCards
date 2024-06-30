@@ -28,6 +28,7 @@ class AllDecksAdapterFactory {
         listFoldersViewModel: ListFoldersViewModel,
         searchFoldersDecksViewModel: SearchFoldersDecksViewModel,
         isShownMoreDeckMenu: MutableState<Path?>,
+        isPremium: Boolean,
         onSuccess: () -> Unit,
         colors: ExtendedColors,
         activity: Activity,
@@ -59,6 +60,7 @@ class AllDecksAdapterFactory {
                 application
             ),
             isShownMoreDeckMenu,
+            isPremium,
             colors,
             activity,
             owner.lifecycleScope,

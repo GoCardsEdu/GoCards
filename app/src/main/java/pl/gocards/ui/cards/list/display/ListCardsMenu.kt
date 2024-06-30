@@ -21,7 +21,7 @@ import pl.gocards.ui.common.SliderDropdownMenuItem
  * @author Grzegorz Ziemski
  */
 data class ListCardsMenuData(
-    val onClickSearch: () -> Unit = {},
+    val onClickSearch: (() -> Unit)? = {},
     val onClickNewCard: () -> Unit = {},
     val onClickSync: (() -> Unit)? = {},
     val onClickExportExcel: (() -> Unit)? = {},
@@ -34,8 +34,10 @@ fun ListCardsMenu(
     input: ListCardsMenuData,
     editingLocked: Boolean
 ) {
-    IconButton(onClick = input.onClickSearch) {
-        Icon(Icons.Filled.Search, stringResource(R.string.search))
+    input.onClickSearch?.let {
+        IconButton(onClick = it) {
+            Icon(Icons.Filled.Search, stringResource(R.string.search))
+        }
     }
     if (!editingLocked) {
         IconButton(onClick = input.onClickNewCard) {

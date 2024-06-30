@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import pl.gocards.App
+import pl.gocards.db.app.AppDbUtil
 import pl.gocards.db.deck.AppDeckDbUtil
 import pl.gocards.ui.decks.all.AllDecksAdapterFactory
 import pl.gocards.ui.decks.decks.model.ListDecksViewModel
@@ -23,6 +24,8 @@ import pl.gocards.ui.decks.recent.RecentDecksAdapterFactory
 import pl.gocards.ui.decks.search.SearchFoldersDecksAdapter
 import pl.gocards.ui.decks.search.SearchFoldersDecksViewModel
 import pl.gocards.ui.decks.search.SearchFoldersDecksViewModelFactory
+import pl.gocards.ui.discover.premium.BillingClient
+import pl.gocards.ui.discover.premium.PremiumViewModel
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.theme.AppTheme
 import pl.gocards.ui.theme.ExtendedTheme
@@ -45,6 +48,12 @@ class MainActivity : AppCompatActivity() {
     var allAdapter: SearchFoldersDecksAdapter? = null
         private set
 
+    lateinit var premiumViewModel: PremiumViewModel
+        private set
+
+    lateinit var billingClient: BillingClient
+        private set
+
     var fileSyncViewModel: FileSyncViewModel? = null
         private set
 
@@ -63,6 +72,17 @@ class MainActivity : AppCompatActivity() {
         val application = this.applicationContext as App
         val owner = this
 
+        premiumViewModel = PremiumViewModel(
+            appDb = AppDbUtil.getInstance(application).getDatabase(application),
+            application = application
+        )
+
+        billingClient = BillingClient(
+            premiumViewModel = premiumViewModel,
+            context = this,
+            scope = this.lifecycleScope
+        )
+
         fileSyncViewModel = FileSyncViewModel.getInstance(owner, application)
 
         val listDecksViewModelFactory = ListDecksViewModelFactory(application)
@@ -74,10 +94,12 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             val isShownMoreDeckMenu: MutableState<Path?> = remember { mutableStateOf(null) }
+            val isPremium =  premiumViewModel.isPremium().value
 
             AppTheme {
                 recentAdapter = RecentDecksAdapterFactory().create(
                     isShownMoreDeckMenu,
+                    isPremium,
                     { loadDecks() },
                     ExtendedTheme.colors,
                     this,
@@ -89,6 +111,7 @@ class MainActivity : AppCompatActivity() {
                     listFoldersViewModel,
                     searchFoldersDecksViewModel,
                     isShownMoreDeckMenu,
+                    isPremium,
                     { loadDecks() },
                     ExtendedTheme.colors,
                     this,
@@ -98,7 +121,7 @@ class MainActivity : AppCompatActivity() {
                 CreateView()
             }
 
-            LaunchedEffect(true) {
+            LaunchedEffect(isPremium) {
                 if (searchFoldersDecksViewModel.isSearchActive.value) {
                     val query = searchFoldersDecksViewModel.getSearchQuery().value
                     if (query != null) {

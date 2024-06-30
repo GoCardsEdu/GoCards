@@ -1,5 +1,6 @@
 package pl.gocards.ui.theme
 
+//noinspection SuspiciousImport
 import android.R
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

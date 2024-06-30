@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.elevation.SurfaceColors
+import kotlinx.coroutines.launch
 import org.xmlpull.v1.XmlPullParser
 import pl.gocards.App
 import pl.gocards.R
@@ -37,12 +38,15 @@ import pl.gocards.ui.decks.recent.ListRecentDecksAdapter
 import pl.gocards.ui.decks.recent.view.ListRecentDecksMenuData
 import pl.gocards.ui.decks.recent.view.ListRecentDecksPageData
 import pl.gocards.ui.decks.search.SearchFoldersDecksAdapter
+import pl.gocards.ui.discover.premium.BillingClient
 import pl.gocards.ui.discover.Discover
+import pl.gocards.ui.discover.premium.PremiumViewModel
 import pl.gocards.ui.filesync.FileSyncLauncherFactory
 import pl.gocards.ui.filesync.FileSyncLauncherInput
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.filesync_pro.FileSyncProLauncherFactory
 import pl.gocards.ui.settings.SettingsActivity
+import pl.gocards.util.Config
 import pl.gocards.util.FirebaseAnalyticsHelper
 import java.nio.file.Path
 
@@ -67,7 +71,7 @@ data class RecentDecks(
 data class AllDecks(
     val onBack: () -> Unit,
     val folderName: String?,
-    val searchBarInput: SearchBarInput,
+    val searchBarInput: SearchBarInput?,
     val menu: ListAllDecksMenuData,
     val page: ListAllDecksPageData
 )
@@ -78,6 +82,7 @@ data class AllDecks(
 class MainScreenInputFactory {
 
     private lateinit var activity: Activity
+    private lateinit var context: Context
     private lateinit var recentAdapter: ListRecentDecksAdapter
     private lateinit var allAdapter: SearchFoldersDecksAdapter
 
@@ -93,6 +98,8 @@ class MainScreenInputFactory {
 
             activity.allAdapter!!.isShownMoreDeckMenu,
             activity.fileSyncViewModel,
+            activity.premiumViewModel,
+            activity.billingClient,
 
             activity,
             activity
@@ -108,11 +115,14 @@ class MainScreenInputFactory {
 
         isShownMoreDeckMenu: MutableState<Path?>,
         fileSyncViewModel: FileSyncViewModel?,
+        premiumViewModel: PremiumViewModel,
+        billingClient: BillingClient,
 
         activity: Activity,
         owner: LifecycleOwner
     ): MainScreenInput {
         this.activity = activity
+        this.context = activity
         this.recentAdapter = recentAdapter
         this.allAdapter = allAdapter
 
@@ -156,6 +166,7 @@ class MainScreenInputFactory {
                 fileSyncInput,
                 exportImportDbUtil,
                 analytics,
+                premiumViewModel,
                 context
             ),
             deckBottomMenu = DeckBottomMenuInput(
@@ -172,9 +183,33 @@ class MainScreenInputFactory {
             ),
             fileSync = fileSyncInput,
             discover = Discover(
+                isPremium = premiumViewModel.isPremium(),
+                isPremiumSwitch = premiumViewModel.isPremiumSwitch,
+                setPremium = { premiumViewModel.isPremiumSwitch.value = true },
                 onClickDiscord = {
                     analytics.discoverOpenDiscord()
                     openDiscord()
+                },
+                onClickBuyPremium = {
+                    scope.launch {
+                        if (isPremiumMockEnabled()) {
+                            premiumViewModel.enablePremium()
+                        } else {
+                            billingClient.launch(activity)
+                        }
+                    }
+                },
+                onDisableSubscription = {
+                    if (isPremiumMockEnabled()) {
+                        scope.launch {
+                            premiumViewModel.disablePremium()
+                        }
+                    } else {
+                        openSubscriptions()
+                    }
+                },
+                onOpenSubscriptions = {
+                    openSubscriptions()
                 }
             )
         )
@@ -236,6 +271,7 @@ class MainScreenInputFactory {
         fileSyncInput: FileSyncLauncherInput?,
         exportImportDbUtil: ExportImportDb,
         analytics: FirebaseAnalyticsHelper,
+        premiumViewModel: PremiumViewModel,
         context: Context
     ): AllDecks {
         val application = context.applicationContext as App
@@ -247,24 +283,21 @@ class MainScreenInputFactory {
         return AllDecks(
             onBack = onBack,
             folderName = adapter.decksViewModel.folderName.value?.toString(),
-            searchBarInput = SearchBarInput(
-                searchQuery = adapter.searchFoldersDecksViewModel.getSearchQuery(),
-                isSearchActive = adapter.searchFoldersDecksViewModel.isSearchActive(),
-                onSearchEnd = { adapter.clearSearch() },
-                onSearchChange = { query ->
-                    adapter.searchItems(query)
-                },
-            ),
+            searchBarInput = createSearchBarInput(adapter, premiumViewModel),
             menu = ListAllDecksMenuData(
-                onClickSearch = { adapter.searchFoldersDecksViewModel.enableSearch() },
+                onClickSearch = if (premiumViewModel.isPremium().value) {
+                    { adapter.searchFoldersDecksViewModel.enableSearch() }
+                } else null,
                 onClickNewDeck = {
                     val folder = adapter.getCurrentFolder()
                     adapter.deckDialogs.showCreateDeckDialog(folder)
                 },
-                onClickNewFolder = {
-                    val folder = adapter.getCurrentFolder()
-                    adapter.folderDialogs.showCreateFolderDialog(folder)
-                },
+                onClickNewFolder = if (premiumViewModel.isPremium().value) {
+                    {
+                        val folder = adapter.getCurrentFolder()
+                        adapter.folderDialogs.showCreateFolderDialog(folder)
+                    }
+                } else null,
                 onClickImportExcel = if (fileSyncInput != null) {
                     { onClickImport(adapter, fileSyncInput) }
                 } else null,
@@ -289,10 +322,12 @@ class MainScreenInputFactory {
                         val folder = adapter.getCurrentFolder()
                         adapter.deckDialogs.showCreateDeckDialog(folder)
                     },
-                    onClickNewFolder = {
-                        val folder = adapter.getCurrentFolder()
-                        adapter.folderDialogs.showCreateFolderDialog(folder)
-                    },
+                    onClickNewFolder = if (premiumViewModel.isPremium().value) {
+                        {
+                            val folder = adapter.getCurrentFolder()
+                            adapter.folderDialogs.showCreateFolderDialog(folder)
+                        }
+                    } else null,
                     onClickCreateSampleDeck = {
                         val folder = adapter.getCurrentFolder()
                         CreateSampleDeck(application).create(folder) { loadItems() }
@@ -309,6 +344,22 @@ class MainScreenInputFactory {
                     adapter.cutPasteFolderViewModel?.clear()
                 }
             )
+        )
+    }
+
+    private fun createSearchBarInput(
+        adapter: SearchFoldersDecksAdapter,
+        premiumViewModel: PremiumViewModel
+    ): SearchBarInput? {
+        if (!premiumViewModel.isPremium().value) return null
+
+        return SearchBarInput(
+            searchQuery = adapter.searchFoldersDecksViewModel.getSearchQuery(),
+            isSearchActive = adapter.searchFoldersDecksViewModel.isSearchActive(),
+            onSearchEnd = { adapter.clearSearch() },
+            onSearchChange = { query ->
+                adapter.searchItems(query)
+            }
         )
     }
 
@@ -333,6 +384,14 @@ class MainScreenInputFactory {
         activity.startActivity(intent)
     }
 
+    private fun openSubscriptions() {
+        val intent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("https://play.google.com/store/account/subscriptions")
+        )
+        activity.startActivity(intent)
+    }
+
     private fun startAppSettingsActivity() {
         val intent = Intent(activity, SettingsActivity::class.java)
         activity.startActivity(intent)
@@ -342,6 +401,11 @@ class MainScreenInputFactory {
         val intent = Intent(activity, SettingsActivity::class.java)
         intent.putExtra(SettingsActivity.DECK_DB_PATH, dbPath)
         activity.startActivity(intent)
+    }
+
+    private fun isPremiumMockEnabled(): Boolean {
+        return Config.getInstance(context)
+            .isPremiumMockEnabled(context)
     }
 
     private fun getRecyclerView(

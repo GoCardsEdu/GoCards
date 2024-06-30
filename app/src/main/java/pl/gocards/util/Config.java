@@ -78,4 +78,17 @@ public class Config {
         }
         return true;
     }
+
+    public boolean isPremiumMockEnabled(@NonNull Context context) {
+        try (InputStream is = context.getAssets().open("config.properties")) {
+            Properties props = new Properties();
+            props.load(is);
+            return Boolean.parseBoolean(
+                    props.getProperty("premium.mock.enabled", "true")
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

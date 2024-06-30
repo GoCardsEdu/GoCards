@@ -123,7 +123,6 @@
 
     <string name="card_study_show_definition">\?\nShow definition</string>
     <string name="card_study_again">Again</string>
-    <string name="card_study_quick_repetition">Quick Repetition</string>
     <string name="card_study_quick_repetition_min">Quick Repetition\n %d min</string>
     <string name="card_study_quick_repetition_hours">Quick Repetition\n %.1f hours</string>
 
@@ -177,6 +176,17 @@
     <string name="discover_community_title">Community</string>
     <string name="discover_community_description">Join our community to suggest new features, report problems or find your dream deck!</string>
     <string name="discover_community_open_discord">Open Discord</string>
+
+    <string name="discover_premium_title">PREMIUM</string>
+    <string name="discover_premium_cancel_subscription">You can cancel a subscription in the Google Play Store by tapping Menu, then Subscriptions.</string>
+    <string name="discover_premium_catchphrase">To help GoCars reach new heights, consider supporting us with subscription. Your sponsorship will enable us to develop even more exciting features.</string>
+    <string name="discover_premium_features">
+    The premium version adds new features:\n
+    - Card Browsing\n
+    - Searching\n
+    - Creating Folders
+    </string>
+    <string name="discover_premium_trial_promo_code">Ask for a trial promo code on Discord.</string>
 
 
     <string name="exception_dialog_hide">Hide Exception</string>

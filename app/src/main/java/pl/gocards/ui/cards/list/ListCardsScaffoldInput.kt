@@ -57,6 +57,7 @@ class ListCardsScaffoldInputFactory {
             activity.adapter!!,
             activity.viewModel,
             activity.fileSyncViewModel,
+            activity.premiumViewModel.isPremium().value,
             { activity.handleOnBackPressed() },
             activity,
             activity.application as App
@@ -70,6 +71,7 @@ class ListCardsScaffoldInputFactory {
         adapter: FileSyncEdgeBarListCardsAdapter,
         viewModel: SearchListCardsViewModel,
         fileSyncViewModel: FileSyncViewModel?,
+        isPremium: Boolean,
         onBack: () -> Unit = {},
         owner: LifecycleOwner,
         application: App
@@ -112,7 +114,9 @@ class ListCardsScaffoldInputFactory {
                     onClickDeleteSelected = { adapter.deleteSelected() }
                 ),
                 listCardsMenu = ListCardsMenuData(
-                    onClickSearch = { viewModel.enableSearch() },
+                    onClickSearch = if (isPremium) {
+                        { viewModel.enableSearch() }
+                    } else null,
                     onClickNewCard = { activity.startNewCardActivity() },
                     onClickSync = if (onClickSync != null) {
                         { onClickSync(deckDbPath) { adapter.loadCards() } }
@@ -124,7 +128,8 @@ class ListCardsScaffoldInputFactory {
                     onClickSettings = { activity.startDeckSettingsActivity() },
                 ),
             ),
-            isSyncInProgress = fileSyncViewModel?.inProgress(deckDbPath)?.observeAsState(initial = false),
+            isSyncInProgress = fileSyncViewModel?.inProgress(deckDbPath)
+                ?.observeAsState(initial = false),
             fileSync = fileSyncInput,
             onClickSync = onClickSync
         )
