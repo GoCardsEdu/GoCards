@@ -5,13 +5,11 @@ import android.app.Application;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.material.color.DynamicColors;
 
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import pl.gocards.db.app.AppDbMainThreadUtil;
 import pl.gocards.db.room.AppDatabase;
 import pl.gocards.room.entity.app.AppConfig;
@@ -24,13 +22,6 @@ public class App extends Application implements Application.ActivityLifecycleCal
     /** @noinspection DataFlowIssue*/
     @NonNull // Null only when the app is not active.
     private Activity activeActivity = null;
-
-    @Nullable
-    private Throwable exceptionToDisplay = null;
-
-    @NonNull
-    private final CompositeDisposable disposable = new CompositeDisposable();
-
 
     private Boolean darkMode;
 
@@ -151,20 +142,6 @@ public class App extends Application implements Application.ActivityLifecycleCal
     /* -----------------------------------------------------------------------------------------
      * Gets/sets
      * ----------------------------------------------------------------------------------------- */
-
-    @Nullable
-    public Throwable getExceptionToDisplay() {
-        return exceptionToDisplay;
-    }
-
-    public void setExceptionToDisplay(@Nullable Throwable exceptionToDisplay) {
-        this.exceptionToDisplay = exceptionToDisplay;
-    }
-
-    @NonNull
-    public CompositeDisposable getDisposable() {
-        return disposable;
-    }
 
     public Boolean getDarkMode() {
         return darkMode;

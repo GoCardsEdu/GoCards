@@ -11,36 +11,6 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
-        <!--
-        <activity
-            android:name=".ui.main.xml.ExceptionMainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        -->
-        <activity
-            android:name=".ui.cards.xml.study.exception.ExceptionStudyCardActivity"
-            android:exported="false">
-        </activity>
-        <activity
-            android:name=".ui.cards.xml.slider.delete.DeleteCardSliderActivity"
-            android:exported="false">
-        </activity>
-        <activity
-            android:name=".ui.cards.xml.list.exception.ExceptionListCardsActivity"
-            android:exported="false"
-            android:parentActivityName=".ui.main.xml.ExceptionMainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-
         <activity
             android:name=".ui.main.kt.MainActivity"
             android:exported="true">

@@ -3,39 +3,10 @@
 <resources>
 
     <style name="Theme.App" parent="Theme.Material3.DynamicColors.DayNight">
-
-        <item name="colorPrimary">#ff00668b</item>
-        <item name="colorSurface">#fffcfcff</item>
-        <item name="colorSecondaryContainer">#ffd1e5f4</item>
-        <item name="android:windowLightStatusBar">true</item>
-
-        <item name="colorIcon">@color/grey_600</item>
-        <item name="bottomNavigationBackground">?attr/colorSurface</item>
-
-        <!-- Deck list -->
-        <item name="pasteBackground">?attr/colorSurface</item>
-
-        <!-- Study Card -->
-        <item name="colorStudyCardDivider">#ffdce3e9</item>
-        <item name="behindWindowBackground">#ffb5cad7</item>
-        <item name="cardBorder">#ff9aaebb</item>
-
         <!-- Card list -->
         <item name="colorListDivider">@color/grey_300</item>
         <item name="opacityListDivider">@color/opacity_100</item>
         <item name="colorItemTextColor">@android:color/black</item>
-        <item name="colorItemSearch">@color/indigo_300</item>
-        <item name="colorItemActive">@color/indigo_200</item>
-        <item name="colorItemSelected">@color/indigo_100</item>
-        <item name="colorItemDisabledCard">@color/grey_800</item>
-        <item name="colorItemForgottenCard">@color/orange_900</item>
-        <item name="colorItemRememberedCards">@color/green_800</item>
-
-        <!-- Show last synced -->
-        <item name="colorItemRecentlyAddedDeckCard">@color/green_700</item>
-        <item name="colorItemRecentlyAddedFileCard">@color/green_400</item>
-        <item name="colorItemRecentlyUpdatedDeckCard">@color/orange_900</item>
-        <item name="colorItemRecentlyUpdatedFileCard">@color/orange_500</item>
     </style>
 
 </resources>

@@ -89,7 +89,6 @@
     <string name="cards_list_table_header_definition">Definition</string>
     <string name="cards_list_editing_locked">Editing is locked. Sync in progress…</string>
     <string name="cards_list_cards_selected" tools:ignore="PluralsCandidate">%d selected</string>
-    <string name="cards_list_menu_deselect_all_cards">Deselect all</string>
     <string name="cards_list_menu_delete_cards">Delete cards</string>
     <string name="cards_list_menu_new_card">New card</string>
     <string name="cards_list_menu_deck_settings">Settings</string>
@@ -119,7 +118,6 @@
     <string name="cards_list_toast_restore_card">The card has been restored.</string>
     <string name="cards_list_toast_restore_cards">The cards has been restored.</string>
 
-    <string name="cards_slider_no_more_cards">No more cards</string>
     <string name="cards_slider_new_card">New card</string>
 
     <string name="card_study_show_definition">\?\nShow definition</string>
@@ -128,14 +126,12 @@
     <string name="card_study_quick_repetition_min">Quick Repetition\n %d min</string>
     <string name="card_study_quick_repetition_hours">Quick Repetition\n %.1f hours</string>
 
-    <string name="card_study_easy">Easy</string>
     <string name="card_study_easy_min">Easy\n %d min</string>
     <string name="card_study_easy_hours">Easy\n %.1f hours</string>
     <string name="card_study_easy_day">Easy\n %.1f day</string>
     <string name="card_study_easy_day_only_again">Easy\n %.1f</string>
     <string name="card_study_easy_days">Easy\n %.1f days</string>
 
-    <string name="card_study_hard">Hard</string>
     <string name="card_study_hard_min">Hard\n %d min</string>
     <string name="card_study_hard_hours">Hard\n %.1f hours</string>
     <string name="card_study_hard_day">Hard\n %.1f day</string>
@@ -147,9 +143,7 @@
 
     <string name="card_new_title">Add a new card</string>
     <string name="card_new_term_label">Term:</string>
-    <string name="card_new_term_hint">Type a term…</string>
     <string name="card_new_definition_label">Definition:</string>
-    <string name="card_new_definition_hint">Type a definition…</string>
     <string name="card_new_disabled_label">Disabled</string>
     <string name="card_edit_title">Edit the card</string>
     <string name="card_edit_card_added_toast">"The new card has been added.</string>
@@ -186,14 +180,14 @@
     <string name="filesync_editing_deck_locked_dialog_message" tools:keep="@string/filesync_editing_deck_locked_dialog_message">Wait for the edit to be unlocked. It is likely blocked by a sync, import or export process in the background.</string>
     <string name="filesync_import_success_toast" tools:keep="@string/filesync_import_success_toast">\"%s\" has been imported.</string>
     <string name="filesync_export_success_toast" tools:keep="@string/filesync_export_success_toast">"The \"%s\" has been exported to new file.</string>
-    <string name="filesync_still_in_progress">Previous sync still in progress.</string>
+    <string name="filesync_still_in_progress" tools:keep="@string/filesync_still_in_progress">Previous sync still in progress.</string>
 
-    <string name="filesyncpro_dialog_warning_title">Warning, please always keep a backup copy of the synced file.</string>
-    <string name="filesyncpro_dialog_warning_message">We tried to develop the best possible synchronization algorithm. But it may not always sync cards as you expect.</string>
+    <string name="filesyncpro_dialog_warning_title" tools:keep="@string/filesyncpro_dialog_warning_title">Warning, please always keep a backup copy of the synced file.</string>
+    <string name="filesyncpro_dialog_warning_message" tools:keep="@string/filesyncpro_dialog_warning_message">We tried to develop the best possible synchronization algorithm. But it may not always sync cards as you expect.</string>
     <string name="filesyncpro_dialog_auto_sync_setup_title" tools:keep="@string/filesyncpro_dialog_auto_sync_setup_title">Do you want to enable auto-sync with this file?</string>
     <string name="filesyncpro_dialog_auto_sync_setup_message" tools:keep="@string/filesyncpro_dialog_auto_sync_setup_message">If you open or close a deck, the file will be auto-synced.</string>
     <string name="filesyncpro_dialog_auto_sync_setup_toast" tools:keep="@string/filesyncpro_dialog_auto_sync_setup_toast">Auto-sync has been set up.</string>
-    <string name="filesyncpro_dialog_sync_failed_title">The last synchronization failed. What action would you like to take next?</string>
+    <string name="filesyncpro_dialog_sync_failed_title" tools:keep="@string/filesyncpro_dialog_sync_failed_title">The last synchronization failed. What action would you like to take next?</string>
     <string name="filesyncpro_dialog_sync_new_sync" tools:keep="@string/filesyncpro_dialog_sync_new_sync">Start new synchronization</string>
     <string name="filesyncpro_dialog_sync_resume" tools:keep="@string/filesyncpro_dialog_sync_resume">Resume previous synchronization</string>
     <string name="filesyncpro_dialog_sync_save_backup_file" tools:keep="@string/filesyncpro_dialog_sync_save_backup_file">Save backup file to disk</string>

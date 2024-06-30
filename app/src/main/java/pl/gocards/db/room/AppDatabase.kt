@@ -9,7 +9,6 @@ import pl.gocards.room.dao.app.DeckDao
 import pl.gocards.room.entity.app.AppConfig
 import pl.gocards.room.entity.app.Deck
 import pl.gocards.db.Converters
-import pl.gocards.room.dao.app.AppConfigRxDao
 import pl.gocards.room.dao.app.DeckKtxDao
 import pl.gocards.room.dao.app.DeckRxDao
 
@@ -26,7 +25,6 @@ import pl.gocards.room.dao.app.DeckRxDao
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun appConfigRxDao(): AppConfigRxDao
     abstract fun appConfigKtxDao(): AppConfigKtxDao
     abstract fun appConfigDao(): AppConfigDao
     abstract fun deckRxDao(): DeckRxDao
