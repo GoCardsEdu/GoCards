@@ -46,9 +46,9 @@ import pl.gocards.db.app.AppDbUtil
 import pl.gocards.db.deck.AppDeckDbUtil
 import pl.gocards.room.entity.app.AppConfig
 import pl.gocards.room.entity.deck.DeckConfig
-import pl.gocards.ui.kt.theme.AppBar
-import pl.gocards.ui.kt.theme.AppTheme
-import pl.gocards.ui.kt.theme.Grey900
+import pl.gocards.ui.theme.AppBar
+import pl.gocards.ui.theme.AppTheme
+import pl.gocards.ui.theme.Grey900
 import pl.gocards.ui.settings.dialog.AutoSyncAlertDialog
 import pl.gocards.ui.settings.dialog.AutoSyncDialogEntity
 import pl.gocards.ui.settings.dialog.DarkModeAlertDialog

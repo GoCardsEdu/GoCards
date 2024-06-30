@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import pl.gocards.R
 import pl.gocards.room.entity.app.AppConfig
-import pl.gocards.ui.kt.theme.AppTheme
+import pl.gocards.ui.theme.AppTheme
 
 @Preview(showBackground = true)
 @Composable

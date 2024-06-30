@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.CoroutineScope
 import org.apache.commons.lang3.exception.ExceptionUtils
 import pl.gocards.R
-import pl.gocards.ui.kt.theme.AppTheme
+import pl.gocards.ui.theme.AppTheme
 
 
 fun showExceptionDialog(

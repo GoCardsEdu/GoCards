@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import pl.gocards.App
-import pl.gocards.ui.kt.theme.AppTheme
+import pl.gocards.ui.theme.AppTheme
 
 /**
  * @author Grzegorz Ziemski

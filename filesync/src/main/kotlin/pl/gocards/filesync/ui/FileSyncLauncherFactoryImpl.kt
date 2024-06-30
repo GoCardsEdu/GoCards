@@ -22,7 +22,7 @@ import pl.gocards.ui.filesync.FileSyncAction
 import pl.gocards.ui.filesync.FileSyncLauncherFactory
 import pl.gocards.ui.filesync.FileSyncLauncherInput
 import pl.gocards.ui.filesync.FileSyncViewModel
-import pl.gocards.ui.kt.theme.AppTheme
+import pl.gocards.ui.theme.AppTheme
 
 /**
  * @author Grzegorz Ziemski

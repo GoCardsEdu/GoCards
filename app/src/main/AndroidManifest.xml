@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App">
         <activity
-            android:name=".ui.main.kt.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,19 +20,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.cards.kt.slider.StudyCardSliderActivity"
+            android:name=".ui.cards.slider.StudyCardSliderActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".ui.cards.kt.slider.EditCardSliderActivity"
+            android:name=".ui.cards.slider.EditCardSliderActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".ui.cards.kt.slider.BrowseCardSliderActivity"
+            android:name=".ui.cards.slider.BrowseCardSliderActivity"
             android:exported="false">
         </activity>
         <activity
-            android:name=".ui.cards.kt.list.ListCardsActivity"
+            android:name=".ui.cards.list.ListCardsActivity"
             android:exported="false">
         </activity>
         <activity
