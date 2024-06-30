@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.elevation.SurfaceColors
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.xmlpull.v1.XmlPullParser
 import pl.gocards.App
 import pl.gocards.R
@@ -38,6 +39,10 @@ import pl.gocards.ui.decks.recent.ListRecentDecksAdapter
 import pl.gocards.ui.decks.recent.view.ListRecentDecksMenuData
 import pl.gocards.ui.decks.recent.view.ListRecentDecksPageData
 import pl.gocards.ui.decks.search.SearchFoldersDecksAdapter
+import pl.gocards.ui.discover.BillingClient
+import pl.gocards.ui.discover.Discover
+import pl.gocards.ui.discover.PremiumViewModel
+import pl.gocards.ui.discover.ReviewClient
 import pl.gocards.ui.filesync.FileSyncLauncherFactory
 import pl.gocards.ui.filesync.FileSyncLauncherInput
 import pl.gocards.ui.filesync.FileSyncViewModel
@@ -52,6 +57,7 @@ data class MainScreenInput(
     val recentDecks: RecentDecks,
     val allDecks: AllDecks,
     val deckBottomMenu: DeckBottomMenuInput,
+    val discover: Discover,
     val fileSync: FileSyncLauncherInput?,
     val pagerState: PagerState
 )
@@ -90,6 +96,8 @@ class MainScreenInputFactory {
             { activity.handleOnBackPressed() },
 
             activity.allAdapter!!.isShownMoreDeckMenu,
+            activity.premiumViewModel,
+            activity.billingClient,
             activity.fileSyncViewModel,
 
             activity,
@@ -105,6 +113,8 @@ class MainScreenInputFactory {
         onBack: () -> Unit,
 
         isShownMoreDeckMenu: MutableState<Path?>,
+        premiumViewModel: PremiumViewModel,
+        billingClient: BillingClient,
         fileSyncViewModel: FileSyncViewModel?,
 
         activity: Activity,
@@ -130,6 +140,8 @@ class MainScreenInputFactory {
 
         val exportImportDbUtil = ExportImportDbKtxUtil(scope, activity)
             .getInstance { loadItems() }
+
+        val reviewClient = ReviewClient(context)
 
         return MainScreenInput(
             isDarkTheme = application.darkMode ?: isSystemInDarkTheme(),
@@ -161,6 +173,21 @@ class MainScreenInputFactory {
                 else null,
                 onExportDb = { exportImportDbUtil.launchExportDb(it.toString()) },
                 onDeckSettings = { startDeckSettingsActivity(it.toString()) },
+            ),
+            discover = Discover(
+                isPremium = premiumViewModel.isPremium,
+                setPremium = { premiumViewModel.isPremium.value = true },
+                onClickDiscord = {
+                    openDiscord()
+                },
+                onClickBuyPremium = {
+                    scope.launch {
+                        billingClient.launch(activity)
+                    }
+                },
+                onClickReview = {
+                    reviewClient.launch(activity)
+                }
             ),
             fileSync = fileSyncInput
         )

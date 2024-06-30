@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import pl.gocards.room.dao.BaseKtxDao
 import pl.gocards.room.entity.app.AppConfig
+import java.time.ZonedDateTime
 
 /**
  * Naming convention:
@@ -25,6 +26,12 @@ abstract class AppConfigKtxDao : BaseKtxDao<AppConfig> {
 
     @Query("SELECT value FROM AppConfig WHERE `key`=:key")
     abstract suspend fun getFloatByKey(key: String): Float?
+
+    @Query("SELECT value FROM AppConfig WHERE `key`=:key")
+    suspend fun getZonedDateTimeByKey(key: String): ZonedDateTime? {
+        val v = getStringByKey(key) ?: return null
+        return ZonedDateTime.parse(v)
+    }
 
     @Query("DELETE FROM AppConfig WHERE `key`=:key")
     abstract suspend fun deleteByKey(key: String)

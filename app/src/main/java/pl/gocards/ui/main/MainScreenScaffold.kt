@@ -10,6 +10,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Dashboard
+import androidx.compose.material.icons.filled.Newspaper
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -29,6 +30,9 @@ import pl.gocards.ui.decks.decks.view.DeckBottomMenuInput
 import pl.gocards.ui.decks.recent.view.ListRecentDecksPage
 import pl.gocards.ui.decks.recent.view.ListRecentDecksPageData
 import pl.gocards.ui.decks.recent.view.ListRecentDecksTopBar
+import pl.gocards.ui.discover.Discover
+import pl.gocards.ui.discover.DiscoverPage
+import pl.gocards.ui.discover.EmptyDecksTopBar
 
 /**
  * @author Grzegorz Ziemski
@@ -67,6 +71,12 @@ fun MainScreenScaffold(
 
                     )
                 }
+                else -> {
+                    EmptyDecksTopBar(
+                        isDarkTheme = input.isDarkTheme,
+                        onBack = input.allDecks.onBack,
+                    )
+                }
             }
         },
         content = { innerPadding ->
@@ -75,7 +85,8 @@ fun MainScreenScaffold(
                 innerPadding,
                 input.recentDecks.page,
                 input.allDecks,
-                input.deckBottomMenu
+                input.deckBottomMenu,
+                input.discover
             )
         },
         bottomBar = {
@@ -91,10 +102,12 @@ fun ListDecksPager(
     innerPadding: PaddingValues,
     recentDecks: ListRecentDecksPageData,
     allDecks: AllDecks,
-    deckBottomMenu: DeckBottomMenuInput
+    deckBottomMenu: DeckBottomMenuInput,
+    discover: Discover
 ) {
     val userScrollEnabled = (pagerState.currentPage == 0 && recentDecks.isEmptyFolder)
             || (pagerState.currentPage == 1 && allDecks.page.isEmptyFolder)
+            || (pagerState.currentPage == 2)
 
     HorizontalPager(
         state = pagerState,
@@ -111,6 +124,9 @@ fun ListDecksPager(
             }
             1 -> {
                 ListAllDecksPage(innerPadding, allDecks.page)
+            }
+            2 -> {
+                DiscoverPage(innerPadding, discover)
             }
         }
         DeckBottomMenu(deckBottomMenu)
@@ -149,6 +165,21 @@ private fun BottomNavigation(pagerState: PagerState) {
             onClick = {
                 scope.launch {
                     pagerState.animateScrollToPage(1)
+                }
+            }
+        )
+        NavigationBarItem(
+            icon = {
+                Icon(
+                    Icons.Filled.Newspaper,
+                    contentDescription = stringResource(R.string.bottom_nav_menu_discover)
+                )
+            },
+            label = { Text(stringResource(R.string.bottom_nav_menu_discover)) },
+            selected = pagerState.currentPage == 2,
+            onClick = {
+                scope.launch {
+                    pagerState.animateScrollToPage(2)
                 }
             }
         )

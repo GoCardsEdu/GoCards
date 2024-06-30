@@ -25,5 +25,6 @@ data class AppConfig(
         const val LEFT_EDGE_BAR_DEFAULT = EDGE_BAR_SHOW_LEARNING_STATUS
         const val RIGHT_EDGE_BAR = "RightEdgeBar"
         const val RIGHT_EDGE_BAR_DEFAULT = EDGE_BAR_SHOW_RECENTLY_SYNCED
+        const val PREMIUM = "Premium"
     }
 }
