@@ -24,8 +24,8 @@ import pl.gocards.ui.decks.recent.RecentDecksAdapterFactory
 import pl.gocards.ui.decks.search.SearchFoldersDecksAdapter
 import pl.gocards.ui.decks.search.SearchFoldersDecksViewModel
 import pl.gocards.ui.decks.search.SearchFoldersDecksViewModelFactory
-import pl.gocards.ui.discover.BillingClient
-import pl.gocards.ui.discover.PremiumViewModel
+import pl.gocards.ui.discover.premium.BillingClient
+import pl.gocards.ui.discover.premium.PremiumViewModel
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.theme.AppTheme
 import pl.gocards.ui.theme.ExtendedTheme
@@ -98,6 +98,7 @@ class MainActivity : AppCompatActivity() {
             AppTheme {
                 recentAdapter = RecentDecksAdapterFactory().create(
                     isShownMoreDeckMenu,
+                    premiumViewModel.isPremium().value,
                     { loadDecks() },
                     ExtendedTheme.colors,
                     this,
@@ -109,6 +110,7 @@ class MainActivity : AppCompatActivity() {
                     listFoldersViewModel,
                     searchFoldersDecksViewModel,
                     isShownMoreDeckMenu,
+                    premiumViewModel.isPremium().value,
                     { loadDecks() },
                     ExtendedTheme.colors,
                     this,

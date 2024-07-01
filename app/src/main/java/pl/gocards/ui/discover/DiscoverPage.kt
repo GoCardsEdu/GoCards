@@ -13,20 +13,30 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import pl.gocards.R
 
 data class Discover(
     val isPremium: State<Boolean>,
+    val isPremiumSwitch: State<Boolean>,
     val setPremium: () -> Unit,
     val onClickDiscord: () -> Unit,
     val onClickBuyPremium: () -> Unit,
+    val onDisableSubscription: () -> Unit,
+    val onOpenSubscriptions: () -> Unit,
     val onClickReview: () -> Unit
 )
 
@@ -38,23 +48,70 @@ fun DiscoverPage(
     innerPadding: PaddingValues,
     discover: Discover
 ) {
-    Column(Modifier.padding(innerPadding).fillMaxSize()) {
+    Column(
+        Modifier
+            .padding(innerPadding)
+            .fillMaxSize()
+    ) {
         DiscordCard(discover.onClickDiscord)
-        PremiumCard(discover.isPremium.value, discover.onClickBuyPremium, discover.setPremium)
+        PremiumCard(
+            discover.isPremium.value,
+            discover.isPremiumSwitch.value,
+            discover.onClickBuyPremium,
+            discover.onDisableSubscription,
+            discover.onOpenSubscriptions,
+            discover.setPremium
+        )
         ReviewCard(discover.onClickReview)
     }
 }
 
 @Composable
-fun PremiumCard(
-    isPremium: Boolean,
-    onClickBuyPremium: () -> Unit,
-    setPremium: () -> Unit
+private fun DiscordCard(
+    onClick: () -> Unit
 ) {
-    NewsCard(
+    DiscoverCard(
         title = {
             Column(modifier = Modifier.align(Alignment.CenterVertically)) {
-                Text("PREMIUM")
+                Text(
+                    modifier = Modifier.padding(0.dp, 10.dp),
+                    text = stringResource(R.string.discover_community_title),
+                )
+            }
+        },
+        body = {
+            Text(
+                modifier = Modifier.padding(15.dp, 10.dp),
+                text = stringResource(R.string.discover_community_description)
+            )
+            Row(modifier = Modifier.padding(15.dp, 10.dp)) {
+                Icon(
+                    ImageVector.vectorResource(id = R.drawable.discord),
+                    stringResource(R.string.discord)
+                )
+                Text(
+                    modifier = Modifier.padding(5.dp, 0.dp, 0.dp, 0.dp),
+                    text = stringResource(R.string.discover_community_open_discord)
+                )
+            }
+        },
+        onClickBody = onClick
+    )
+}
+
+@Composable
+private fun PremiumCard(
+    isPremium: Boolean,
+    isPremiumSwitch: Boolean,
+    onClickBuyPremium: () -> Unit,
+    onDisableSubscription: () -> Unit,
+    onOpenSubscriptions: () -> Unit,
+    setPremium: () -> Unit
+) {
+    DiscoverCard(
+        title = {
+            Column(modifier = Modifier.align(Alignment.CenterVertically)) {
+                Text(stringResource(R.string.discover_premium_title))
             }
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -62,10 +119,12 @@ fun PremiumCard(
             ) {
                 Switch(
                     modifier = Modifier.align(Alignment.End),
-                    checked = isPremium,
+                    checked = isPremiumSwitch,
                     onCheckedChange = {
-                        setPremium()
-                        if (it) {
+                        if (isPremium) {
+                            onDisableSubscription()
+                        } else {
+                            setPremium()
                             onClickBuyPremium()
                         }
                     }
@@ -75,19 +134,31 @@ fun PremiumCard(
         body = {
             Text(
                 modifier = Modifier.padding(15.dp),
-                text = """To help GoCars reach new heights, consider supporting us by subscription. Your sponsorship will enable us to develop even more exciting features.
-                        | 
-                        |Premium version, adding a new feature:
-                        |- Browse cards""".trimMargin()
+                text = if (isPremium) {
+                    stringResource(R.string.discover_premium_cancel_subscription) +
+                            "\n\n" +
+                            stringResource(R.string.discover_premium_features)
+                } else {
+                    stringResource(R.string.discover_premium_catchphrase) +
+                            "\n\n" +
+                            stringResource(R.string.discover_premium_features)
+                }
             )
+        },
+        onClickBody = {
+            if (isPremium) {
+                onOpenSubscriptions()
+            } else {
+                onClickBuyPremium()
+            }
         }
     )
 }
 
 @Composable
-fun ReviewCard(onClick: () -> Unit) {
+private fun ReviewCard(onClick: () -> Unit) {
     var checked by remember { mutableStateOf(false) }
-    NewsCard(
+    DiscoverCard(
         title = {
             Column(modifier = Modifier.align(Alignment.CenterVertically)) {
                 Text("PREMIUM for leaving a positive review")
@@ -116,34 +187,7 @@ fun ReviewCard(onClick: () -> Unit) {
 }
 
 @Composable
-fun DiscordCard(
-    onClick: () -> Unit
-) {
-    DiscoverCard(
-        title = {
-            Column(modifier = Modifier.align(Alignment.CenterVertically)) {
-                Text(
-                    modifier = Modifier.padding(0.dp, 10.dp),
-                    text = stringResource(R.string.discover_community_title),
-                )
-            }
-        },
-        body = {
-            Text(
-                modifier = Modifier.padding(15.dp, 10.dp),
-                text = stringResource(R.string.discover_community_description)
-            )
-            Row(modifier = Modifier.padding(15.dp, 10.dp)) {
-                Icon(ImageVector.vectorResource(id = R.drawable.discord), stringResource(R.string.discord))
-                Text(modifier = Modifier.padding(5.dp, 0.dp, 0.dp, 0.dp), text = stringResource(R.string.discover_community_open_discord))
-            }
-        },
-        onClickBody = onClick
-    )
-}
-
-@Composable
-fun DiscoverCard(
+private fun DiscoverCard(
     title: @Composable RowScope.() -> Unit,
     body: @Composable ColumnScope.() -> Unit,
     onClickBody: () -> Unit = {}
@@ -158,9 +202,11 @@ fun DiscoverCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 3.dp),
         shape = RoundedCornerShape(5),
     ) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(15.dp, 0.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(15.dp, 0.dp)
+        ) {
             title()
         }
         Card(

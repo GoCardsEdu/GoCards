@@ -1,6 +1,7 @@
-package pl.gocards.ui.discover
+package pl.gocards.ui.discover.premium
 
 import android.app.Application
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +18,8 @@ class PremiumViewModel(
     application: Application
 ): AndroidViewModel(application) {
 
-    val isPremium = mutableStateOf(false)
+    val isPremiumSwitch = mutableStateOf(false)
+    private val isPremium = mutableStateOf(false)
     init {
         viewModelScope.launch {
             reset()
@@ -25,6 +27,7 @@ class PremiumViewModel(
     }
 
     suspend fun reset() {
+        isPremiumSwitch.value = getIsPremium()
         isPremium.value = getIsPremium()
     }
 
@@ -55,9 +58,15 @@ class PremiumViewModel(
             ZonedDateTime.now().plusDays(7).toString(),
             null
         )
+        reset()
     }
 
-    private suspend fun disablePremium() {
+    suspend fun disablePremium() {
         appDb.appConfigKtxDao().deleteByKey(AppConfig.PREMIUM)
+        reset()
+    }
+
+    fun isPremium(): MutableState<Boolean> {
+        return isPremium
     }
 }

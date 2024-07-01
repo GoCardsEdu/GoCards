@@ -30,14 +30,14 @@ data class SearchBarInput(
 fun ListAllDecksTopBar(
     onBack: () -> Unit,
     folderName: String?,
-    search: SearchBarInput,
+    search: SearchBarInput?,
     menu: ListAllDecksMenuData,
     isDarkTheme: Boolean
 ) {
     AppBar(
         isDarkTheme = isDarkTheme,
         title = {
-            if (search.isSearchActive.value) {
+            if (search != null && search.isSearchActive.value) {
                 SearchTextField(search.searchQuery, search.onSearchChange)
             } else {
                 Text(
@@ -48,7 +48,7 @@ fun ListAllDecksTopBar(
             }
         },
         onBack = {
-            if (search.isSearchActive.value) {
+            if (search != null && search.isSearchActive.value) {
                 search.onSearchEnd()
             } else {
                 onBack()

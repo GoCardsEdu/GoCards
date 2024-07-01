@@ -18,8 +18,7 @@ class DeckViewHolder(
     binding: ItemDeckBinding,
     val activity: Activity,
     val adapter: ListDecksAdapter
-) : RecyclerView.ViewHolder(binding.root), View.OnClickListener
-{
+) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
     var noCardsToRepeat = true
 
     init {
@@ -37,9 +36,12 @@ class DeckViewHolder(
 
     @Composable
     private fun CreatePopupMenu(onDismiss: () -> Unit) {
+
         DeckPopupMenu(
             onDismiss = onDismiss,
-            onClickBrowseCards = { adapter.newBrowseCardsActivity(bindingAdapterPosition) },
+            onClickBrowseCards = if (adapter.isPremium) {
+                { adapter.newBrowseCardsActivity(bindingAdapterPosition) }
+            } else null,
             onClickListCards = { adapter.newListCardsActivity(bindingAdapterPosition) },
             onClickNewCard = { adapter.newNewCardActivity(bindingAdapterPosition) },
             onClickCutDeck = { adapter.cutDeck(bindingAdapterPosition) },

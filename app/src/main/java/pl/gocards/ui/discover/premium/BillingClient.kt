@@ -1,4 +1,4 @@
-package pl.gocards.ui.discover
+package pl.gocards.ui.discover.premium
 
 import android.app.Activity
 import android.content.Context

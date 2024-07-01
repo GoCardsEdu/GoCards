@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import pl.gocards.App
+import pl.gocards.db.app.AppDbUtil
 import pl.gocards.ui.cards.list.edge_bar.filesync.FileSyncEdgeBarListCardsAdapter
 import pl.gocards.ui.cards.list.edge_bar.filesync.FileSyncEdgeBarViewModel
 import pl.gocards.ui.cards.list.edge_bar.learning_progress.LearningProgressViewModel
@@ -23,6 +24,7 @@ import pl.gocards.ui.cards.list.search.SearchListCardsViewModelFactory
 import pl.gocards.ui.cards.list.select.SelectCardsViewModel
 import pl.gocards.ui.cards.list.select.SelectCardsViewModelFactory
 import pl.gocards.ui.cards.slider.EditCardSliderActivity
+import pl.gocards.ui.discover.premium.PremiumViewModel
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.filesync_pro.AutoSyncViewModel
 import pl.gocards.ui.theme.AppTheme
@@ -56,6 +58,9 @@ class ListCardsActivity : AppCompatActivity() {
 
     private var autoSyncCardsModel: AutoSyncViewModel? = null
 
+    lateinit var premiumViewModel: PremiumViewModel
+        private set
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,6 +87,11 @@ class ListCardsActivity : AppCompatActivity() {
         autoSyncCardsModel?.autoSync {
             adapter?.loadCards()
         }
+
+        premiumViewModel = PremiumViewModel(
+            appDb = AppDbUtil.getInstance(application).getDatabase(application),
+            application = application
+        )
 
         setContent {
             AppTheme(isDarkTheme = application.darkMode) {

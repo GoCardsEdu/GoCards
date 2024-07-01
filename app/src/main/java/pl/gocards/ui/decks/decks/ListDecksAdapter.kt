@@ -43,6 +43,7 @@ open class ListDecksAdapter(
     val cutPasteDeckViewModel: CutPasteDeckViewModel?,
     val deckDialogs: DeckDialogs,
     val isShownMoreDeckMenu: MutableState<Path?>,
+    val isPremium: Boolean,
     val colors: ExtendedColors,
     val activity: Activity,
     val scope: CoroutineScope,
