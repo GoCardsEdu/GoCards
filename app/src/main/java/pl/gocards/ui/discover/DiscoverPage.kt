@@ -13,14 +13,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,9 +22,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import pl.gocards.R
 
-/**
- * @author Grzegorz Ziemski
- */
 data class Discover(
     val isPremium: State<Boolean>,
     val setPremium: () -> Unit,
@@ -128,23 +119,23 @@ fun ReviewCard(onClick: () -> Unit) {
 fun DiscordCard(
     onClick: () -> Unit
 ) {
-    NewsCard(
+    DiscoverCard(
         title = {
             Column(modifier = Modifier.align(Alignment.CenterVertically)) {
                 Text(
                     modifier = Modifier.padding(0.dp, 10.dp),
-                    text = "Community"
+                    text = stringResource(R.string.discover_community_title),
                 )
             }
         },
         body = {
             Text(
                 modifier = Modifier.padding(15.dp, 10.dp),
-                text = "Join our community to suggest new features, report problems or find your dream deck!".trimMargin()
+                text = stringResource(R.string.discover_community_description)
             )
             Row(modifier = Modifier.padding(15.dp, 10.dp)) {
-                Icon(ImageVector.vectorResource(id = R.drawable.discord), "Discord")
-                Text(modifier = Modifier.padding(5.dp, 0.dp, 0.dp, 0.dp), text = "Open Discord")
+                Icon(ImageVector.vectorResource(id = R.drawable.discord), stringResource(R.string.discord))
+                Text(modifier = Modifier.padding(5.dp, 0.dp, 0.dp, 0.dp), text = stringResource(R.string.discover_community_open_discord))
             }
         },
         onClickBody = onClick
@@ -152,7 +143,7 @@ fun DiscordCard(
 }
 
 @Composable
-fun NewsCard(
+fun DiscoverCard(
     title: @Composable RowScope.() -> Unit,
     body: @Composable ColumnScope.() -> Unit,
     onClickBody: () -> Unit = {}

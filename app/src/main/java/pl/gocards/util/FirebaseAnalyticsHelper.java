@@ -46,6 +46,12 @@ public class FirebaseAnalyticsHelper {
     public static final String CLICK_HARD = "click_hard";
 
     @NonNull
+    public static final String MENU_OPEN_DISCORD = "menu_open_discord";
+
+    @NonNull
+    public static final String DISCOVER_OPEN_DISCORD = "discover_open_discord";
+
+    @NonNull
     private final FirebaseAnalytics firebaseAnalytics;
 
     @Nullable
@@ -100,8 +106,15 @@ public class FirebaseAnalyticsHelper {
         firebaseAnalytics.logEvent(CLICK_EASY, new Bundle());
     }
 
-
     public void hard() {
         firebaseAnalytics.logEvent(CLICK_HARD, new Bundle());
+    }
+
+    public void menuOpenDiscord() {
+        firebaseAnalytics.logEvent(MENU_OPEN_DISCORD, new Bundle());
+    }
+
+    public void discoverOpenDiscord() {
+        firebaseAnalytics.logEvent(DISCOVER_OPEN_DISCORD, new Bundle());
     }
 }

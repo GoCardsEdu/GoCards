@@ -10,7 +10,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -81,11 +80,15 @@ class ListCardsScaffoldInputFactory {
         val fileSyncInput = fileSyncViewModel?.let {
             FileSyncLauncherFactory
                 .getInstance()
-                ?.getInstance(it, activity, activity.lifecycleScope)
+                ?.getInstance(it, activity, activity)
         }
 
         val onClickSync = FileSyncProLauncherFactory.getInstance()
             ?.getInstance(activity, owner)
+
+        val onClickExportCsv = if (fileSyncInput != null) {
+            { fileSyncInput.onClickExportCsv(deckDbPath) }
+        } else null
 
         return ListCardsScaffoldInput(
             isDarkTheme = application.darkMode ?: isSystemInDarkTheme(),
@@ -117,9 +120,7 @@ class ListCardsScaffoldInputFactory {
                     onClickExportExcel = if (fileSyncInput != null) {
                         { fileSyncInput.onClickExportExcel(deckDbPath) }
                     } else null,
-                    onClickExportCsv = if (fileSyncInput != null) {
-                        { fileSyncInput.onClickExportCsv(deckDbPath) }
-                    } else null,
+                    onClickExportCsv = onClickExportCsv,
                     onClickSettings = { activity.startDeckSettingsActivity() },
                 ),
             ),

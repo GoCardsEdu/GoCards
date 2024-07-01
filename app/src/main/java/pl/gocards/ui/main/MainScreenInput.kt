@@ -21,8 +21,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.elevation.SurfaceColors
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import org.xmlpull.v1.XmlPullParser
 import pl.gocards.App
 import pl.gocards.R
@@ -39,27 +37,25 @@ import pl.gocards.ui.decks.recent.ListRecentDecksAdapter
 import pl.gocards.ui.decks.recent.view.ListRecentDecksMenuData
 import pl.gocards.ui.decks.recent.view.ListRecentDecksPageData
 import pl.gocards.ui.decks.search.SearchFoldersDecksAdapter
-import pl.gocards.ui.discover.BillingClient
 import pl.gocards.ui.discover.Discover
-import pl.gocards.ui.discover.PremiumViewModel
-import pl.gocards.ui.discover.ReviewClient
 import pl.gocards.ui.filesync.FileSyncLauncherFactory
 import pl.gocards.ui.filesync.FileSyncLauncherInput
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.filesync_pro.FileSyncProLauncherFactory
 import pl.gocards.ui.settings.SettingsActivity
+import pl.gocards.util.FirebaseAnalyticsHelper
 import java.nio.file.Path
 
 @Immutable
 @OptIn(ExperimentalFoundationApi::class)
 data class MainScreenInput(
     val isDarkTheme: Boolean,
+    val pagerState: PagerState,
     val recentDecks: RecentDecks,
     val allDecks: AllDecks,
     val deckBottomMenu: DeckBottomMenuInput,
-    val discover: Discover,
     val fileSync: FileSyncLauncherInput?,
-    val pagerState: PagerState
+    val discover: Discover
 )
 
 data class RecentDecks(
@@ -96,8 +92,6 @@ class MainScreenInputFactory {
             { activity.handleOnBackPressed() },
 
             activity.allAdapter!!.isShownMoreDeckMenu,
-            activity.premiumViewModel,
-            activity.billingClient,
             activity.fileSyncViewModel,
 
             activity,
@@ -113,25 +107,23 @@ class MainScreenInputFactory {
         onBack: () -> Unit,
 
         isShownMoreDeckMenu: MutableState<Path?>,
-        premiumViewModel: PremiumViewModel,
-        billingClient: BillingClient,
         fileSyncViewModel: FileSyncViewModel?,
 
         activity: Activity,
-        owner: LifecycleOwner,
-        scope: CoroutineScope = owner.lifecycleScope
+        owner: LifecycleOwner
     ): MainScreenInput {
         this.activity = activity
         this.recentAdapter = recentAdapter
         this.allAdapter = allAdapter
 
         val application = activity.applicationContext as App
+        val scope = owner.lifecycleScope
         val context = activity
 
         val fileSyncInput = fileSyncViewModel?.let {
             FileSyncLauncherFactory
                 .getInstance()
-                ?.getInstance(it, activity, scope)
+                ?.getInstance(it, activity, owner)
         }
 
         val onClickSync = FileSyncProLauncherFactory
@@ -141,7 +133,11 @@ class MainScreenInputFactory {
         val exportImportDbUtil = ExportImportDbKtxUtil(scope, activity)
             .getInstance { loadItems() }
 
-        val reviewClient = ReviewClient(context)
+        val onExportCsv: ((deckDbPath: Path) -> Unit)? = if (fileSyncInput != null)
+            { deckDbPath -> fileSyncInput.onClickExportCsv(deckDbPath.toString()) }
+        else null
+
+        val analytics = FirebaseAnalyticsHelper.getInstance(application)
 
         return MainScreenInput(
             isDarkTheme = application.darkMode ?: isSystemInDarkTheme(),
@@ -151,6 +147,7 @@ class MainScreenInputFactory {
                 onBack,
                 fileSyncInput,
                 exportImportDbUtil,
+                analytics,
                 application
             ),
             allDecks = getAllDecks(
@@ -158,6 +155,7 @@ class MainScreenInputFactory {
                 onBack,
                 fileSyncInput,
                 exportImportDbUtil,
+                analytics,
                 context
             ),
             deckBottomMenu = DeckBottomMenuInput(
@@ -168,28 +166,17 @@ class MainScreenInputFactory {
                 onClickExportExcel = if (fileSyncInput != null)
                     { deckDbPath -> fileSyncInput.onClickExportExcel(deckDbPath.toString()) }
                 else null,
-                onExportCsv = if (fileSyncInput != null)
-                    { deckDbPath -> fileSyncInput.onClickExportCsv(deckDbPath.toString()) }
-                else null,
+                onExportCsv = onExportCsv,
                 onExportDb = { exportImportDbUtil.launchExportDb(it.toString()) },
                 onDeckSettings = { startDeckSettingsActivity(it.toString()) },
             ),
+            fileSync = fileSyncInput,
             discover = Discover(
-                isPremium = premiumViewModel.isPremium,
-                setPremium = { premiumViewModel.isPremium.value = true },
                 onClickDiscord = {
+                    analytics.discoverOpenDiscord()
                     openDiscord()
-                },
-                onClickBuyPremium = {
-                    scope.launch {
-                        billingClient.launch(activity)
-                    }
-                },
-                onClickReview = {
-                    reviewClient.launch(activity)
                 }
-            ),
-            fileSync = fileSyncInput
+            )
         )
     }
 
@@ -198,9 +185,14 @@ class MainScreenInputFactory {
         onBack: () -> Unit,
         fileSyncInput: FileSyncLauncherInput?,
         exportImportDbUtil: ExportImportDb,
+        analytics: FirebaseAnalyticsHelper,
         application: Application
     ): RecentDecks {
         val folder = adapter.getCurrentFolder()
+
+        val onClickImport = if (fileSyncInput != null) {
+            { fileSyncInput.onClickImport(folder.toString()) { loadItems() } }
+        } else null
 
         return RecentDecks(
             onBack = onBack,
@@ -211,13 +203,14 @@ class MainScreenInputFactory {
                 onClickImportExcel = if (fileSyncInput != null) {
                     { fileSyncInput.onClickImport(folder.toString()) { loadItems() } }
                 } else null,
-                onClickImportCsv = if (fileSyncInput != null) {
-                    { fileSyncInput.onClickImport(folder.toString()) { loadItems() } }
-                } else null,
+                onClickImportCsv = onClickImport,
                 onClickImportDb = {
                     exportImportDbUtil.launchImportDb(folder.toString())
                 },
-                onClickOpenDiscord = { openDiscord() },
+                onClickOpenDiscord = {
+                    analytics.menuOpenDiscord()
+                    openDiscord()
+                },
                 onClickOpenSettings = { startAppSettingsActivity() }
             ),
             page = ListRecentDecksPageData(
@@ -230,9 +223,7 @@ class MainScreenInputFactory {
                     onClickCreateSampleDeck = {
                         CreateSampleDeck(application).create(folder) { loadItems() }
                     },
-                    onClickImport = if (fileSyncInput != null) {
-                        { onClickImport(adapter, fileSyncInput) }
-                    } else null
+                    onClickImport = onClickImport
                 )
             )
         )
@@ -244,10 +235,14 @@ class MainScreenInputFactory {
         onBack: () -> Unit,
         fileSyncInput: FileSyncLauncherInput?,
         exportImportDbUtil: ExportImportDb,
+        analytics: FirebaseAnalyticsHelper,
         context: Context
     ): AllDecks {
         val application = context.applicationContext as App
 
+        val onClickImport = if (fileSyncInput != null) {
+            { onClickImport(adapter, fileSyncInput) }
+        } else null
 
         return AllDecks(
             onBack = onBack,
@@ -273,14 +268,15 @@ class MainScreenInputFactory {
                 onClickImportExcel = if (fileSyncInput != null) {
                     { onClickImport(adapter, fileSyncInput) }
                 } else null,
-                onClickImportCsv = if (fileSyncInput != null) {
-                    { onClickImport(adapter, fileSyncInput) }
-                } else null,
+                onClickImportCsv = onClickImport,
                 onClickImportDb = {
                     val folder = adapter.getCurrentFolder().toString()
                     exportImportDbUtil.launchImportDb(folder)
                 },
-                onClickOpenDiscord = { openDiscord() },
+                onClickOpenDiscord = {
+                    analytics.menuOpenDiscord()
+                    openDiscord()
+                },
                 onClickOpenSettings = { startAppSettingsActivity() }
             ),
             page = ListAllDecksPageData(
@@ -301,9 +297,7 @@ class MainScreenInputFactory {
                         val folder = adapter.getCurrentFolder()
                         CreateSampleDeck(application).create(folder) { loadItems() }
                     },
-                    onClickImport = if (fileSyncInput != null) {
-                        { onClickImport(adapter, fileSyncInput) }
-                    } else null
+                    onClickImport = onClickImport
                 ),
                 showDeckPasteBar = adapter.cutPasteDeckViewModel?.showDeckPasteBar?.value ?: false,
                 showFolderPasteBar = adapter.cutPasteFolderViewModel?.showFolderPasteBar?.value

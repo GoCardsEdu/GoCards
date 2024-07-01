@@ -7,7 +7,6 @@ import androidx.compose.material.icons.rounded.ContentCut
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.MoreHoriz
-import androidx.compose.material.icons.rounded.ViewCarousel
 import androidx.compose.runtime.Composable
 import pl.gocards.R
 import pl.gocards.ui.common.popup.menu.IconPopupMenuItem

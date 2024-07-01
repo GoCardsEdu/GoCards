@@ -8,6 +8,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 import pl.gocards.App
 import pl.gocards.db.deck.AppDeckDbUtil
@@ -48,11 +49,12 @@ open class FileSyncLauncherFactoryImpl: FileSyncLauncherFactory {
     override fun getInstance(
         fileSyncViewModel: FileSyncViewModel,
         activity: Activity,
-        scope: CoroutineScope
+        owner: LifecycleOwner
     ): FileSyncLauncherInput {
         this.viewModel = fileSyncViewModel
         this.activity = activity
-        this.scope = scope
+        this.owner = owner
+        this.scope = owner.lifecycleScope
         this.context = activity
         this.application = activity.application as App
 
