@@ -136,7 +136,7 @@ fun DiscordMenuItem(
 ) {
     SliderDropdownMenuItem(
         icon = ImageVector.vectorResource(id = R.drawable.discord),
-        text = R.string.decks_list_menu_discord,
+        text = R.string.discord,
         showDropDown = showDropDown,
         onClick = onClick
     )

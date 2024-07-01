@@ -21,9 +21,11 @@
     <string name="off" tools:ignore="PrivateResource">Off</string>
     <string name="on" tools:ignore="PrivateResource">On</string>
     <string name="more">More</string>
+    <string name="discord">Discord</string>
 
     <string name="bottom_nav_menu_bottom_recent">Recent</string>
     <string name="bottom_nav_menu_all_decks">All decks</string>
+    <string name="bottom_nav_menu_discover">Discover</string>
 
 
     <string name="no_decks_recently_used">No decks recently used.</string>
@@ -48,7 +50,6 @@
     <string name="decks_list_menu_import_excel">Import Excel</string>
     <string name="decks_list_menu_import_csv">Import CSV</string>
     <string name="decks_list_menu_import_db">Import DB</string>
-    <string name="decks_list_menu_discord">Discord</string>
     <string name="decks_list_menu_app_settings">Settings</string>
     <string name="decks_list_paste_folder_here">Paste the folder here</string>
     <string name="decks_list_paste_folder_toast_merged">\"%s\" has been merged with another folder.</string>
@@ -172,6 +173,11 @@
 
     <string name="app_settings_title" tools:keep="@string/app_settings_title">Settings</string>
     <string name="app_settings_dark_mode">Dark Mode</string>
+
+    <string name="discover_community_title">Community</string>
+    <string name="discover_community_description">Join our community to suggest new features, report problems or find your dream deck!</string>
+    <string name="discover_community_open_discord">Open Discord</string>
+
 
     <string name="exception_dialog_hide">Hide Exception</string>
     <string name="exception_dialog_show">Show Exception</string>

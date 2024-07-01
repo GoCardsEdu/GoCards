@@ -37,22 +37,25 @@ import pl.gocards.ui.decks.recent.ListRecentDecksAdapter
 import pl.gocards.ui.decks.recent.view.ListRecentDecksMenuData
 import pl.gocards.ui.decks.recent.view.ListRecentDecksPageData
 import pl.gocards.ui.decks.search.SearchFoldersDecksAdapter
+import pl.gocards.ui.discover.Discover
 import pl.gocards.ui.filesync.FileSyncLauncherFactory
 import pl.gocards.ui.filesync.FileSyncLauncherInput
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.filesync_pro.FileSyncProLauncherFactory
 import pl.gocards.ui.settings.SettingsActivity
+import pl.gocards.util.FirebaseAnalyticsHelper
 import java.nio.file.Path
 
 @Immutable
 @OptIn(ExperimentalFoundationApi::class)
 data class MainScreenInput(
     val isDarkTheme: Boolean,
+    val pagerState: PagerState,
     val recentDecks: RecentDecks,
     val allDecks: AllDecks,
     val deckBottomMenu: DeckBottomMenuInput,
     val fileSync: FileSyncLauncherInput?,
-    val pagerState: PagerState
+    val discover: Discover
 )
 
 data class RecentDecks(
@@ -134,6 +137,8 @@ class MainScreenInputFactory {
             { deckDbPath -> fileSyncInput.onClickExportCsv(deckDbPath.toString()) }
         else null
 
+        val analytics = FirebaseAnalyticsHelper.getInstance(application)
+
         return MainScreenInput(
             isDarkTheme = application.darkMode ?: isSystemInDarkTheme(),
             pagerState = rememberPagerState(pageCount = { 3 }),
@@ -142,6 +147,7 @@ class MainScreenInputFactory {
                 onBack,
                 fileSyncInput,
                 exportImportDbUtil,
+                analytics,
                 application
             ),
             allDecks = getAllDecks(
@@ -149,6 +155,7 @@ class MainScreenInputFactory {
                 onBack,
                 fileSyncInput,
                 exportImportDbUtil,
+                analytics,
                 context
             ),
             deckBottomMenu = DeckBottomMenuInput(
@@ -163,7 +170,13 @@ class MainScreenInputFactory {
                 onExportDb = { exportImportDbUtil.launchExportDb(it.toString()) },
                 onDeckSettings = { startDeckSettingsActivity(it.toString()) },
             ),
-            fileSync = fileSyncInput
+            fileSync = fileSyncInput,
+            discover = Discover(
+                onClickDiscord = {
+                    analytics.discoverOpenDiscord()
+                    openDiscord()
+                }
+            )
         )
     }
 
@@ -172,6 +185,7 @@ class MainScreenInputFactory {
         onBack: () -> Unit,
         fileSyncInput: FileSyncLauncherInput?,
         exportImportDbUtil: ExportImportDb,
+        analytics: FirebaseAnalyticsHelper,
         application: Application
     ): RecentDecks {
         val folder = adapter.getCurrentFolder()
@@ -193,7 +207,10 @@ class MainScreenInputFactory {
                 onClickImportDb = {
                     exportImportDbUtil.launchImportDb(folder.toString())
                 },
-                onClickOpenDiscord = { openDiscord() },
+                onClickOpenDiscord = {
+                    analytics.menuOpenDiscord()
+                    openDiscord()
+                },
                 onClickOpenSettings = { startAppSettingsActivity() }
             ),
             page = ListRecentDecksPageData(
@@ -218,6 +235,7 @@ class MainScreenInputFactory {
         onBack: () -> Unit,
         fileSyncInput: FileSyncLauncherInput?,
         exportImportDbUtil: ExportImportDb,
+        analytics: FirebaseAnalyticsHelper,
         context: Context
     ): AllDecks {
         val application = context.applicationContext as App
@@ -255,7 +273,10 @@ class MainScreenInputFactory {
                     val folder = adapter.getCurrentFolder().toString()
                     exportImportDbUtil.launchImportDb(folder)
                 },
-                onClickOpenDiscord = { openDiscord() },
+                onClickOpenDiscord = {
+                    analytics.menuOpenDiscord()
+                    openDiscord()
+                },
                 onClickOpenSettings = { startAppSettingsActivity() }
             ),
             page = ListAllDecksPageData(
