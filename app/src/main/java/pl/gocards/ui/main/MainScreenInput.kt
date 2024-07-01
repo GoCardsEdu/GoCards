@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.elevation.SurfaceColors
-import kotlinx.coroutines.CoroutineScope
 import org.xmlpull.v1.XmlPullParser
 import pl.gocards.App
 import pl.gocards.R
@@ -131,6 +130,10 @@ class MainScreenInputFactory {
         val exportImportDbUtil = ExportImportDbKtxUtil(scope, activity)
             .getInstance { loadItems() }
 
+        val onExportCsv: ((deckDbPath: Path) -> Unit)? = if (fileSyncInput != null)
+            { deckDbPath -> fileSyncInput.onClickExportCsv(deckDbPath.toString()) }
+        else null
+
         return MainScreenInput(
             isDarkTheme = application.darkMode ?: isSystemInDarkTheme(),
             pagerState = rememberPagerState(pageCount = { 3 }),
@@ -156,9 +159,7 @@ class MainScreenInputFactory {
                 onClickExportExcel = if (fileSyncInput != null)
                     { deckDbPath -> fileSyncInput.onClickExportExcel(deckDbPath.toString()) }
                 else null,
-                onExportCsv = if (fileSyncInput != null)
-                    { deckDbPath -> fileSyncInput.onClickExportCsv(deckDbPath.toString()) }
-                else null,
+                onExportCsv = onExportCsv,
                 onExportDb = { exportImportDbUtil.launchExportDb(it.toString()) },
                 onDeckSettings = { startDeckSettingsActivity(it.toString()) },
             ),
@@ -175,6 +176,10 @@ class MainScreenInputFactory {
     ): RecentDecks {
         val folder = adapter.getCurrentFolder()
 
+        val onClickImport = if (fileSyncInput != null) {
+            { fileSyncInput.onClickImport(folder.toString()) { loadItems() } }
+        } else null
+
         return RecentDecks(
             onBack = onBack,
             menu = ListRecentDecksMenuData(
@@ -184,9 +189,7 @@ class MainScreenInputFactory {
                 onClickImportExcel = if (fileSyncInput != null) {
                     { fileSyncInput.onClickImport(folder.toString()) { loadItems() } }
                 } else null,
-                onClickImportCsv = if (fileSyncInput != null) {
-                    { fileSyncInput.onClickImport(folder.toString()) { loadItems() } }
-                } else null,
+                onClickImportCsv = onClickImport,
                 onClickImportDb = {
                     exportImportDbUtil.launchImportDb(folder.toString())
                 },
@@ -203,9 +206,7 @@ class MainScreenInputFactory {
                     onClickCreateSampleDeck = {
                         CreateSampleDeck(application).create(folder) { loadItems() }
                     },
-                    onClickImport = if (fileSyncInput != null) {
-                        { onClickImport(adapter, fileSyncInput) }
-                    } else null
+                    onClickImport = onClickImport
                 )
             )
         )
@@ -221,6 +222,9 @@ class MainScreenInputFactory {
     ): AllDecks {
         val application = context.applicationContext as App
 
+        val onClickImport = if (fileSyncInput != null) {
+            { onClickImport(adapter, fileSyncInput) }
+        } else null
 
         return AllDecks(
             onBack = onBack,
@@ -246,9 +250,7 @@ class MainScreenInputFactory {
                 onClickImportExcel = if (fileSyncInput != null) {
                     { onClickImport(adapter, fileSyncInput) }
                 } else null,
-                onClickImportCsv = if (fileSyncInput != null) {
-                    { onClickImport(adapter, fileSyncInput) }
-                } else null,
+                onClickImportCsv = onClickImport,
                 onClickImportDb = {
                     val folder = adapter.getCurrentFolder().toString()
                     exportImportDbUtil.launchImportDb(folder)
@@ -274,9 +276,7 @@ class MainScreenInputFactory {
                         val folder = adapter.getCurrentFolder()
                         CreateSampleDeck(application).create(folder) { loadItems() }
                     },
-                    onClickImport = if (fileSyncInput != null) {
-                        { onClickImport(adapter, fileSyncInput) }
-                    } else null
+                    onClickImport = onClickImport
                 ),
                 showDeckPasteBar = adapter.cutPasteDeckViewModel?.showDeckPasteBar?.value ?: false,
                 showFolderPasteBar = adapter.cutPasteFolderViewModel?.showFolderPasteBar?.value
