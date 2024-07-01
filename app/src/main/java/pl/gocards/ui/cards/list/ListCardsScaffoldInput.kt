@@ -81,7 +81,7 @@ class ListCardsScaffoldInputFactory {
         val fileSyncInput = fileSyncViewModel?.let {
             FileSyncLauncherFactory
                 .getInstance()
-                ?.getInstance(it, activity, activity.lifecycleScope)
+                ?.getInstance(it, activity, activity)
         }
 
         val onClickSync = FileSyncProLauncherFactory.getInstance()

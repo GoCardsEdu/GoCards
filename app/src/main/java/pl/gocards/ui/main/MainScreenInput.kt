@@ -108,20 +108,20 @@ class MainScreenInputFactory {
         fileSyncViewModel: FileSyncViewModel?,
 
         activity: Activity,
-        owner: LifecycleOwner,
-        scope: CoroutineScope = owner.lifecycleScope
+        owner: LifecycleOwner
     ): MainScreenInput {
         this.activity = activity
         this.recentAdapter = recentAdapter
         this.allAdapter = allAdapter
 
         val application = activity.applicationContext as App
+        val scope = owner.lifecycleScope
         val context = activity
 
         val fileSyncInput = fileSyncViewModel?.let {
             FileSyncLauncherFactory
                 .getInstance()
-                ?.getInstance(it, activity, scope)
+                ?.getInstance(it, activity, owner)
         }
 
         val onClickSync = FileSyncProLauncherFactory

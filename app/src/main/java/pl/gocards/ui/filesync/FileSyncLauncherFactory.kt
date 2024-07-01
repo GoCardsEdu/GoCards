@@ -2,7 +2,7 @@ package pl.gocards.ui.filesync
 
 import android.app.Activity
 import androidx.compose.runtime.Composable
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.LifecycleOwner
 import java.lang.reflect.InvocationTargetException
 
 enum class FileSyncAction {
@@ -33,7 +33,7 @@ interface FileSyncLauncherFactory {
     fun getInstance(
         fileSyncViewModel: FileSyncViewModel,
         activity: Activity,
-        scope: CoroutineScope
+        owner: LifecycleOwner
     ): FileSyncLauncherInput
 
     companion object {
