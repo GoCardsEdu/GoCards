@@ -19,6 +19,7 @@ import pl.gocards.R
 import pl.gocards.databinding.ItemDeckBinding
 import pl.gocards.db.storage.DatabaseException
 import pl.gocards.ui.cards.list.ListCardsActivity
+import pl.gocards.ui.cards.slider.BrowseCardSliderActivity
 import pl.gocards.ui.cards.slider.EditCardSliderActivity
 import pl.gocards.ui.cards.slider.StudyCardSliderActivity
 import pl.gocards.ui.common.addViewToRoot
@@ -156,6 +157,16 @@ open class ListDecksAdapter(
         )
         activity.startActivity(intent)
     }
+
+    fun newBrowseCardsActivity(itemPosition: Int) {
+        val intent = Intent(activity, BrowseCardSliderActivity::class.java)
+        intent.putExtra(
+            BrowseCardSliderActivity.DECK_DB_PATH,
+            getDeckItemPath(itemPosition).toString()
+        )
+        activity.startActivity(intent)
+    }
+
 
     fun newListCardsActivity(itemPosition: Int) {
         val intent = Intent(activity, ListCardsActivity::class.java)

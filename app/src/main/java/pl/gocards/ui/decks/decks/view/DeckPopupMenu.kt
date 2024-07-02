@@ -7,6 +7,7 @@ import androidx.compose.material.icons.rounded.ContentCut
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.MoreHoriz
+import androidx.compose.material.icons.rounded.ViewCarousel
 import androidx.compose.runtime.Composable
 import pl.gocards.R
 import pl.gocards.ui.common.popup.menu.IconPopupMenuItem
@@ -14,6 +15,7 @@ import pl.gocards.ui.common.popup.menu.IconPopupMenuItem
 @Composable
 fun DeckPopupMenu(
     onDismiss: () -> Unit = {},
+    onClickBrowseCards: () -> Unit,
     onClickListCards: () -> Unit,
     onClickNewCard: () -> Unit,
     onClickCutDeck: () -> Unit,
@@ -21,6 +23,12 @@ fun DeckPopupMenu(
     onClickDeleteDeck: () -> Unit,
     onClickShowMenuBottom: () -> Unit,
 ) {
+    IconPopupMenuItem(
+        icon = Icons.Rounded.ViewCarousel,
+        text = R.string.decks_list_popup_deck_browse_cards,
+        onClick = onClickBrowseCards,
+        onDismiss = onDismiss
+    )
     IconPopupMenuItem(
         icon = Icons.AutoMirrored.Rounded.List,
         text = R.string.decks_list_popup_deck_list_cards,

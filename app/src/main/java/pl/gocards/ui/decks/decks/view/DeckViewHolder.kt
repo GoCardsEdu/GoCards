@@ -39,6 +39,7 @@ class DeckViewHolder(
     private fun CreatePopupMenu(onDismiss: () -> Unit) {
         DeckPopupMenu(
             onDismiss = onDismiss,
+            onClickBrowseCards = { adapter.newBrowseCardsActivity(bindingAdapterPosition) },
             onClickListCards = { adapter.newListCardsActivity(bindingAdapterPosition) },
             onClickNewCard = { adapter.newNewCardActivity(bindingAdapterPosition) },
             onClickCutDeck = { adapter.cutDeck(bindingAdapterPosition) },
