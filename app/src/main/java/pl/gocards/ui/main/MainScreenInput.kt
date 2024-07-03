@@ -2,6 +2,7 @@ package pl.gocards.ui.main
 
 import android.app.Activity
 import android.app.Application
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.GradientDrawable
@@ -15,6 +16,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.MutableState
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -47,6 +49,7 @@ import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.filesync_pro.FileSyncProLauncherFactory
 import pl.gocards.ui.settings.SettingsActivity
 import pl.gocards.util.Config
+import pl.gocards.util.ExceptionHandler
 import pl.gocards.util.FirebaseAnalyticsHelper
 import java.nio.file.Path
 
@@ -83,6 +86,7 @@ class MainScreenInputFactory {
 
     private lateinit var activity: Activity
     private lateinit var context: Context
+    private lateinit var scope: LifecycleCoroutineScope
     private lateinit var recentAdapter: ListRecentDecksAdapter
     private lateinit var allAdapter: SearchFoldersDecksAdapter
 
@@ -127,7 +131,7 @@ class MainScreenInputFactory {
         this.allAdapter = allAdapter
 
         val application = activity.applicationContext as App
-        val scope = owner.lifecycleScope
+        scope = owner.lifecycleScope
         val context = activity
 
         val fileSyncInput = fileSyncViewModel?.let {
@@ -377,19 +381,28 @@ class MainScreenInputFactory {
     }
 
     private fun openDiscord() {
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse("https://discord.gg/jYyRnD27JP")
-        )
-        activity.startActivity(intent)
+        openUrl("https://discord.gg/jYyRnD27JP")
     }
 
     private fun openSubscriptions() {
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse("https://play.google.com/store/account/subscriptions")
-        )
-        activity.startActivity(intent)
+        openUrl("https://play.google.com/store/account/subscriptions")
+    }
+
+    private fun openUrl(link: String) {
+        try {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(link)
+            )
+            activity.startActivity(intent)
+        } catch (ex: ActivityNotFoundException) {
+            showBrowserNotFoundExceptionDialog(
+                activity,
+                scope,
+                link
+            )
+            ExceptionHandler.getInstance().saveException(context, ex)
+        }
     }
 
     private fun startAppSettingsActivity() {

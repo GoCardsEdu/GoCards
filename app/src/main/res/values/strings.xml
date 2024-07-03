@@ -188,6 +188,9 @@
     </string>
     <string name="discover_premium_trial_promo_code">Ask for a trial promo code on Discord.</string>
 
+    <string name="exception_no_browser_title">Web Browser Not Found</string>
+    <string name="exception_no_browser_description">The link could not be opened. Please use the following link:</string>
+
 
     <string name="exception_dialog_hide">Hide Exception</string>
     <string name="exception_dialog_show">Show Exception</string>
