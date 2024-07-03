@@ -2,22 +2,25 @@ package pl.gocards.ui.discover.premium
 
 import android.app.Activity
 import android.content.Context
+import com.android.billingclient.api.AcknowledgePurchaseParams
+import com.android.billingclient.api.AcknowledgePurchaseResponseListener
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
-import com.android.billingclient.api.ConsumeParams
 import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
+import com.android.billingclient.api.Purchase.PurchaseState.PURCHASED
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
-import com.android.billingclient.api.consumePurchase
 import com.android.billingclient.api.queryProductDetails
 import com.android.billingclient.api.queryPurchasesAsync
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * https://developer.android.com/google/play/billing/integrate
@@ -47,7 +50,9 @@ class BillingClient(
 
     private fun getBillingClient(): BillingClient {
         val billingClient = BillingClient.newBuilder(context)
-            .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
+            .enablePendingPurchases(
+                PendingPurchasesParams.newBuilder().enableOneTimeProducts().build()
+            )
             .setListener(purchasesUpdatedListener)
             .build()
 
@@ -59,6 +64,7 @@ class BillingClient(
                     }
                 }
             }
+
             override fun onBillingServiceDisconnected() {
                 // Try to restart the connection on the next request to
                 // Google Play by calling the startConnection() method.
@@ -69,18 +75,32 @@ class BillingClient(
         return billingClient
     }
 
-    private suspend fun handlePurchase(purchase: Purchase) {
-        val consumeParams =
-            ConsumeParams.newBuilder()
-                .setPurchaseToken(purchase.purchaseToken)
-                .build()
+    private val acknowledgePurchaseResponseListener = AcknowledgePurchaseResponseListener {
 
+    }
+
+    private suspend fun handlePurchase(purchase: Purchase) {
         if (purchase.products[0] == PRODUCT_ID) {
             premiumViewModel.enablePremium()
             premiumViewModel.reset()
+            acknowledgePurchase(purchase)
         }
+    }
 
-        client.consumePurchase(consumeParams)
+    private suspend fun acknowledgePurchase(purchase: Purchase) {
+        if (purchase.purchaseState == PURCHASED) {
+            if (!purchase.isAcknowledged) {
+                val acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+                    .setPurchaseToken(purchase.purchaseToken)
+
+                withContext(Dispatchers.IO) {
+                    client.acknowledgePurchase(
+                        acknowledgePurchaseParams.build(),
+                        acknowledgePurchaseResponseListener
+                    )
+                }
+            }
+        }
     }
 
     suspend fun launch(activity: Activity) {
