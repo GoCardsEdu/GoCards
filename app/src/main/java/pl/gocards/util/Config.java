@@ -84,7 +84,7 @@ public class Config {
             Properties props = new Properties();
             props.load(is);
             return Boolean.parseBoolean(
-                    props.getProperty("premium.mock.enabled", "true")
+                    props.getProperty("premium.mock.enabled", "false")
             );
         } catch (Exception e) {
             e.printStackTrace();
