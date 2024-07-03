@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import pl.gocards.db.room.DeckDatabase
 import pl.gocards.room.entity.deck.CardLearningHistory
 import pl.gocards.ui.cards.slider.page.add.model.NewCardsModel
@@ -61,8 +62,10 @@ open class UndoLearningProgressViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             revertPreviousLearningProgressDb(backToCard.id)
             if (wasAgain) {
-                sliderCardsModel.slideToPreviousPage()
-                showDefinition(backToCard.id)
+                withContext(Dispatchers.Main) {
+                    sliderCardsModel.slideToPreviousPage()
+                    showDefinition(backToCard.id)
+                }
             } else {
                 val deletePage = if (currentPage == 0) {
                     val isFirst = currentCard.ordinal!! > backToCard.ordinal!!
