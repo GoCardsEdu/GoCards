@@ -1,4 +1,4 @@
-package pl.gocards.ui.home
+package pl.gocards.ui.home.view
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -23,6 +23,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
 import pl.gocards.R
+import pl.gocards.ui.decks.all.view.AllDecksInput
 import pl.gocards.ui.decks.all.view.ListAllDecksPage
 import pl.gocards.ui.decks.all.view.ListAllDecksTopBar
 import pl.gocards.ui.decks.decks.view.DeckBottomMenu
@@ -30,7 +31,7 @@ import pl.gocards.ui.decks.decks.view.DeckBottomMenuInput
 import pl.gocards.ui.decks.recent.view.ListRecentDecksPage
 import pl.gocards.ui.decks.recent.view.ListRecentDecksPageData
 import pl.gocards.ui.decks.recent.view.ListRecentDecksTopBar
-import pl.gocards.ui.discover.Discover
+import pl.gocards.ui.discover.DiscoverInput
 import pl.gocards.ui.discover.DiscoverPage
 import pl.gocards.ui.discover.EmptyDecksTopBar
 
@@ -39,8 +40,8 @@ import pl.gocards.ui.discover.EmptyDecksTopBar
  */
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun HomeScaffold(
-    input: HomeScreenInput,
+fun HomeView(
+    input: HomeInput,
     setCurrentPage: (Int) -> Unit
 ) {
 
@@ -97,13 +98,13 @@ fun HomeScaffold(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun ListDecksPager(
+private fun ListDecksPager(
     pagerState: PagerState,
     innerPadding: PaddingValues,
     recentDecks: ListRecentDecksPageData,
-    allDecks: AllDecks,
+    allDecks: AllDecksInput,
     deckBottomMenu: DeckBottomMenuInput,
-    discover: Discover
+    discover: DiscoverInput
 ) {
     val userScrollEnabled = (pagerState.settledPage == 0 && recentDecks.isEmptyFolder)
             || (pagerState.settledPage == 1 && allDecks.page.isEmptyFolder)

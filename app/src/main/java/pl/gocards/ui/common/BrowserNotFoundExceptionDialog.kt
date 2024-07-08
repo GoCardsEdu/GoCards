@@ -1,4 +1,4 @@
-package pl.gocards.ui.home
+package pl.gocards.ui.common
 
 import android.app.Activity
 import androidx.compose.foundation.layout.Column
@@ -13,7 +13,6 @@ import com.linkifytext.LinkifyText
 import kotlinx.coroutines.CoroutineScope
 import pl.gocards.R
 import pl.gocards.room.util.HtmlUtil
-import pl.gocards.ui.common.addViewToRoot
 import pl.gocards.ui.theme.AppTheme
 
 

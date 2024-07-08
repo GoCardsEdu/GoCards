@@ -1,13 +1,19 @@
 package pl.gocards.ui.discover.premium
 
 import android.app.Application
+import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import pl.gocards.App
+import pl.gocards.db.app.AppDbUtil
+import pl.gocards.db.deck.AppDeckDbUtil
 import pl.gocards.db.room.AppDatabase
+import pl.gocards.db.room.DeckDatabase
 import pl.gocards.room.entity.app.AppConfig
+import pl.gocards.ui.cards.list.edge_bar.learning_progress.LearningProgressViewModel
 import java.time.ZonedDateTime
 
 /**
@@ -68,5 +74,16 @@ class PremiumViewModel(
 
     fun isPremium(): MutableState<Boolean> {
         return isPremium
+    }
+
+    companion object {
+        fun create(application: Application, ): PremiumViewModel {
+            val appDb = AppDbUtil.getInstance(application).getDatabase(application)
+
+            return PremiumViewModel(
+                appDb = appDb,
+                application = application
+            )
+        }
     }
 }
