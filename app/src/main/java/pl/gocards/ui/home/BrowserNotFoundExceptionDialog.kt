@@ -1,4 +1,4 @@
-package pl.gocards.ui.main
+package pl.gocards.ui.home
 
 import android.app.Activity
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package pl.gocards.ui.main
+package pl.gocards.ui.home
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -39,8 +39,8 @@ import pl.gocards.ui.discover.EmptyDecksTopBar
  */
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun MainScreenScaffold(
-    input: MainScreenInput,
+fun HomeScaffold(
+    input: HomeScreenInput,
     setCurrentPage: (Int) -> Unit
 ) {
 

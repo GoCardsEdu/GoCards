@@ -1,4 +1,4 @@
-package pl.gocards.ui.main
+package pl.gocards.ui.home
 
 import android.app.Activity
 import android.app.Application
@@ -55,7 +55,7 @@ import java.nio.file.Path
 
 @Immutable
 @OptIn(ExperimentalFoundationApi::class)
-data class MainScreenInput(
+data class HomeScreenInput(
     val isDarkTheme: Boolean,
     val pagerState: PagerState,
     val recentDecks: RecentDecks,
@@ -82,7 +82,7 @@ data class AllDecks(
 /**
  * @author Grzegorz Ziemski
  */
-class MainScreenInputFactory {
+class HomeInputFactory {
 
     private lateinit var activity: Activity
     private lateinit var context: Context
@@ -92,8 +92,8 @@ class MainScreenInputFactory {
 
     @Composable
     fun create(
-        activity: MainActivity
-    ): MainScreenInput {
+        activity: HomeActivity
+    ): HomeScreenInput {
         return create(
             activity.recentAdapter!!,
             activity.allAdapter!!,
@@ -124,7 +124,7 @@ class MainScreenInputFactory {
 
         activity: Activity,
         owner: LifecycleOwner
-    ): MainScreenInput {
+    ): HomeScreenInput {
         this.activity = activity
         this.context = activity
         this.recentAdapter = recentAdapter
@@ -153,7 +153,7 @@ class MainScreenInputFactory {
 
         val analytics = FirebaseAnalyticsHelper.getInstance(application)
 
-        return MainScreenInput(
+        return HomeScreenInput(
             isDarkTheme = application.darkMode ?: isSystemInDarkTheme(),
             pagerState = rememberPagerState(pageCount = { 3 }),
             recentDecks = getRecentDecks(

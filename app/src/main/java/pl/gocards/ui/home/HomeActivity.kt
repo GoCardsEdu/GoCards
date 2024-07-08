@@ -1,4 +1,4 @@
-package pl.gocards.ui.main
+package pl.gocards.ui.home
 
 import android.os.Bundle
 import androidx.activity.addCallback
@@ -38,7 +38,7 @@ import java.nio.file.Path
  * @author Grzegorz Ziemski
  */
 @Immutable
-class MainActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity() {
 
     private var currentPage = 0
 
@@ -136,14 +136,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         this.onBackPressedDispatcher.addCallback(this) {
-            this@MainActivity.handleOnBackPressed()
+            this@HomeActivity.handleOnBackPressed()
         }
     }
 
     @Composable
     private fun CreateView() {
-        MainScreenScaffold(
-            MainScreenInputFactory().create(this),
+        HomeScaffold(
+            HomeInputFactory().create(this),
             setCurrentPage = { currentPage = it },
         )
     }
