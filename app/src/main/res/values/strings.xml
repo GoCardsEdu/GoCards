@@ -179,12 +179,12 @@
 
     <string name="discover_premium_title">PREMIUM</string>
     <string name="discover_premium_cancel_subscription">You can cancel a subscription in the Google Play Store by tapping Menu, then Subscriptions.</string>
-    <string name="discover_premium_catchphrase">To help GoCars reach new heights, consider supporting us with subscription. Your sponsorship will enable us to develop even more exciting features.</string>
+    <string name="discover_premium_catchphrase">To help GoCars reach new heights, consider supporting us with subscription. Your sponsorship will enable us to develop new exciting features!</string>
     <string name="discover_premium_features">
-    The premium version adds new features:\n
-    - Card Browsing\n
+    The premium version adds:\n
+    - Browse cards\n
     - Searching\n
-    - Creating Folders
+    - Creating folders
     </string>
     <string name="discover_premium_trial_promo_code">Ask for a trial promo code on Discord.</string>
 
