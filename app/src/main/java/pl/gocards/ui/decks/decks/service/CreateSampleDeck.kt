@@ -10,6 +10,7 @@ import pl.gocards.db.deck.AppDeckDbUtil
 import pl.gocards.db.room.DeckDatabase
 import pl.gocards.db.storage.DatabaseException
 import pl.gocards.room.entity.deck.Card
+import pl.gocards.room.entity.deck.Card.Companion.setHtmlFlags
 import pl.gocards.room.util.TimeUtil
 import pl.gocards.util.FirebaseAnalyticsHelper
 import java.nio.file.Path
@@ -24,6 +25,14 @@ class CreateSampleDeck(private var application: Application) : AndroidViewModel(
         private const val DECK_NAME = "Sample Deck"
 
         private val SAMPLE_DECK = listOf(
+            arrayOf(
+                "Embed YouTube in portrait mode",
+                "ytp:https://www.youtube.com/embed/rthjtSAq13A"
+            ),
+            arrayOf(
+                "Embed YouTube in landscape mode",
+                "yt:https://www.youtube.com/embed/rthjtSAq13A"
+            ),
             arrayOf(
                 "What has 13 hearts, but no other organs?",
                 "A deck of cards."
@@ -168,6 +177,7 @@ class CreateSampleDeck(private var application: Application) : AndroidViewModel(
                 Card.setDefinition(card, sampleCard[1])
                 card.createdAt = updatedAt
                 card.updatedAt = updatedAt
+                setHtmlFlags(card)
                 cards += card
             }
 
