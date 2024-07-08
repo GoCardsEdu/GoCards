@@ -105,9 +105,9 @@ fun ListDecksPager(
     deckBottomMenu: DeckBottomMenuInput,
     discover: Discover
 ) {
-    val userScrollEnabled = (pagerState.currentPage == 0 && recentDecks.isEmptyFolder)
-            || (pagerState.currentPage == 1 && allDecks.page.isEmptyFolder)
-            || (pagerState.currentPage == 2)
+    val userScrollEnabled = (pagerState.settledPage == 0 && recentDecks.isEmptyFolder)
+            || (pagerState.settledPage == 1 && allDecks.page.isEmptyFolder)
+            || (pagerState.settledPage == 2)
 
     HorizontalPager(
         state = pagerState,
