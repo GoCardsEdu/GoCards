@@ -18,7 +18,7 @@ fun DeckPopupMenu(
     onClickBrowseCards: (() -> Unit)?,
     onClickListCards: () -> Unit,
     onClickNewCard: () -> Unit,
-    onClickCutDeck: () -> Unit,
+    onClickCutDeck: (() -> Unit)?,
     onClickRenameDeck: () -> Unit,
     onClickDeleteDeck: () -> Unit,
     onClickShowMenuBottom: () -> Unit,
@@ -43,12 +43,14 @@ fun DeckPopupMenu(
         onClick = onClickNewCard,
         onDismiss = onDismiss
     )
-    IconPopupMenuItem(
-        icon = Icons.Rounded.ContentCut,
-        text = R.string.cut,
-        onClick = onClickCutDeck,
-        onDismiss = onDismiss
-    )
+    if (onClickCutDeck != null) {
+        IconPopupMenuItem(
+            icon = Icons.Rounded.ContentCut,
+            text = R.string.cut,
+            onClick = onClickCutDeck,
+            onDismiss = onDismiss
+        )
+    }
     IconPopupMenuItem(
         icon = Icons.Rounded.Edit,
         text = R.string.rename,

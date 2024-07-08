@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import pl.gocards.App
-import pl.gocards.db.app.AppDbUtil
 import pl.gocards.db.deck.AppDeckDbUtil
 import pl.gocards.ui.decks.all.AllDecksAdapterFactory
 import pl.gocards.ui.decks.decks.model.ListDecksViewModel
@@ -27,6 +26,8 @@ import pl.gocards.ui.decks.search.SearchFoldersDecksViewModelFactory
 import pl.gocards.ui.discover.premium.BillingClient
 import pl.gocards.ui.discover.premium.PremiumViewModel
 import pl.gocards.ui.filesync.FileSyncViewModel
+import pl.gocards.ui.home.view.HomeInputFactory
+import pl.gocards.ui.home.view.HomeView
 import pl.gocards.ui.theme.AppTheme
 import pl.gocards.ui.theme.ExtendedTheme
 import java.io.IOException
@@ -61,7 +62,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        createDbRootFolder()
+        createDbRootFolderIfNotExists()
 
         /**
          * It needs to be an AppCompatActivity instead of a ComponentActivity,
@@ -72,67 +73,31 @@ class HomeActivity : AppCompatActivity() {
         val application = this.applicationContext as App
         val owner = this
 
-        premiumViewModel = PremiumViewModel(
-            appDb = AppDbUtil.getInstance(application).getDatabase(application),
-            application = application
-        )
 
-        billingClient = BillingClient(
-            premiumViewModel = premiumViewModel,
-            context = this,
-            scope = this.lifecycleScope
-        )
-
+        premiumViewModel = PremiumViewModel.create(application)
+        billingClient = createBillingClient(premiumViewModel)
         fileSyncViewModel = FileSyncViewModel.getInstance(owner, application)
-
-        val listDecksViewModelFactory = ListDecksViewModelFactory(application)
-        val listDecksViewModel = ViewModelProvider(this, listDecksViewModelFactory)[ListDecksViewModel::class.java]
-
+        val listDecksViewModel = createListDecksViewModel()
         val listFoldersViewModel = ListFoldersViewModel(application)
+        searchFoldersDecksViewModel = createSearchFoldersDecksViewModel()
 
-        searchFoldersDecksViewModel = ViewModelProvider(this, SearchFoldersDecksViewModelFactory(application))[SearchFoldersDecksViewModel::class.java]
 
         setContent {
             val isShownMoreDeckMenu: MutableState<Path?> = remember { mutableStateOf(null) }
-            val isPremium =  premiumViewModel.isPremium().value
+            val isPremium = premiumViewModel.isPremium().value
 
             AppTheme {
-                recentAdapter = RecentDecksAdapterFactory().create(
-                    isShownMoreDeckMenu,
-                    isPremium,
-                    { loadDecks() },
-                    ExtendedTheme.colors,
-                    this,
-                    this.lifecycleScope,
-                    application
-                )
-                allAdapter = AllDecksAdapterFactory().create(
+                recentAdapter = createRecentAdapter(isShownMoreDeckMenu, isPremium)
+                allAdapter = createAllDecksAdapter(
                     listDecksViewModel,
                     listFoldersViewModel,
-                    searchFoldersDecksViewModel,
                     isShownMoreDeckMenu,
-                    isPremium,
-                    { loadDecks() },
-                    ExtendedTheme.colors,
-                    this,
-                    this,
-                    application
+                    isPremium
                 )
                 CreateView()
             }
 
-            LaunchedEffect(isPremium) {
-                if (searchFoldersDecksViewModel.isSearchActive.value) {
-                    val query = searchFoldersDecksViewModel.getSearchQuery().value
-                    if (query != null) {
-                        allAdapter?.searchItems(query)
-                    } else {
-                        loadDecks()
-                    }
-                } else {
-                    loadDecks()
-                }
-            }
+            LaunchedEffect(isPremium) { initItems() }
         }
 
         this.onBackPressedDispatcher.addCallback(this) {
@@ -142,10 +107,28 @@ class HomeActivity : AppCompatActivity() {
 
     @Composable
     private fun CreateView() {
-        HomeScaffold(
+        HomeView(
             HomeInputFactory().create(this),
             setCurrentPage = { currentPage = it },
         )
+    }
+
+    private fun initItems() {
+        if (searchFoldersDecksViewModel.isSearchActive.value) {
+            val query = searchFoldersDecksViewModel.getSearchQuery().value
+            if (query != null) {
+                allAdapter?.searchItems(query)
+            } else {
+                loadItems()
+            }
+        } else {
+            loadItems()
+        }
+    }
+
+    private fun loadItems() {
+        recentAdapter!!.loadItems()
+        allAdapter!!.loadItems()
     }
 
     fun handleOnBackPressed() {
@@ -167,13 +150,7 @@ class HomeActivity : AppCompatActivity() {
         allAdapter?.loadItems()
     }
 
-    private fun loadDecks() {
-        recentAdapter!!.loadItems()
-        allAdapter!!.loadItems()
-    }
-
-
-    private fun createDbRootFolder() {
+    private fun createDbRootFolderIfNotExists() {
         try {
             Files.createDirectories(
                 AppDeckDbUtil.getInstance(applicationContext)
@@ -182,5 +159,66 @@ class HomeActivity : AppCompatActivity() {
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
+    }
+
+    @Composable
+    private fun createRecentAdapter(
+        isShownMoreDeckMenu: MutableState<Path?>,
+        isPremium: Boolean
+    ): ListRecentDecksAdapter {
+        return RecentDecksAdapterFactory().create(
+            isShownMoreDeckMenu,
+            isPremium,
+            { loadItems() },
+            ExtendedTheme.colors,
+            this,
+            this.lifecycleScope,
+            application as App
+        )
+    }
+
+    @Composable
+    private fun createAllDecksAdapter(
+        listDecksViewModel: ListDecksViewModel,
+        listFoldersViewModel: ListFoldersViewModel,
+        isShownMoreDeckMenu: MutableState<Path?>,
+        isPremium: Boolean
+    ): SearchFoldersDecksAdapter {
+        return AllDecksAdapterFactory().create(
+            listDecksViewModel,
+            listFoldersViewModel,
+            searchFoldersDecksViewModel,
+            isShownMoreDeckMenu,
+            isPremium,
+            { loadItems() },
+            ExtendedTheme.colors,
+            this,
+            this,
+            application as App
+        )
+    }
+
+    private fun createBillingClient(
+        premiumViewModel: PremiumViewModel
+    ): BillingClient {
+        return BillingClient(
+            premiumViewModel = premiumViewModel,
+            context = this,
+            scope = this.lifecycleScope
+        )
+    }
+
+    private fun createListDecksViewModel(): ListDecksViewModel {
+        return ViewModelProvider(
+            this,
+            ListDecksViewModelFactory(application)
+        )[ListDecksViewModel::class.java]
+    }
+
+    private fun createSearchFoldersDecksViewModel(): SearchFoldersDecksViewModel {
+        return ViewModelProvider(
+            this,
+            SearchFoldersDecksViewModelFactory(application)
+        )[SearchFoldersDecksViewModel::class.java]
     }
 }

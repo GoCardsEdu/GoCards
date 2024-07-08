@@ -9,6 +9,7 @@ import pl.gocards.R
 import pl.gocards.databinding.ItemDeckBinding
 import pl.gocards.ui.common.popup.menu.ShowPopupMenuAtPos
 import pl.gocards.ui.decks.decks.ListDecksAdapter
+import pl.gocards.ui.decks.recent.ListRecentDecksAdapter
 
 /**
  * D_R_02 Show all decks
@@ -36,7 +37,6 @@ class DeckViewHolder(
 
     @Composable
     private fun CreatePopupMenu(onDismiss: () -> Unit) {
-
         DeckPopupMenu(
             onDismiss = onDismiss,
             onClickBrowseCards = if (adapter.isPremium) {
@@ -44,7 +44,9 @@ class DeckViewHolder(
             } else null,
             onClickListCards = { adapter.newListCardsActivity(bindingAdapterPosition) },
             onClickNewCard = { adapter.newNewCardActivity(bindingAdapterPosition) },
-            onClickCutDeck = { adapter.cutDeck(bindingAdapterPosition) },
+            onClickCutDeck = if (adapter is ListRecentDecksAdapter) null else {
+                { adapter.cutDeck(bindingAdapterPosition) }
+            },
             onClickRenameDeck = { adapter.showRenameDeckDialog(bindingAdapterPosition) },
             onClickDeleteDeck = { adapter.showDeleteDeckDialog(bindingAdapterPosition) },
             onClickShowMenuBottom = { adapter.showMoreDeckMenu(bindingAdapterPosition) }

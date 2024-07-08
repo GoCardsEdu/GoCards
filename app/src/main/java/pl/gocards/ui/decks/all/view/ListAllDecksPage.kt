@@ -147,7 +147,7 @@ private fun PasteBar(
         if (showDeckPasteBar || showFolderPasteBar) {
             Row(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp))
+                    .background(MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp))
                     .padding(top = 2.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center

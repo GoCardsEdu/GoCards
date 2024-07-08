@@ -8,8 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import pl.gocards.R
-import pl.gocards.ui.decks.recent.view.ListRecentDecksMenu
-import pl.gocards.ui.decks.recent.view.ListRecentDecksMenuData
 import pl.gocards.ui.theme.AppBar
 
 /**

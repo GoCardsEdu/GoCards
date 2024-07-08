@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import pl.gocards.db.app.AppDbUtil
 import pl.gocards.db.room.AppDatabase
 import pl.gocards.room.entity.app.AppConfig
 import java.time.ZonedDateTime
@@ -68,5 +69,18 @@ class PremiumViewModel(
 
     fun isPremium(): MutableState<Boolean> {
         return isPremium
+    }
+
+    companion object {
+        fun create(application: Application): PremiumViewModel {
+            val appDb = AppDbUtil
+                .getInstance(application)
+                .getDatabase(application)
+
+            return PremiumViewModel(
+                appDb = appDb,
+                application = application
+            )
+        }
     }
 }
