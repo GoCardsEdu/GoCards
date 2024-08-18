@@ -64,9 +64,9 @@ class ListDecksViewModel(
                 for (path in paths) {
                     decks.add(mapListDeck(path))
                 }
-                isEmptyFolder.value = decks.size == 0
 
                 withContext(Dispatchers.Main) {
+                    isEmptyFolder.value = decks.size == 0
                     this@ListDecksViewModel.decks.clear()
                     this@ListDecksViewModel.decks.addAll(decks)
                     onSuccess()
@@ -180,6 +180,7 @@ class ListDecksViewModelFactory(
     private val application: Application
 ): ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(ListDecksViewModel::class.java)) {
             ListDecksViewModel(application) as T
