@@ -8,9 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.Collections
 
 /**
@@ -52,9 +50,7 @@ open class DynamicPagerModel<E>(
         val nextPage = page + 1
         newItems.add(nextPage, item)
         this.items.value = newItems
-        viewModelScope.launch {
-            trySlideToNextPage(page)
-        }
+        trySlideToNextPage(page)
     }
 
     /* -----------------------------------------------------------------------------------------
@@ -113,10 +109,8 @@ open class DynamicPagerModel<E>(
                         items.removeAt(deletedPage)
                         this.items.value = items
                         if (items.size == 0) {
-                            viewModelScope.launch {
-                                targetPage.value = null
-                                settledPage.value = null
-                            }
+                            targetPage.postValue(null)
+                            settledPage.postValue(null)
                         } else {
                             /**
                              * If the current page is after a deleted page,
@@ -126,7 +120,7 @@ open class DynamicPagerModel<E>(
                             val isCurrentPageOnRight = currentPage > deletedPage
                             val isDeletedPageNotLast = deletedPage < items.size
                             if (isCurrentPageOnRight && isDeletedPageNotLast) {
-                                changePage.value = currentPage - 1
+                                changePage.postValue(currentPage - 1)
                             }
                         }
                     }
@@ -159,10 +153,8 @@ open class DynamicPagerModel<E>(
         items.add(lastPosition, item)
         this.items.value = items
 
-        viewModelScope.launch {
-            targetPage.value = lastPosition
-            animateScrollToPage.value = lastPosition
-        }
+        targetPage.postValue(lastPosition)
+        animateScrollToPage.postValue(lastPosition)
     }
 
     private fun restorePageAtMiddle(deletedPage: Int, item: E) {
@@ -172,17 +164,15 @@ open class DynamicPagerModel<E>(
         this.items.value = items
         pendingAnimateScrollToPage = deletedPage
 
-        viewModelScope.launch {
-            targetPage.value = deletedPage + 1
-            changePage.value = deletedPage + 1
-        }
+        targetPage.postValue(deletedPage + 1)
+        changePage.postValue(deletedPage + 1)
     }
 
     private fun animateScrollToPendingPage() {
         val scrollToPage = pendingAnimateScrollToPage
         if (scrollToPage != null) {
             this.pendingAnimateScrollToPage = null
-            animateScrollToPage.value = scrollToPage
+            animateScrollToPage.postValue(scrollToPage)
         }
     }
 
@@ -192,7 +182,7 @@ open class DynamicPagerModel<E>(
 
     fun slideToNextPage(page: Int): Int {
         val nextPage = getNextPage(page)
-        animateScrollToPage.value = nextPage
+        animateScrollToPage.postValue(nextPage)
         return nextPage
     }
 
@@ -204,7 +194,7 @@ open class DynamicPagerModel<E>(
     @Suppress("MemberVisibilityCanBePrivate")
     fun slideToPreviousPage(page: Int) {
         val previousPage = getPreviousPage(page)
-        animateScrollToPage.value = previousPage
+        animateScrollToPage.postValue(previousPage)
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
@@ -220,13 +210,13 @@ open class DynamicPagerModel<E>(
 
     @Suppress("SameReturnValue")
     fun slideToFirstPage(): Int {
-        animateScrollToPage.value = 0
+        animateScrollToPage.postValue(0)
         return 0
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun trySlideToNextPage(page: Int) {
-        animateScrollToPage.value = page + 1
+        animateScrollToPage.postValue( page + 1)
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
@@ -257,38 +247,32 @@ open class DynamicPagerModel<E>(
     }
 
     fun setSettledPage(page: Int) {
-        viewModelScope.launch {
-            settledPage.value = page
-            targetPage.value = page
-        }
+        settledPage.postValue(page)
+        targetPage.postValue(page)
     }
 
     fun getAnimateScrollToPageLiveData(): LiveData<Int?> {
         return animateScrollToPage
     }
 
-    suspend fun setAnimateScrollToPage(page: Int) {
-        withContext(Dispatchers.Main) {
-            animateScrollToPage.value = page
-        }
+    fun setAnimateScrollToPage(page: Int) {
+        animateScrollToPage.postValue(page)
     }
 
     fun clearAnimateScrollToPage() {
-        animateScrollToPage.value = null
+        animateScrollToPage.postValue(null)
     }
 
     fun getChangePageLiveData(): LiveData<Int?> {
         return changePage
     }
 
-    suspend fun setChangePagerPage(page: Int) {
-        withContext(Dispatchers.Main) {
-            changePage.value = page
-        }
+    fun setChangePagerPage(page: Int) {
+        changePage.postValue(page)
     }
 
     fun clearChangePage() {
-        changePage.value = null
+        changePage.postValue(null)
     }
 
     /* -----------------------------------------------------------------------------------------
