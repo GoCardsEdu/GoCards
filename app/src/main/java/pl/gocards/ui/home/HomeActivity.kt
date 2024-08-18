@@ -23,13 +23,16 @@ import pl.gocards.ui.decks.recent.RecentDecksAdapterFactory
 import pl.gocards.ui.decks.search.SearchFoldersDecksAdapter
 import pl.gocards.ui.decks.search.SearchFoldersDecksViewModel
 import pl.gocards.ui.decks.search.SearchFoldersDecksViewModelFactory
+import pl.gocards.ui.discover.review.InAppReviewClient
 import pl.gocards.ui.discover.premium.BillingClient
 import pl.gocards.ui.discover.premium.PremiumViewModel
+import pl.gocards.ui.discover.review.ReviewViewModel
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.home.view.HomeInputFactory
 import pl.gocards.ui.home.view.HomeView
 import pl.gocards.ui.theme.AppTheme
 import pl.gocards.ui.theme.ExtendedTheme
+import pl.gocards.util.FirebaseAnalyticsHelper
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
@@ -53,6 +56,12 @@ class HomeActivity : AppCompatActivity() {
         private set
 
     lateinit var billingClient: BillingClient
+        private set
+
+    lateinit var reviewViewModel: ReviewViewModel
+        private set
+
+    lateinit var inAppReviewClient: InAppReviewClient
         private set
 
     var fileSyncViewModel: FileSyncViewModel? = null
@@ -80,6 +89,9 @@ class HomeActivity : AppCompatActivity() {
         val listDecksViewModel = createListDecksViewModel()
         val listFoldersViewModel = ListFoldersViewModel(application)
         searchFoldersDecksViewModel = createSearchFoldersDecksViewModel()
+        reviewViewModel = ReviewViewModel.create(application)
+        val analytics = FirebaseAnalyticsHelper.getInstance(application)
+        inAppReviewClient = InAppReviewClient(analytics,this, this.lifecycleScope, application)
 
 
         setContent {

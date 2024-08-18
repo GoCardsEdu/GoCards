@@ -81,6 +81,7 @@ class SearchListCardsViewModelFactory(
     private val application: Application
 ): ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(SearchListCardsViewModel::class.java)) {
             val deckDb = AppDeckDbUtil.getInstance(application).getDatabase(application, deckDbPath)

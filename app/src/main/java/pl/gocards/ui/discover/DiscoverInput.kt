@@ -2,12 +2,15 @@ package pl.gocards.ui.discover
 
 import android.app.Activity
 import android.content.Context
-import androidx.compose.runtime.State
 import androidx.lifecycle.LifecycleCoroutineScope
 import kotlinx.coroutines.launch
 import pl.gocards.ui.common.OpenUrl
 import pl.gocards.ui.discover.premium.BillingClient
+import pl.gocards.ui.discover.premium.PremiumInput
 import pl.gocards.ui.discover.premium.PremiumViewModel
+import pl.gocards.ui.discover.review.InAppReviewClient
+import pl.gocards.ui.discover.review.ReviewInput
+import pl.gocards.ui.discover.review.ReviewViewModel
 import pl.gocards.util.Config
 import pl.gocards.util.FirebaseAnalyticsHelper
 
@@ -15,13 +18,9 @@ import pl.gocards.util.FirebaseAnalyticsHelper
  * @author Grzegorz Ziemski
  */
 data class DiscoverInput(
-    val isPremium: State<Boolean>,
-    val isPremiumSwitch: State<Boolean>,
-    val setPremium: () -> Unit,
+    val premium: PremiumInput,
+    val review: ReviewInput,
     val onClickDiscord: () -> Unit,
-    val onClickBuyPremium: () -> Unit,
-    val onDisableSubscription: () -> Unit,
-    val onOpenSubscriptions: () -> Unit
 )
 
 class DiscoverInputFactory {
@@ -34,6 +33,8 @@ class DiscoverInputFactory {
     fun create(
         premiumViewModel: PremiumViewModel,
         billingClient: BillingClient,
+        reviewViewModel: ReviewViewModel,
+        inAppReviewClient: InAppReviewClient,
         analytics: FirebaseAnalyticsHelper,
         activity: Activity,
         scope: LifecycleCoroutineScope
@@ -44,31 +45,37 @@ class DiscoverInputFactory {
         this.scope = scope
 
         return DiscoverInput(
-            isPremium = premiumViewModel.isPremium(),
-            isPremiumSwitch = premiumViewModel.isPremiumSwitch,
-            setPremium = { premiumViewModel.isPremiumSwitch.value = true },
             onClickDiscord = { openDiscord() },
-            onClickBuyPremium = {
-                scope.launch {
-                    if (isPremiumMockEnabled()) {
-                        premiumViewModel.enablePremium()
-                    } else {
-                        billingClient.launch(activity)
-                    }
-                }
-            },
-            onDisableSubscription = {
-                if (isPremiumMockEnabled()) {
+            premium = PremiumInput(
+                isPremium = premiumViewModel.isPremium(),
+                isPremiumSwitch = premiumViewModel.isPremiumSwitch,
+                setPremium = { premiumViewModel.isPremiumSwitch.value = true },
+                onClickBuyPremium = {
                     scope.launch {
-                        premiumViewModel.disablePremium()
+                        if (isPremiumMockEnabled()) {
+                            premiumViewModel.enablePremium()
+                        } else {
+                            billingClient.launch(activity)
+                        }
                     }
-                } else {
+                },
+                onDisableSubscription = {
+                    if (isPremiumMockEnabled()) {
+                        scope.launch {
+                            premiumViewModel.disablePremium()
+                        }
+                    } else {
+                        openSubscriptions()
+                    }
+                },
+                onOpenSubscriptions = {
                     openSubscriptions()
                 }
-            },
-            onOpenSubscriptions = {
-                openSubscriptions()
-            }
+            ),
+            review = ReviewInput(
+                canReview = reviewViewModel.canReview,
+                onClickReview = { inAppReviewClient.launch() }
+            )
         )
     }
 

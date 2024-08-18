@@ -29,8 +29,8 @@ import kotlinx.coroutines.withContext
  */
 class BillingClient(
     private val premiumViewModel: PremiumViewModel,
-    val context: Context,
-    val scope: CoroutineScope
+    private val context: Context,
+    private val scope: CoroutineScope
 ) {
 
     companion object {

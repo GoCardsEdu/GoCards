@@ -52,6 +52,15 @@ public class FirebaseAnalyticsHelper {
     public static final String DISCOVER_OPEN_DISCORD = "discover_open_discord";
 
     @NonNull
+    public static final String DISCOVER_OPEN_REVIEW = "discover_open_review";
+
+    @NonNull
+    public static final String DISCOVER_OPEN_REVIEW_IN_APP = "discover_open_review_in_app";
+
+    @NonNull
+    public static final String DISCOVER_OPEN_REVIEW_FULL_PAGE = "discover_open_review_full_page";
+
+    @NonNull
     private final FirebaseAnalytics firebaseAnalytics;
 
     @Nullable
@@ -116,5 +125,17 @@ public class FirebaseAnalyticsHelper {
 
     public void discoverOpenDiscord() {
         firebaseAnalytics.logEvent(DISCOVER_OPEN_DISCORD, new Bundle());
+    }
+
+    public void discoverOpenReview() {
+        firebaseAnalytics.logEvent(DISCOVER_OPEN_REVIEW, new Bundle());
+    }
+
+    public void discoverOpenReviewInApp() {
+        firebaseAnalytics.logEvent(DISCOVER_OPEN_REVIEW_IN_APP, new Bundle());
+    }
+
+    public void discoverOpenReviewFullPage() {
+        firebaseAnalytics.logEvent(DISCOVER_OPEN_REVIEW_FULL_PAGE, new Bundle());
     }
 }

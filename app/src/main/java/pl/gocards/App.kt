@@ -8,14 +8,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.NightMode
 import com.google.android.material.color.DynamicColors
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import pl.gocards.db.app.AppDbMainThreadUtil
+import pl.gocards.db.app.AppDbUtil
 import pl.gocards.db.room.AppDatabase
 import pl.gocards.room.entity.app.AppConfig
+
 
 /**
  * @author Grzegorz Ziemski
  */
-class App : Application(), ActivityLifecycleCallbacks {
+class App : Application(), ActivityLifecycleCallbacks, Thread.UncaughtExceptionHandler {
 
     /**
      * Null only when the app is not active.
@@ -35,6 +39,20 @@ class App : Application(), ActivityLifecycleCallbacks {
         } catch (e: IllegalStateException) {
             getAppDbMainThreadUtil().deleteDatabase(this.applicationContext)
         }
+
+        val defaultHandler = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+            try {
+                uncaughtException(thread, throwable)
+            } finally {
+                defaultHandler?.uncaughtException(thread, throwable)
+            }
+        }
+    }
+
+    override fun uncaughtException(t: Thread, e: Throwable) {
+        val appDb = getAppDbMainThread()
+        appDb.appConfigDao().refreshLastExceptionAt()
     }
 
     /* -----------------------------------------------------------------------------------------

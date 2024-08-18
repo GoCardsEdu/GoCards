@@ -26,5 +26,7 @@ data class AppConfig(
         const val RIGHT_EDGE_BAR = "RightEdgeBar"
         const val RIGHT_EDGE_BAR_DEFAULT = EDGE_BAR_SHOW_RECENTLY_SYNCED
         const val PREMIUM = "Premium"
+        const val FIRST_USED_AT = "FirstUsedAt"
+        const val LAST_EXCEPTION_AT = "LastExceptionAt"
     }
 }

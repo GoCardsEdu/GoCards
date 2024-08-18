@@ -46,6 +46,7 @@ class SearchFoldersDecksViewModelFactory(
     private val application: Application
 ): ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(SearchFoldersDecksViewModel::class.java)) {
             SearchFoldersDecksViewModel(application) as T

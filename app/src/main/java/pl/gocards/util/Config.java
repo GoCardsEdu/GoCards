@@ -91,4 +91,17 @@ public class Config {
         }
         return false;
     }
+
+    public boolean isReviewMockEnabled(@NonNull Context context) {
+        try (InputStream is = context.getAssets().open("config.properties")) {
+            Properties props = new Properties();
+            props.load(is);
+            return Boolean.parseBoolean(
+                    props.getProperty("review.mock.enabled", "false")
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

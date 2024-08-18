@@ -24,7 +24,7 @@ abstract class CommonAdapter<VH : RecyclerView.ViewHolder>(
         ).show()
     }
 
-    @Suppress("SameParameterValue", "SameParameterValue", "SameParameterValue")
+    @Suppress("SameParameterValue")
     protected suspend fun showSnackbar(
         @StringRes message: Int,
         @StringRes button: Int,

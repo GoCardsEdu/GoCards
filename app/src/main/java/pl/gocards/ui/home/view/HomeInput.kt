@@ -23,8 +23,10 @@ import pl.gocards.ui.decks.recent.view.RecentDecksInputFactory
 import pl.gocards.ui.decks.search.SearchFoldersDecksAdapter
 import pl.gocards.ui.discover.DiscoverInput
 import pl.gocards.ui.discover.DiscoverInputFactory
+import pl.gocards.ui.discover.review.InAppReviewClient
 import pl.gocards.ui.discover.premium.BillingClient
 import pl.gocards.ui.discover.premium.PremiumViewModel
+import pl.gocards.ui.discover.review.ReviewViewModel
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.home.HomeActivity
 import pl.gocards.util.FirebaseAnalyticsHelper
@@ -62,6 +64,8 @@ class HomeInputFactory {
             activity.fileSyncViewModel,
             activity.premiumViewModel,
             activity.billingClient,
+            activity.reviewViewModel,
+            activity.inAppReviewClient,
 
             { activity.handleOnBackPressed() },
 
@@ -80,6 +84,9 @@ class HomeInputFactory {
         fileSyncViewModel: FileSyncViewModel?,
         premiumViewModel: PremiumViewModel,
         billingClient: BillingClient,
+
+        reviewViewModel: ReviewViewModel,
+        inAppReviewClient: InAppReviewClient,
 
         onBack: () -> Unit,
 
@@ -133,6 +140,8 @@ class HomeInputFactory {
             discover = DiscoverInputFactory().create(
                 premiumViewModel,
                 billingClient,
+                reviewViewModel,
+                inAppReviewClient,
                 analytics,
                 activity,
                 scope

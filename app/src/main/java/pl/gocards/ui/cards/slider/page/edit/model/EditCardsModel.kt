@@ -85,6 +85,7 @@ class EditCardsModelFactory(
     val application: Application
 ): ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(EditCardsModel::class.java)) {
             EditCardsModel(deckDb, appDb, deckDbPath, application) as T

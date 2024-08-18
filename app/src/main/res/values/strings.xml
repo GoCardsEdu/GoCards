@@ -173,8 +173,11 @@
     <string name="app_settings_title" tools:keep="@string/app_settings_title">Settings</string>
     <string name="app_settings_dark_mode">Dark Mode</string>
 
+    <string name="discover_review_title">Support Us with a Review!</string>
+    <string name="discover_review_description">Leave a review on Google Play to help others discover our app and support its continued development.</string>
+
     <string name="discover_community_title">Community</string>
-    <string name="discover_community_description">Join our community to suggest new features, report problems or find your dream deck!</string>
+    <string name="discover_community_description">Join our community to suggest new features, report problems or find your dream deck!\n\nAsk for a trial promo code for the PREMIUM version.</string>
     <string name="discover_community_open_discord">Open Discord</string>
 
     <string name="discover_premium_title">PREMIUM</string>
