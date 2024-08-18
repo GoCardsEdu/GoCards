@@ -25,9 +25,9 @@ android {
         applicationId "pl.gocards"
         testApplicationId "pl.gocards.test"
         minSdkVersion 26
-        targetSdkVersion 34
-        versionCode 19
-        versionName "1.0.18"
+        targetSdkVersion 34 //This Android Gradle plugin (8.5.2) was tested up to compileSdk = 34
+        versionCode 20
+        versionName "1.0.19"
         vectorDrawables {
             useSupportLibrary true
         }
