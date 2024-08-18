@@ -80,7 +80,7 @@ class CardSliderScaffoldInputFactory {
         val analytics = FirebaseAnalyticsHelper.getInstance(application)
 
         return CardSliderScaffoldInput(onBack = onBack,
-            isDarkTheme = application.darkMode ?: isSystemInDarkTheme(),
+            isDarkTheme = application.getDarkMode() ?: isSystemInDarkTheme(),
             preview = false,
             deckName = deckName,
             snackbarHostState = snackbarHostState,

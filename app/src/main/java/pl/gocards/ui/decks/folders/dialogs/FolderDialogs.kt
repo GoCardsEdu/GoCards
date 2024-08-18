@@ -39,7 +39,7 @@ class FolderDialogs(
                 },
                 onDismiss = onDismiss
             )
-            AppTheme(isDarkTheme = application.darkMode) {
+            AppTheme(isDarkTheme = application.getDarkMode()) {
                 CreateFolderDialog(input)
             }
         }
@@ -86,7 +86,7 @@ class FolderDialogs(
                 },
                 onDismiss = onDismiss
             )
-            AppTheme(isDarkTheme = application.darkMode) {
+            AppTheme(isDarkTheme = application.getDarkMode()) {
                 RenameFolderDialog(input)
             }
         }
@@ -136,7 +136,7 @@ class FolderDialogs(
                 onDismiss = onDismiss
             )
 
-            AppTheme(isDarkTheme = application.darkMode) {
+            AppTheme(isDarkTheme = application.getDarkMode()) {
                 DeleteFolderDialog(input)
             }
         }

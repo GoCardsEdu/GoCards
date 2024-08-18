@@ -93,7 +93,7 @@ class ListCardsScaffoldInputFactory {
         } else null
 
         return ListCardsScaffoldInput(
-            isDarkTheme = application.darkMode ?: isSystemInDarkTheme(),
+            isDarkTheme = application.getDarkMode() ?: isSystemInDarkTheme(),
             preview = false,
             recyclerView = recyclerView,
             snackbarHostState = adapter.snackbarHostState,

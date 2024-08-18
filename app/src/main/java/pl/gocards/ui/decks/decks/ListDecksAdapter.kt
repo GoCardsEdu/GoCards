@@ -235,7 +235,7 @@ open class ListDecksAdapter(
      */
     fun showNoCardsToRepeatDialog() {
         addViewToRoot(activity, scope) { onDismiss ->
-            AppTheme(isDarkTheme = application.darkMode) {
+            AppTheme(isDarkTheme = application.getDarkMode()) {
                 NoCardsToRepeatDialog(onDismiss)
             }
         }

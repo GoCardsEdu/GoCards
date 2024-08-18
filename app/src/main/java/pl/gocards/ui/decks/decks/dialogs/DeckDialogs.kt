@@ -43,7 +43,7 @@ class DeckDialogs(
                 },
                 onDismiss = onDismiss
             )
-            AppTheme(isDarkTheme = application.darkMode) {
+            AppTheme(isDarkTheme = application.getDarkMode()) {
                 CreateDeckDialog(input)
             }
         }

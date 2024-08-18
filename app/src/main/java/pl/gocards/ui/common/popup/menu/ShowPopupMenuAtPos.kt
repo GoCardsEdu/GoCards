@@ -64,7 +64,7 @@ class ShowPopupMenuAtPos(
         val view = createView(x, y)
         val application = activity.application as App
         view.setContent {
-            AppTheme(isDarkTheme = application.darkMode) {
+            AppTheme(isDarkTheme = application.getDarkMode()) {
                 Box(
                     modifier = Modifier
                         .wrapContentSize(Alignment.TopStart)

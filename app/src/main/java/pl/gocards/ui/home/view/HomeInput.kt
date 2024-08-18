@@ -99,7 +99,7 @@ class HomeInputFactory {
         val startActivity = StartActivityActions(activity, analytics, scope)
 
         return HomeInput(
-            isDarkTheme = application.darkMode ?: isSystemInDarkTheme(),
+            isDarkTheme = application.getDarkMode() ?: isSystemInDarkTheme(),
             pagerState = rememberPagerState(pageCount = { 3 }),
             recentDecks = RecentDecksInputFactory(
                 recentAdapter,

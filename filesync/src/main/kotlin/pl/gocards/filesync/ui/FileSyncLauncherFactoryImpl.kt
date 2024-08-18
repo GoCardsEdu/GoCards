@@ -151,7 +151,7 @@ open class FileSyncLauncherFactoryImpl: FileSyncLauncherFactory {
                 }
             )
 
-            AppTheme(isDarkTheme = application.darkMode) {
+            AppTheme(isDarkTheme = application.getDarkMode()) {
                 SetUpAutoSyncFileDialog(setUpAutoSyncFileDialog)
             }
         }
@@ -228,7 +228,7 @@ open class FileSyncLauncherFactoryImpl: FileSyncLauncherFactory {
 
     private fun showEditingDeckLockedDialog() {
         addViewToRoot(activity, scope) { onDismiss ->
-            AppTheme(isDarkTheme = application.darkMode) {
+            AppTheme(isDarkTheme = application.getDarkMode()) {
                 EditingDeckLockedDialog { onDismiss() }
             }
         }

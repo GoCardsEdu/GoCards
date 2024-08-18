@@ -94,7 +94,7 @@ class ListCardsActivity : AppCompatActivity() {
         )
 
         setContent {
-            AppTheme(isDarkTheme = application.darkMode) {
+            AppTheme(isDarkTheme = application.getDarkMode()) {
                 adapter = createAdapter(
                     this,
                     viewModel,

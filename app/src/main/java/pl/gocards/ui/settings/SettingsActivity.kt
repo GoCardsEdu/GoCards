@@ -125,7 +125,7 @@ class SettingsActivity : ComponentActivity() {
             val dbPath = intent.getStringExtra(DECK_DB_PATH)
             val context = LocalContext.current
             val application = LocalContext.current.applicationContext as App
-            val darkMode = application.darkMode ?: isSystemInDarkTheme()
+            val darkMode = application.getDarkMode() ?: isSystemInDarkTheme()
 
             DeckSettings(
                 onBack = { super.finish() },
