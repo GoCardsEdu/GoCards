@@ -2,6 +2,7 @@ plugins {
     id 'com.android.dynamic-feature'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.devtools.ksp'
+    id 'org.jetbrains.kotlin.plugin.compose'
 }
 
 android {
@@ -19,10 +20,6 @@ android {
     kotlinOptions {
         jvmTarget = '17'
     }
-    composeOptions {
-        // https://developer.android.com/jetpack/androidx/releases/compose-kotlin
-        kotlinCompilerExtensionVersion '1.5.12'
-    }
     buildFeatures {
         compose true
     }
@@ -38,7 +35,7 @@ dependencies {
 
     // Compose
     implementation platform('androidx.compose:compose-bom:2024.06.00')
-    implementation 'androidx.activity:activity-compose:1.9.0'
+    implementation 'androidx.activity:activity-compose:1.9.1'
 
     // MDC-Android
     implementation "com.google.android.material:material:$material"
@@ -52,7 +49,7 @@ dependencies {
     implementation "androidx.work:work-runtime:$work_version"
     implementation 'com.google.guava:guava:31.1-android'
 
-    implementation 'commons-io:commons-io:2.15.0'
+    implementation 'commons-io:commons-io:2.16.1'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'io.cucumber:cucumber-java:7.18.0'
