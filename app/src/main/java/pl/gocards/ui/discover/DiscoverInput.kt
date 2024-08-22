@@ -21,6 +21,7 @@ data class DiscoverInput(
     val premium: PremiumInput,
     val review: ReviewInput,
     val onClickDiscord: () -> Unit,
+    val onFanpageClick: () -> Unit
 )
 
 class DiscoverInputFactory {
@@ -46,6 +47,7 @@ class DiscoverInputFactory {
 
         return DiscoverInput(
             onClickDiscord = { openDiscord() },
+            onFanpageClick = { openFanpage() },
             premium = PremiumInput(
                 isPremium = premiumViewModel.isPremium(),
                 isPremiumSwitch = premiumViewModel.isPremiumSwitch,
@@ -82,6 +84,11 @@ class DiscoverInputFactory {
     private fun openDiscord() {
         analytics.discoverOpenDiscord()
         openUrl("https://discord.gg/jYyRnD27JP")
+    }
+
+    private fun openFanpage() {
+        analytics.discoverOpenFanpage()
+        openUrl("https://www.facebook.com/profile.php?id=100092886761908")
     }
 
     private fun openSubscriptions() {

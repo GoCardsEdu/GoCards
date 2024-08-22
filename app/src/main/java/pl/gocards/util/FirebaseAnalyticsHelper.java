@@ -52,6 +52,9 @@ public class FirebaseAnalyticsHelper {
     public static final String DISCOVER_OPEN_DISCORD = "discover_open_discord";
 
     @NonNull
+    public static final String DISCOVER_OPEN_FANPAGE = "discover_open_discord";
+
+    @NonNull
     public static final String DISCOVER_OPEN_REVIEW = "discover_open_review";
 
     @NonNull
@@ -125,6 +128,10 @@ public class FirebaseAnalyticsHelper {
 
     public void discoverOpenDiscord() {
         firebaseAnalytics.logEvent(DISCOVER_OPEN_DISCORD, new Bundle());
+    }
+
+    public void discoverOpenFanpage() {
+        firebaseAnalytics.logEvent(DISCOVER_OPEN_FANPAGE, new Bundle());
     }
 
     public void discoverOpenReview() {

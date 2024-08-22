@@ -22,6 +22,7 @@
     <string name="on" tools:ignore="PrivateResource">On</string>
     <string name="more">More</string>
     <string name="discord">Discord</string>
+    <string name="facebook">Fanpage</string>
 
     <string name="bottom_nav_menu_bottom_recent">Recent</string>
     <string name="bottom_nav_menu_all_decks">All decks</string>
@@ -177,8 +178,9 @@
     <string name="discover_review_description">Leave a review on Google Play to help others discover our app and support its continued development.</string>
 
     <string name="discover_community_title">Community</string>
-    <string name="discover_community_description">Join our community to suggest new features, report problems or find your dream deck!\n\nAsk for a trial promo code for the PREMIUM version.</string>
+    <string name="discover_community_description">Join our community to suggest new features, report problems or find your dream deck!\n\nAsk for a trial promo code for the PREMIUM version on Discord.</string>
     <string name="discover_community_open_discord">Open Discord</string>
+    <string name="discover_community_open_fanpage">Open Fanpage</string>
 
     <string name="discover_premium_title">PREMIUM</string>
     <string name="discover_premium_cancel_subscription">You can cancel a subscription in the Google Play Store by tapping Menu, then Subscriptions.</string>
