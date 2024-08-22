@@ -1,6 +1,7 @@
 package pl.gocards.ui.discover
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.LifecycleCoroutineScope
 import kotlinx.coroutines.launch
@@ -83,16 +84,16 @@ class DiscoverInputFactory {
 
     private fun openDiscord() {
         analytics.discoverOpenDiscord()
-        openUrl("https://discord.gg/jYyRnD27JP")
+        openUrl(Config.getInstance(this.context).discordUrl(this.context))
     }
 
     private fun openFanpage() {
         analytics.discoverOpenFanpage()
-        openUrl("https://www.facebook.com/profile.php?id=100092886761908")
+        openUrl(Config.getInstance(this.context).fanpageUrl(this.context))
     }
 
     private fun openSubscriptions() {
-        openUrl("https://play.google.com/store/account/subscriptions")
+        openUrl(Config.getInstance(this.context).subscriptionsUrl(this.context))
     }
 
     private fun isPremiumMockEnabled(): Boolean {

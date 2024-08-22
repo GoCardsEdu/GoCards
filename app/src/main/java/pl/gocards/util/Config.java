@@ -54,54 +54,59 @@ public class Config {
     }
 
     public boolean isCrashlyticsEnabled(@NonNull Context context) {
-        try (InputStream is = context.getAssets().open("config.properties")) {
-            Properties props = new Properties();
-            props.load(is);
-            return Boolean.parseBoolean(
-                    props.getProperty("crashlytics.enabled", "true")
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return true;
+        return getPropertyBoolean(context, "crashlytics.enabled", "true");
     }
 
     public boolean showExceptionInDialogException(@NonNull Context context) {
-        try (InputStream is = context.getAssets().open("config.properties")) {
-            Properties props = new Properties();
-            props.load(is);
-            return Boolean.parseBoolean(
-                    props.getProperty("DialogException.showException", "false")
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return true;
+        return getPropertyBoolean(context, "DialogException.showException", "false");
     }
 
     public boolean isPremiumMockEnabled(@NonNull Context context) {
-        try (InputStream is = context.getAssets().open("config.properties")) {
-            Properties props = new Properties();
-            props.load(is);
-            return Boolean.parseBoolean(
-                    props.getProperty("premium.mock.enabled", "false")
-            );
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        return getPropertyBoolean(context, "premium.mock.enabled", "false");
     }
 
     public boolean isReviewMockEnabled(@NonNull Context context) {
+        return getPropertyBoolean(context, "review.mock.enabled", "false");
+    }
+
+    public String discordUrl(@NonNull Context context) {
+        return getPropertyString(context, "discord.url");
+    }
+
+    public String fanpageUrl(@NonNull Context context) {
+        return getPropertyString(context, "fanpage.url");
+    }
+
+    public String appPageUrl(@NonNull Context context) {
+        return getPropertyString(context, "google-play.app-page.url");
+    }
+
+    public String subscriptionsUrl(@NonNull Context context) {
+        return getPropertyString(context, "google-play.subscriptions.url");
+    }
+
+    private String getPropertyString(@NonNull Context context, String key) {
+        return getProperty(context, props -> props.getProperty(key, ""));
+    }
+
+    private boolean getPropertyBoolean(@NonNull Context context, String key, String defaultValue) {
+        return Boolean.TRUE.equals(getProperty(context, props -> Boolean.parseBoolean(
+                props.getProperty(key, defaultValue)
+        )));
+    }
+
+    private <T> T getProperty(@NonNull Context context, ProcessProperty<T> fn) {
         try (InputStream is = context.getAssets().open("config.properties")) {
             Properties props = new Properties();
             props.load(is);
-            return Boolean.parseBoolean(
-                    props.getProperty("review.mock.enabled", "false")
-            );
+            return fn.run(props);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return null;
+    }
+
+    interface ProcessProperty<T> {
+        T run(Properties props);
     }
 }

@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.lifecycle.LifecycleCoroutineScope
 import pl.gocards.ui.common.OpenUrl
 import pl.gocards.ui.settings.SettingsActivity
+import pl.gocards.util.Config
 import pl.gocards.util.FirebaseAnalyticsHelper
 
 /**
@@ -29,7 +30,7 @@ class StartActivityActions(
 
     fun openDiscord() {
         analytics.menuOpenDiscord()
-        openUrl("https://discord.gg/jYyRnD27JP")
+        openUrl(Config.getInstance(activity).discordUrl(activity))
     }
 
     private fun openUrl(link: String) {

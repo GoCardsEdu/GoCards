@@ -7,6 +7,7 @@ import com.google.android.play.core.review.ReviewException
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
 import pl.gocards.ui.common.OpenUrl
+import pl.gocards.util.Config
 import pl.gocards.util.ExceptionHandler
 import pl.gocards.util.FirebaseAnalyticsHelper
 
@@ -67,7 +68,7 @@ class InAppReviewClient(
 
     private fun openAppPage() {
         analytics.discoverOpenReviewFullPage()
-        openUrl("https://play.google.com/store/apps/details?id=pl.gocards")
+        openUrl(Config.getInstance(activity).appPageUrl(activity))
     }
 
     private fun openUrl(link: String) {
