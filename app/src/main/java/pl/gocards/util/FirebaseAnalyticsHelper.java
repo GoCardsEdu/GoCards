@@ -52,7 +52,10 @@ public class FirebaseAnalyticsHelper {
     public static final String DISCOVER_OPEN_DISCORD = "discover_open_discord";
 
     @NonNull
-    public static final String DISCOVER_OPEN_FANPAGE = "discover_open_discord";
+    public static final String DISCOVER_OPEN_FANPAGE = "discover_open_fanpage";
+
+    @NonNull
+    public static final String DISCOVER_OPEN_YOUTUBE = "discover_open_youtube";
 
     @NonNull
     public static final String DISCOVER_OPEN_REVIEW = "discover_open_review";
@@ -132,6 +135,10 @@ public class FirebaseAnalyticsHelper {
 
     public void discoverOpenFanpage() {
         firebaseAnalytics.logEvent(DISCOVER_OPEN_FANPAGE, new Bundle());
+    }
+
+    public void discoverOpenYoutube() {
+        firebaseAnalytics.logEvent(DISCOVER_OPEN_YOUTUBE, new Bundle());
     }
 
     public void discoverOpenReview() {

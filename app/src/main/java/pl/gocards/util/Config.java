@@ -85,6 +85,10 @@ public class Config {
         return getPropertyString(context, "google-play.subscriptions.url");
     }
 
+    public String youtubeUrl(@NonNull Context context) {
+        return getPropertyString(context, "youtube.url");
+    }
+
     private String getPropertyString(@NonNull Context context, String key) {
         return getProperty(context, props -> props.getProperty(key, ""));
     }

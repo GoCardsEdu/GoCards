@@ -23,7 +23,8 @@ import pl.gocards.ui.discover.DiscoverCard
 @Composable
 fun CommunityCard(
     onDiscordClick: () -> Unit,
-    onFanpageClick: () -> Unit
+    onFanpageClick: () -> Unit,
+    onYoutubeClick: () -> Unit
 ) {
     DiscoverCard(
         title = {
@@ -41,6 +42,7 @@ fun CommunityCard(
             )
             DiscordButton()
             FanpageButton(onFanpageClick)
+            YoutubeButton(onYoutubeClick)
         },
         onClickBody = onDiscordClick
     )
@@ -56,7 +58,7 @@ private fun DiscordButton() {
         )
         Text(
             modifier = Modifier.padding(5.dp, 0.dp, 0.dp, 0.dp),
-            text = stringResource(R.string.discover_community_open_discord)
+            text = stringResource(R.string.discord)
         )
     }
 }
@@ -78,7 +80,30 @@ private fun FanpageButton(onClick: () -> Unit) {
             )
             Text(
                 modifier = Modifier.padding(5.dp, 0.dp, 0.dp, 0.dp),
-                text = stringResource(R.string.discover_community_open_fanpage)
+                text = stringResource(R.string.fanpage)
+            )
+        }
+    }
+}
+
+@Composable
+private fun YoutubeButton(onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(
+                enabled = true,
+                onClick = onClick
+            )
+    ) {
+        Row(modifier = Modifier.padding(15.dp, 10.dp)) {
+            Icon(
+                ImageVector.vectorResource(id = R.drawable.youtube),
+                stringResource(R.string.youtube)
+            )
+            Text(
+                modifier = Modifier.padding(5.dp, 0.dp, 0.dp, 0.dp),
+                text = stringResource(R.string.youtube)
             )
         }
     }

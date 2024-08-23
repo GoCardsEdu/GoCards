@@ -46,7 +46,8 @@ fun DiscoverPage(
             }
             CommunityCard(
                 onDiscordClick = discover.onClickDiscord,
-                onFanpageClick = discover.onFanpageClick
+                onFanpageClick = discover.onFanpageClick,
+                onYoutubeClick = discover.onYoutubeClick
             )
             PremiumCard(discover.premium)
         }
