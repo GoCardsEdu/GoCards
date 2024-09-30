@@ -27,7 +27,7 @@ class ReviewViewModel(
     }
 
     private suspend fun isLongTimeUser(): Boolean {
-        return appDb.appConfigKtxDao().getFirstUsedAt() < ZonedDateTime.now().minusMonths(1)
+        return appDb.appConfigKtxDao().getFirstUsedAt() < ZonedDateTime.now().minusWeeks(2)
     }
 
     private suspend fun isLongTimeExceptionFree(): Boolean {
