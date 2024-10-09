@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace 'pl.gocards.filesync'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         testApplicationId "pl.gocards.filesync.test"

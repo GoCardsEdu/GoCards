@@ -19,13 +19,13 @@ android {
         }
     }
     namespace 'pl.gocards'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "pl.gocards"
         testApplicationId "pl.gocards.test"
         minSdkVersion 26
-        targetSdkVersion 34 //This Android Gradle plugin (8.5.2) was tested up to compileSdk = 34
+        targetSdkVersion 35
         versionCode 22
         versionName "1.0.21"
         vectorDrawables {
