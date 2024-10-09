@@ -46,6 +46,7 @@ class BrowseCardSliderActivity : ComponentActivity() {
                     viewModel = viewModel,
                     autoSyncCardsModel = autoSyncCardsModel,
                     showRateButtons = false,
+                    noMoreCardsToRepeat = { super.finish() },
                     application = application
                 )
             )

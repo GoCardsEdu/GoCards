@@ -2,8 +2,10 @@ package pl.gocards.ui.decks.folders
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.runtime.MutableState
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -36,6 +38,7 @@ open class ListFoldersAdapter(
     isShownMoreDeckMenu: MutableState<Path?>,
     isPremium: Boolean,
     colors: ExtendedColors,
+    startActivityForResultLauncher: ActivityResultLauncher<Intent>,
     activity: Activity,
     scope: CoroutineScope,
     application: App,
@@ -46,6 +49,7 @@ open class ListFoldersAdapter(
     isShownMoreDeckMenu,
     isPremium,
     colors,
+    startActivityForResultLauncher,
     activity,
     scope,
     application

@@ -3,6 +3,9 @@ package pl.gocards.ui.home
 import android.os.Bundle
 import androidx.activity.addCallback
 import androidx.activity.compose.setContent
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -14,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import pl.gocards.App
 import pl.gocards.db.deck.AppDeckDbUtil
+import pl.gocards.ui.cards.slider.StudyCardSliderActivity
 import pl.gocards.ui.decks.all.AllDecksAdapterFactory
 import pl.gocards.ui.decks.decks.model.ListDecksViewModel
 import pl.gocards.ui.decks.decks.model.ListDecksViewModelFactory
@@ -23,9 +27,9 @@ import pl.gocards.ui.decks.recent.RecentDecksAdapterFactory
 import pl.gocards.ui.decks.search.SearchFoldersDecksAdapter
 import pl.gocards.ui.decks.search.SearchFoldersDecksViewModel
 import pl.gocards.ui.decks.search.SearchFoldersDecksViewModelFactory
-import pl.gocards.ui.discover.review.InAppReviewClient
 import pl.gocards.ui.discover.premium.BillingClient
 import pl.gocards.ui.discover.premium.PremiumViewModel
+import pl.gocards.ui.discover.review.InAppReviewClient
 import pl.gocards.ui.discover.review.ReviewViewModel
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.home.view.HomeInputFactory
@@ -42,7 +46,7 @@ import java.nio.file.Path
  * @author Grzegorz Ziemski
  */
 @Immutable
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), ActivityResultCallback<ActivityResult> {
 
     private var currentPage = 0
 
@@ -61,6 +65,8 @@ class HomeActivity : AppCompatActivity() {
     lateinit var reviewViewModel: ReviewViewModel
         private set
 
+    private lateinit var analytics: FirebaseAnalyticsHelper
+
     lateinit var inAppReviewClient: InAppReviewClient
         private set
 
@@ -68,6 +74,9 @@ class HomeActivity : AppCompatActivity() {
         private set
 
     private lateinit var searchFoldersDecksViewModel: SearchFoldersDecksViewModel
+
+    private val startActivityForResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,8 +99,8 @@ class HomeActivity : AppCompatActivity() {
         val listFoldersViewModel = ListFoldersViewModel(application)
         searchFoldersDecksViewModel = createSearchFoldersDecksViewModel()
         reviewViewModel = ReviewViewModel.create(application)
-        val analytics = FirebaseAnalyticsHelper.getInstance(application)
-        inAppReviewClient = InAppReviewClient(analytics,this, this.lifecycleScope, application)
+        analytics = FirebaseAnalyticsHelper.getInstance(application)
+        inAppReviewClient = InAppReviewClient(this, application)
 
 
         setContent {
@@ -183,6 +192,7 @@ class HomeActivity : AppCompatActivity() {
             isPremium,
             { loadItems() },
             ExtendedTheme.colors,
+            this.startActivityForResultLauncher,
             this,
             this.lifecycleScope,
             application as App
@@ -204,6 +214,7 @@ class HomeActivity : AppCompatActivity() {
             isPremium,
             { loadItems() },
             ExtendedTheme.colors,
+            this.startActivityForResultLauncher,
             this,
             this,
             application as App
@@ -232,5 +243,19 @@ class HomeActivity : AppCompatActivity() {
             this,
             SearchFoldersDecksViewModelFactory(application)
         )[SearchFoldersDecksViewModel::class.java]
+    }
+
+    override fun onActivityResult(activityResult: ActivityResult) {
+        val result = activityResult.data?.getStringExtra("RESULT")
+
+        if (result == StudyCardSliderActivity.RESULT_NO_MORE_CARDS_TO_REPEAT) {
+            if (reviewViewModel.studyCanReview.value) {
+                inAppReviewClient.launch(
+                    onSuccess = {
+                        analytics.studyOpenReviewInApp()
+                    }
+                )
+            }
+        }
     }
 }

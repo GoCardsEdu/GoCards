@@ -1,6 +1,8 @@
 package pl.gocards.ui.decks.recent
 
 import android.app.Activity
+import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.runtime.MutableState
 import kotlinx.coroutines.CoroutineScope
 import pl.gocards.App
@@ -20,6 +22,7 @@ class RecentDecksAdapterFactory {
         isPremium: Boolean,
         onSuccess: () -> Unit,
         colors: ExtendedColors,
+        startActivityForResultLauncher: ActivityResultLauncher<Intent>,
         activity: Activity,
         scope: CoroutineScope,
         application: App
@@ -38,6 +41,7 @@ class RecentDecksAdapterFactory {
             isShownMoreDeckMenu,
             isPremium,
             colors,
+            startActivityForResultLauncher,
             activity,
             scope,
             application

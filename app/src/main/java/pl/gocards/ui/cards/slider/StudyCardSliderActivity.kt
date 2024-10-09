@@ -1,5 +1,6 @@
 package pl.gocards.ui.cards.slider
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.addCallback
@@ -14,6 +15,7 @@ import pl.gocards.ui.cards.slider.slider.CardSliderScaffoldInputFactory
 import pl.gocards.ui.cards.slider.slider.model.Mode
 import pl.gocards.ui.filesync_pro.AutoSyncViewModel
 
+
 /**
  * C_R_30 Study the cards
  * @author Grzegorz Ziemski
@@ -23,6 +25,7 @@ class StudyCardSliderActivity : ComponentActivity() {
 
     companion object {
         const val DECK_DB_PATH = "DECK_DB_PATH"
+        const val RESULT_NO_MORE_CARDS_TO_REPEAT = "NO_MORE_CARDS_TO_REPEAT"
     }
 
     private var autoSyncCardsModel: AutoSyncViewModel? = null
@@ -65,6 +68,12 @@ class StudyCardSliderActivity : ComponentActivity() {
                     viewModel = viewModel,
                     autoSyncCardsModel = autoSyncCardsModel,
                     showRateButtons = true,
+                    noMoreCardsToRepeat = {
+                        val returnIntent = Intent()
+                        returnIntent.putExtra("RESULT", RESULT_NO_MORE_CARDS_TO_REPEAT)
+                        setResult(RESULT_OK, returnIntent)
+                        super.finish()
+                    },
                     application = application
                 )
             )

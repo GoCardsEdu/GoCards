@@ -7,6 +7,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.StringRes
 import androidx.annotation.UiThread
 import androidx.compose.runtime.MutableState
@@ -45,6 +46,7 @@ open class ListDecksAdapter(
     val isShownMoreDeckMenu: MutableState<Path?>,
     val isPremium: Boolean,
     val colors: ExtendedColors,
+    private val startActivityForResultLauncher: ActivityResultLauncher<Intent>,
     val activity: Activity,
     val scope: CoroutineScope,
     val application: App
@@ -156,7 +158,7 @@ open class ListDecksAdapter(
             StudyCardSliderActivity.DECK_DB_PATH,
             getDeckItemPath(itemPosition).toString()
         )
-        activity.startActivity(intent)
+        startActivityForResultLauncher.launch(intent)
     }
 
     fun newBrowseCardsActivity(itemPosition: Int) {

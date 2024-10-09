@@ -59,6 +59,7 @@ class EditCardSliderActivity : ComponentActivity() {
                     viewModel = viewModel,
                     autoSyncCardsModel = null,
                     showRateButtons = true,
+                    noMoreCardsToRepeat = { super.finish() },
                     application = application
                 )
             )

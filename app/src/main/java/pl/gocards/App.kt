@@ -8,10 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.NightMode
 import com.google.android.material.color.DynamicColors
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 import pl.gocards.db.app.AppDbMainThreadUtil
-import pl.gocards.db.app.AppDbUtil
 import pl.gocards.db.room.AppDatabase
 import pl.gocards.room.entity.app.AppConfig
 

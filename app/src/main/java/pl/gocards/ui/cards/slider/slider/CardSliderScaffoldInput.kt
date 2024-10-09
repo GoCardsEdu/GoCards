@@ -40,6 +40,7 @@ data class CardSliderScaffoldInput(
 
     val studyPage: StudyPage,
     val setWindowHeightPx: (Int) -> Unit = {},
+    val noMoreCardsToRepeat: () -> Unit = {},
 
     val editPage: EditPage,
     val newPage: NewPage
@@ -66,6 +67,7 @@ class CardSliderScaffoldInputFactory {
         viewModel: SliderCardsViewModel,
         autoSyncCardsModel: AutoSyncViewModel?,
         showRateButtons: Boolean,
+        noMoreCardsToRepeat: () -> Unit,
         application: App
     ): CardSliderScaffoldInput {
         this.viewModel = viewModel
@@ -79,7 +81,8 @@ class CardSliderScaffoldInputFactory {
 
         val analytics = FirebaseAnalyticsHelper.getInstance(application)
 
-        return CardSliderScaffoldInput(onBack = onBack,
+        return CardSliderScaffoldInput(
+            onBack = onBack,
             isDarkTheme = application.getDarkMode() ?: isSystemInDarkTheme(),
             preview = false,
             deckName = deckName,
@@ -90,6 +93,7 @@ class CardSliderScaffoldInputFactory {
                 .copy(
                     setSettledPage = { viewModel.setSettledPage(it) },
                 ),
+            noMoreCardsToRepeat = noMoreCardsToRepeat,
             studyPage = StudyPage(
                 studyCards = viewModel.studyCardsModel.cards,
                 editingLocked = autoSyncCardsModel?.getEditingLocked() ?: remember {

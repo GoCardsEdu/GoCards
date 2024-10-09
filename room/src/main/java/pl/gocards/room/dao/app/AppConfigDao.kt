@@ -3,7 +3,6 @@ package pl.gocards.room.dao.app
 import androidx.room.Dao
 import androidx.room.Query
 import pl.gocards.room.dao.BaseDao
-import pl.gocards.room.dao.BaseKtxDao
 import pl.gocards.room.entity.app.AppConfig
 import java.time.ZoneId
 import java.time.ZonedDateTime

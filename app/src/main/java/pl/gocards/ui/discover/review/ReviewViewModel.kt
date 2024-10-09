@@ -8,7 +8,9 @@ import kotlinx.coroutines.launch
 import pl.gocards.db.app.AppDbUtil
 import pl.gocards.db.room.AppDatabase
 import pl.gocards.util.Config
+import java.time.Period
 import java.time.ZonedDateTime
+import java.time.temporal.TemporalAmount
 
 /**
  * @author Grzegorz Ziemski
@@ -16,23 +18,41 @@ import java.time.ZonedDateTime
 class ReviewViewModel(
     val appDb: AppDatabase,
     private val application: Application
-): AndroidViewModel(application) {
+) : AndroidViewModel(application) {
 
-    val canReview = mutableStateOf(false)
+    val discoverCanReview = mutableStateOf(false)
+
+    val studyCanReview = mutableStateOf(false)
 
     init {
         viewModelScope.launch {
-            canReview.value = isLongTimeUser() && isLongTimeExceptionFree() || isReviewMockEnabled()
+            discoverCanReview.value = canReview(
+                userUsagePeriod = Period.ofWeeks(1),
+                exceptionFreePeriod = Period.ofMonths(1)
+            )
+            studyCanReview.value = canReview(
+                userUsagePeriod = Period.ofWeeks(2),
+                exceptionFreePeriod = Period.ofMonths(1)
+            )
         }
     }
 
-    private suspend fun isLongTimeUser(): Boolean {
-        return appDb.appConfigKtxDao().getFirstUsedAt() < ZonedDateTime.now().minusWeeks(2)
+    private suspend fun canReview(
+        userUsagePeriod: TemporalAmount,
+        exceptionFreePeriod: TemporalAmount
+    ): Boolean {
+        return isLongTimeUser(userUsagePeriod)
+                && isLongTimeExceptionFree(exceptionFreePeriod)
+                || isReviewMockEnabled()
     }
 
-    private suspend fun isLongTimeExceptionFree(): Boolean {
+    private suspend fun isLongTimeUser(period: TemporalAmount): Boolean {
+        return appDb.appConfigKtxDao().getFirstUsedAt() < ZonedDateTime.now().minus(period)
+    }
+
+    private suspend fun isLongTimeExceptionFree(period: TemporalAmount): Boolean {
         val lastExceptionAt = appDb.appConfigKtxDao().getLastExceptionAt() ?: return true
-        return lastExceptionAt < ZonedDateTime.now().minusMonths(1)
+        return lastExceptionAt < ZonedDateTime.now().minus(period)
     }
 
     private fun isReviewMockEnabled(): Boolean {

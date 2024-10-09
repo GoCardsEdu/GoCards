@@ -1,6 +1,8 @@
 package pl.gocards.ui.decks.all
 
 import android.app.Activity
+import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -31,6 +33,7 @@ class AllDecksAdapterFactory {
         isPremium: Boolean,
         onSuccess: () -> Unit,
         colors: ExtendedColors,
+        startActivityForResultLauncher: ActivityResultLauncher<Intent>,
         activity: Activity,
         owner: LifecycleOwner,
         application: App
@@ -62,6 +65,7 @@ class AllDecksAdapterFactory {
             isShownMoreDeckMenu,
             isPremium,
             colors,
+            startActivityForResultLauncher,
             activity,
             owner.lifecycleScope,
             application,

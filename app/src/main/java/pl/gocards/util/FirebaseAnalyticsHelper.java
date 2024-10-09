@@ -67,6 +67,9 @@ public class FirebaseAnalyticsHelper {
     public static final String DISCOVER_OPEN_REVIEW_FULL_PAGE = "discover_open_review_full_page";
 
     @NonNull
+    public static final String STUDY_OPEN_REVIEW_IN_APP = "study_open_review_in_app";
+
+    @NonNull
     private final FirebaseAnalytics firebaseAnalytics;
 
     @Nullable
@@ -151,5 +154,9 @@ public class FirebaseAnalyticsHelper {
 
     public void discoverOpenReviewFullPage() {
         firebaseAnalytics.logEvent(DISCOVER_OPEN_REVIEW_FULL_PAGE, new Bundle());
+    }
+
+    public void studyOpenReviewInApp() {
+        firebaseAnalytics.logEvent(STUDY_OPEN_REVIEW_IN_APP, new Bundle());
     }
 }

@@ -81,7 +81,7 @@ fun HomeView(
             }
         },
         content = { innerPadding ->
-            ListDecksPager(
+            HomePager(
                 input.pagerState,
                 innerPadding,
                 input.recentDecks.page,
@@ -98,7 +98,7 @@ fun HomeView(
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-private fun ListDecksPager(
+private fun HomePager(
     pagerState: PagerState,
     innerPadding: PaddingValues,
     recentDecks: ListRecentDecksPageData,

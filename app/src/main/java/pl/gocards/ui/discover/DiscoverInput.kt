@@ -1,7 +1,6 @@
 package pl.gocards.ui.discover
 
 import android.app.Activity
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.LifecycleCoroutineScope
 import kotlinx.coroutines.launch
@@ -78,10 +77,24 @@ class DiscoverInputFactory {
                 }
             ),
             review = ReviewInput(
-                canReview = reviewViewModel.canReview,
-                onClickReview = { inAppReviewClient.launch() }
+                canReview = reviewViewModel.discoverCanReview,
+                onClickReview = {
+                    analytics.discoverOpenReview()
+                    inAppReviewClient.launch(
+                        onSuccess = {
+                            analytics.discoverOpenReviewInApp()
+                            openAppPage()
+                        },
+                        onFailure = { openAppPage() }
+                    )
+                }
             )
         )
+    }
+
+    private fun openAppPage() {
+        analytics.discoverOpenReviewFullPage()
+        openUrl(Config.getInstance(activity).appPageUrl(activity))
     }
 
     private fun openDiscord() {

@@ -137,7 +137,7 @@ fun CardSliderScaffold(input: CardSliderScaffoldInput) {
         } else {
             EmptyScaffold(input.onBack, input.isDarkTheme, input.deckName)
             if (input.loaded) {
-                NoMoreCardsToRepeatDialog { input.onBack() }
+                NoMoreCardsToRepeatDialog { input.noMoreCardsToRepeat() }
             }
         }
     }
