@@ -1,7 +1,6 @@
 package pl.gocards.ui.cards.slider.page.edit
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -42,7 +41,6 @@ val testEditCardUi = @Composable {
 
 @Preview(showBackground = true)
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun PreviewEditCardPage() {
     EditCardPage(
         page = 0,
@@ -57,7 +55,6 @@ fun PreviewEditCardPage() {
  * @author Grzegorz Ziemski
  */
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun EditCardPage(
     page: Int,
     editCard: EditCardUi,

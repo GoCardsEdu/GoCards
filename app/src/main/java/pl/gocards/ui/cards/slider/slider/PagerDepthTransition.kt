@@ -1,6 +1,5 @@
 package pl.gocards.ui.cards.slider.slider
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -12,7 +11,6 @@ import kotlin.math.abs
  * C_R_22 Swipe the cards left and right
  * @author Grzegorz Ziemski
  */
-@OptIn(ExperimentalFoundationApi::class)
 fun Modifier.pagerDepthTransition(
     page: Int,
     pagerState: PagerState,
@@ -67,5 +65,4 @@ private fun leftCard(
 }
 
 @SuppressWarnings("unused")
-@OptIn(ExperimentalFoundationApi::class)
 private fun PagerState.offsetForPage(page: Int) = (currentPage - page) + currentPageOffsetFraction

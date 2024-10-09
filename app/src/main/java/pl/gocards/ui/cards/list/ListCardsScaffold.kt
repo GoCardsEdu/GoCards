@@ -3,7 +3,6 @@ package pl.gocards.ui.cards.list
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
@@ -205,7 +204,6 @@ private fun ListCardsTopBar(
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 private fun TopBarTitle(text: String) {
     Text(
         text = text,

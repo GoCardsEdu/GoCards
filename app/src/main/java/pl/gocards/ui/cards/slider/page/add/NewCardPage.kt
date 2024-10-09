@@ -1,6 +1,5 @@
 package pl.gocards.ui.cards.slider.page.add
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,7 +21,6 @@ import pl.gocards.ui.cards.slider.slider.SliderCardPage
 
 @Preview(showBackground = true)
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun PreviewNewCardPage() {
     NewCardPage(
         page = 0,
@@ -37,7 +35,6 @@ fun PreviewNewCardPage() {
  * @author Grzegorz Ziemski
  */
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun NewCardPage(
     page: Int,
     newCard: EditCardUi,

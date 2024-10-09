@@ -2,7 +2,6 @@ package pl.gocards.ui.home.view
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerDefaults
@@ -12,15 +11,18 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Newspaper
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import pl.gocards.R
 import pl.gocards.ui.decks.all.view.AllDecksInput
@@ -39,7 +41,6 @@ import pl.gocards.ui.discover.EmptyDecksTopBar
  * @author Grzegorz Ziemski
  */
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun HomeView(
     input: HomeInput,
     setCurrentPage: (Int) -> Unit
@@ -97,7 +98,6 @@ fun HomeView(
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 private fun HomePager(
     pagerState: PagerState,
     innerPadding: PaddingValues,
@@ -112,7 +112,6 @@ private fun HomePager(
 
     HorizontalPager(
         state = pagerState,
-        beyondBoundsPageCount = 0,
         userScrollEnabled = userScrollEnabled,
         flingBehavior = PagerDefaults.flingBehavior(
             state = pagerState,
@@ -135,10 +134,11 @@ private fun HomePager(
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 private fun BottomNavigation(pagerState: PagerState) {
     val scope = rememberCoroutineScope()
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(3.dp)
+    ) {
         NavigationBarItem(
             icon = {
                 Icon(

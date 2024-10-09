@@ -1,6 +1,5 @@
 package pl.gocards.ui.decks.all.view
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -26,7 +25,7 @@ data class SearchBarInput(
  * @author Grzegorz Ziemski
  */
 @Composable
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 fun ListAllDecksTopBar(
     onBack: () -> Unit,
     folderName: String?,

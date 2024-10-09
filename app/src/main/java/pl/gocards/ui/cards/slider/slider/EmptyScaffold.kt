@@ -1,7 +1,6 @@
 package pl.gocards.ui.cards.slider.slider
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -15,7 +14,7 @@ import pl.gocards.ui.theme.ExtendedTheme
  * @author Grzegorz Ziemski
  */
 @Composable
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun EmptyScaffold(
     onBack: () -> Unit = {},

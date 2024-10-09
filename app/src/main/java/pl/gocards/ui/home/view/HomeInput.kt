@@ -1,7 +1,6 @@
 package pl.gocards.ui.home.view
 
 import android.app.Activity
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -23,9 +22,9 @@ import pl.gocards.ui.decks.recent.view.RecentDecksInputFactory
 import pl.gocards.ui.decks.search.SearchFoldersDecksAdapter
 import pl.gocards.ui.discover.DiscoverInput
 import pl.gocards.ui.discover.DiscoverInputFactory
-import pl.gocards.ui.discover.review.InAppReviewClient
 import pl.gocards.ui.discover.premium.BillingClient
 import pl.gocards.ui.discover.premium.PremiumViewModel
+import pl.gocards.ui.discover.review.InAppReviewClient
 import pl.gocards.ui.discover.review.ReviewViewModel
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.home.HomeActivity
@@ -33,7 +32,6 @@ import pl.gocards.util.FirebaseAnalyticsHelper
 import java.nio.file.Path
 
 @Immutable
-@OptIn(ExperimentalFoundationApi::class)
 data class HomeInput(
     val isDarkTheme: Boolean,
     val pagerState: PagerState,
@@ -75,7 +73,6 @@ class HomeInputFactory {
     }
 
     @Composable
-    @OptIn(ExperimentalFoundationApi::class)
     private fun create(
         recentAdapter: ListRecentDecksAdapter,
         allAdapter: SearchFoldersDecksAdapter,

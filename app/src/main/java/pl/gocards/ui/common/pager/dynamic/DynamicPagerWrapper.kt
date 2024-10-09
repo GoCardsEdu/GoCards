@@ -1,6 +1,5 @@
 package pl.gocards.ui.common.pager.dynamic
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
@@ -11,7 +10,6 @@ import androidx.compose.runtime.snapshotFlow
  * @author Grzegorz Ziemski
  */
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun <E> DynamicPagerWrapper(
     input: DynamicPagerDto<E>,
     content: @Composable (PagerState) -> Unit,

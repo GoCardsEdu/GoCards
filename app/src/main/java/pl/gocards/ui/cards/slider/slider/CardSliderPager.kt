@@ -2,7 +2,6 @@ package pl.gocards.ui.cards.slider.slider
 
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,7 +29,6 @@ import pl.gocards.ui.cards.slider.slider.model.SliderCardUi
  * @author Grzegorz Ziemski
  */
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun CardSliderPager(
     pagerState: PagerState,
     sliderCards: List<SliderCardUi>,
@@ -44,7 +42,6 @@ fun CardSliderPager(
 ) {
     HorizontalPager(
         state = pagerState,
-        beyondBoundsPageCount = 0,
         userScrollEnabled = userScrollEnabled.value,
         flingBehavior = PagerDefaults.flingBehavior(
             state = pagerState,

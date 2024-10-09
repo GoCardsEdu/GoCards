@@ -1,6 +1,5 @@
 package pl.gocards.ui.cards.slider.page.study
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.PagerState
@@ -68,7 +67,6 @@ val testSliderCardUi = SliderCardUi(
     mode = mutableStateOf(Mode.STUDY)
 )
 
-@OptIn(ExperimentalFoundationApi::class)
 @Preview(showBackground = true)
 @Composable
 fun PreviewStudyCardPage() {
@@ -98,7 +96,6 @@ fun PreviewStudyCardPage() {
  * C_R_30 Study the cards
  * @author Grzegorz Ziemski
  */
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun StudyCardPage(
     sliderCard: SliderCardUi,

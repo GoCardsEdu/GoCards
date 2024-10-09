@@ -8,7 +8,6 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.calculateZoom
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -48,7 +47,6 @@ import pl.gocards.room.util.HtmlUtil
  * https://developer.android.com/jetpack/androidx/compose-roadmap
  */
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 @SuppressLint("SetJavaScriptEnabled")
 fun StudyContentBox(
     page: Int,

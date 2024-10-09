@@ -1,7 +1,6 @@
 package pl.gocards.ui.cards.slider.page.study.ui
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
@@ -17,7 +16,6 @@ import pl.gocards.ui.common.pxToDp
  * @author Grzegorz Ziemski
  */
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun TermBox(
     page: Int,
     pagerState: PagerState,

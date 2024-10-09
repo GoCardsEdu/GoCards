@@ -1,6 +1,5 @@
 package pl.gocards.ui.cards.slider.slider
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
@@ -21,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import pl.gocards.ui.theme.ExtendedTheme
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SliderCardPage(
     page: Int,

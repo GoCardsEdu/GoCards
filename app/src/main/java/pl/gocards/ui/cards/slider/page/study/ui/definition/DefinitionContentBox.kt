@@ -1,7 +1,6 @@
 package pl.gocards.ui.cards.slider.page.study.ui.definition
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -16,7 +15,6 @@ import pl.gocards.ui.cards.slider.page.study.ui.StudyContentBox
  * @author Grzegorz Ziemski
  */
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 fun DefinitionContentBox(
     page: Int,
     pagerState: PagerState,

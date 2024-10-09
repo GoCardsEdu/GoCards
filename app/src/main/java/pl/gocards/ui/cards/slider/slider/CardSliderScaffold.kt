@@ -1,7 +1,6 @@
 package pl.gocards.ui.cards.slider.slider
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -74,7 +73,7 @@ fun PreviewKtCardSliderActivity() {
  * @author Grzegorz Ziemski
  */
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardSliderScaffold(input: CardSliderScaffoldInput) {
     AppTheme(isDarkTheme = input.isDarkTheme, preview = input.preview) {
@@ -144,7 +143,6 @@ fun CardSliderScaffold(input: CardSliderScaffoldInput) {
 }
 
 @Composable
-@OptIn(ExperimentalFoundationApi::class)
 private fun AppBarTitle(
     deckName: String,
     sliderCard: SliderCardUi
