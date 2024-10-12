@@ -27,11 +27,11 @@ class ReviewViewModel(
     init {
         viewModelScope.launch {
             discoverCanReview.value = canReview(
-                userUsagePeriod = Period.ofWeeks(1),
+                userUsagePeriod = Period.ofDays(3),
                 exceptionFreePeriod = Period.ofMonths(1)
             )
             studyCanReview.value = canReview(
-                userUsagePeriod = Period.ofWeeks(2),
+                userUsagePeriod = Period.ofWeeks(1),
                 exceptionFreePeriod = Period.ofMonths(1)
             )
         }
