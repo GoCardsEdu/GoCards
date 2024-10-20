@@ -2,6 +2,9 @@ package pl.gocards.ui.discover.premium
 
 import android.app.Activity
 import android.content.Context
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.AcknowledgePurchaseResponseListener
 import com.android.billingclient.api.BillingClient
@@ -48,6 +51,8 @@ class BillingClient(
 
     private val client: BillingClient = getBillingClient()
 
+    private val formattedPrice = mutableStateOf("")
+
     private fun getBillingClient(): BillingClient {
         val billingClient = BillingClient.newBuilder(context)
             .enablePendingPurchases(
@@ -61,6 +66,7 @@ class BillingClient(
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     scope.launch {
                         checkIfPremiumSubscriptionIsActive()
+                        getSubscription()
                     }
                 }
             }
@@ -75,9 +81,7 @@ class BillingClient(
         return billingClient
     }
 
-    private val acknowledgePurchaseResponseListener = AcknowledgePurchaseResponseListener {
-
-    }
+    private val acknowledgePurchaseResponseListener = AcknowledgePurchaseResponseListener {}
 
     private suspend fun handlePurchase(purchase: Purchase) {
         if (purchase.products[0] == PRODUCT_ID) {
@@ -107,6 +111,9 @@ class BillingClient(
         premiumViewModel.reset()
         val details = getProductDetails() ?: return
         val subscriptionOfferDetails = details.subscriptionOfferDetails?.get(0) ?: return
+
+        val pricingPhase = subscriptionOfferDetails.pricingPhases.pricingPhaseList[0]
+        formattedPrice.value = pricingPhase.formattedPrice
 
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
@@ -143,6 +150,14 @@ class BillingClient(
         }
     }
 
+    private suspend fun getSubscription() {
+        val details = getProductDetails() ?: return
+        val subscriptionOfferDetails = details.subscriptionOfferDetails?.get(0) ?: return
+
+        val pricingPhase = subscriptionOfferDetails.pricingPhases.pricingPhaseList[0]
+        formattedPrice.value = pricingPhase.formattedPrice
+    }
+
     private suspend fun checkIfPremiumSubscriptionIsActive() {
         val isPremium = isPremiumSubscriptionActive()
         premiumViewModel.savePremium(isPremium)
@@ -163,5 +178,9 @@ class BillingClient(
             }
         }
         return false
+    }
+
+    fun getFormattedPrice(): State<String> {
+        return formattedPrice
     }
 }

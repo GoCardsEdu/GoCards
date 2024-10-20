@@ -51,6 +51,7 @@ class DiscoverInputFactory {
             onFanpageClick = { openFanpage() },
             onYoutubeClick = { openYoutube() },
             premium = PremiumInput(
+                formattedPrice = billingClient.getFormattedPrice(),
                 isPremium = premiumViewModel.isPremium(),
                 isPremiumSwitch = premiumViewModel.isPremiumSwitch,
                 setPremium = { premiumViewModel.isPremiumSwitch.value = true },

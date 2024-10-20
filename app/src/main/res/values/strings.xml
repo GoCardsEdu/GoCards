@@ -182,7 +182,7 @@
     <string name="discover_community_title">Community</string>
     <string name="discover_community_description">Join our community to suggest new features, report problems or find your dream deck!\n\nAsk for a trial promo code for the PREMIUM version on Discord.</string>
 
-    <string name="discover_premium_title">PREMIUM</string>
+    <string name="discover_premium_title">PREMIUM (%s/month)</string>
     <string name="discover_premium_cancel_subscription">You can cancel a subscription in the Google Play Store by tapping Menu, then Subscriptions.</string>
     <string name="discover_premium_catchphrase">To help GoCars reach new heights, consider supporting us with subscription. Your sponsorship will enable us to develop new exciting features!</string>
     <string name="discover_premium_features">

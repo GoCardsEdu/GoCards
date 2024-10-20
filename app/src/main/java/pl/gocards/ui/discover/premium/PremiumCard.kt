@@ -20,6 +20,7 @@ import pl.gocards.ui.discover.DiscoverCard
 data class PremiumInput(
     val isPremium: State<Boolean>,
     val isPremiumSwitch: State<Boolean>,
+    val formattedPrice: State<String?>,
     val setPremium: () -> Unit,
     val onClickBuyPremium: () -> Unit,
     val onDisableSubscription: () -> Unit,
@@ -31,7 +32,7 @@ fun PremiumCard(input: PremiumInput) {
     DiscoverCard(
         title = {
             Column(modifier = Modifier.align(Alignment.CenterVertically)) {
-                Text(stringResource(R.string.discover_premium_title))
+                Text(String.format(stringResource(R.string.discover_premium_title), input.formattedPrice.value))
             }
             Column(
                 modifier = Modifier.fillMaxWidth(),
