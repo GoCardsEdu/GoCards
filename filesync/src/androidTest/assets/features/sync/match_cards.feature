@@ -13,6 +13,7 @@ Feature: Sync the file with the Deck. Match cards
       | File Term | File Definition | Other |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then 1 cards in the deck.
     Then Deleted 0 cards.
 
 
@@ -28,6 +29,7 @@ Feature: Sync the file with the Deck. Match cards
       | Deck Term | Deck Definition |       |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then 2 cards in the deck.
     Then Deleted 0 cards.
 
 
@@ -42,6 +44,7 @@ Feature: Sync the file with the Deck. Match cards
       | File Term | File Definition | Other |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then 1 cards in the deck.
     Then Deleted 0 cards.
 
 
@@ -57,6 +60,7 @@ Feature: Sync the file with the Deck. Match cards
       | Deck Term  |                 |       |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then 2 cards in the deck.
     Then Deleted 0 cards.
 
 
@@ -71,6 +75,7 @@ Feature: Sync the file with the Deck. Match cards
       | File Term | File Definition | Other |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then 1 cards in the deck.
     Then Deleted 0 cards.
 
 
@@ -86,6 +91,7 @@ Feature: Sync the file with the Deck. Match cards
       |           | Deck Definition |       |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then 2 cards in the deck.
     Then Deleted 0 cards.
 
 
@@ -106,6 +112,7 @@ Feature: Sync the file with the Deck. Match cards
       | Deck Term | Deck Definition |       |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then 2 cards in the deck.
     Then Deleted 0 cards.
 
 
@@ -128,7 +135,23 @@ Feature: Sync the file with the Deck. Match cards
       | Deck Term | Deck Definition |       |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then 2 cards in the deck.
     Then Deleted 0 cards.
+
+
+  Scenario: SE_MA_F_06 Match cards with SQL escape square brackets. The file is newer.
+    Given Add the following cards into the deck:
+      | Term   | Definition   | createdAt |
+      | []Term | []Definition | 0         |
+    Given Add the following cards into the file updatedAt=1:
+      | []Term | []Definition | Other     |
+    When Synchronize the file with the deck syncAt=2.
+    Then The expected deck with cards:
+      | []Term | []Definition | Other |
+    Then Check the cards in the deck.
+    Then Check the cards in the file.
+    Then 1 cards in the deck.
+    Then Updated 1 cards.
 
 
   @disabled
