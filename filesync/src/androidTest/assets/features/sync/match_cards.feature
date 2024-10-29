@@ -151,7 +151,7 @@ Feature: Sync the file with the Deck. Match cards
     Then Check the cards in the deck.
     Then Check the cards in the file.
     Then 1 cards in the deck.
-    Then Updated 1 cards.
+    Then Updated 0 cards.
 
 
   @disabled
