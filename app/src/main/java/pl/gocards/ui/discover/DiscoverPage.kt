@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import pl.gocards.ui.discover.community.CommunityCard
+import pl.gocards.ui.discover.feedback.FeedbackCard
 import pl.gocards.ui.discover.premium.PremiumCard
 import pl.gocards.ui.discover.review.ReviewCard
 
@@ -44,6 +45,7 @@ fun DiscoverPage(
             if (discover.review.canReview.value) {
                 ReviewCard(discover.review.onClickReview)
             }
+            FeedbackCard(discover.feedback)
             CommunityCard(
                 onDiscordClick = discover.onClickDiscord,
                 onFanpageClick = discover.onFanpageClick,

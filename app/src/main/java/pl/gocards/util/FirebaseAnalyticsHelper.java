@@ -70,6 +70,9 @@ public class FirebaseAnalyticsHelper {
     public static final String STUDY_OPEN_REVIEW_IN_APP = "study_open_review_in_app";
 
     @NonNull
+    public static final String DISCOVER_OPEN_FEEDBACK = "discover_open_feedback";
+
+    @NonNull
     private final FirebaseAnalytics firebaseAnalytics;
 
     @Nullable
@@ -159,4 +162,9 @@ public class FirebaseAnalyticsHelper {
     public void studyOpenReviewInApp() {
         firebaseAnalytics.logEvent(STUDY_OPEN_REVIEW_IN_APP, new Bundle());
     }
+
+    public void feedbackOpenDiscord() {
+        firebaseAnalytics.logEvent(DISCOVER_OPEN_FEEDBACK, new Bundle());
+    }
+
 }

@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.LifecycleCoroutineScope
 import kotlinx.coroutines.launch
 import pl.gocards.ui.common.OpenUrl
+import pl.gocards.ui.discover.feedback.FeedbackInput
 import pl.gocards.ui.discover.premium.BillingClient
 import pl.gocards.ui.discover.premium.PremiumInput
 import pl.gocards.ui.discover.premium.PremiumViewModel
@@ -20,6 +21,7 @@ import pl.gocards.util.FirebaseAnalyticsHelper
 data class DiscoverInput(
     val premium: PremiumInput,
     val review: ReviewInput,
+    val feedback: FeedbackInput,
     val onClickDiscord: () -> Unit,
     val onFanpageClick: () -> Unit,
     val onYoutubeClick: () -> Unit
@@ -89,6 +91,9 @@ class DiscoverInputFactory {
                         onFailure = { openAppPage() }
                     )
                 }
+            ),
+            feedback = FeedbackInput(
+                onClickTakeSurvey = { openFeedback() }
             )
         )
     }
@@ -115,6 +120,11 @@ class DiscoverInputFactory {
 
     private fun openSubscriptions() {
         openUrl(Config.getInstance(this.context).subscriptionsUrl(this.context))
+    }
+
+    private fun openFeedback() {
+        analytics.feedbackOpenDiscord()
+        openUrl(Config.getInstance(this.context).feedbackUrl(this.context))
     }
 
     private fun isPremiumMockEnabled(): Boolean {

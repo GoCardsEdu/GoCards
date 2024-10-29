@@ -89,6 +89,10 @@ public class Config {
         return getPropertyString(context, "youtube.url");
     }
 
+    public String feedbackUrl(@NonNull Context context) {
+        return getPropertyString(context, "feedback.url");
+    }
+
     private String getPropertyString(@NonNull Context context, String key) {
         return getProperty(context, props -> props.getProperty(key, ""));
     }

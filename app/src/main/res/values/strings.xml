@@ -179,6 +179,10 @@
     <string name="discover_review_title">Support Us with a Review!</string>
     <string name="discover_review_description">Leave a review on Google Play to help others discover our app and support its continued development.</string>
 
+    <string name="discover_feedback_title">What features do you miss in GoCards?</string>
+    <string name="discover_feedback_description">Take the Survey!</string>
+
+
     <string name="discover_community_title">Community</string>
     <string name="discover_community_description">Join our community to suggest new features, report problems or find your dream deck!\n\nAsk for a trial promo code for the PREMIUM version on Discord.</string>
 
