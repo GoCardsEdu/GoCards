@@ -73,6 +73,12 @@ public class FirebaseAnalyticsHelper {
     public static final String DISCOVER_OPEN_FEEDBACK = "discover_open_feedback";
 
     @NonNull
+    public static final String EXPLORE_POLL_YES = "explore_poll_yes";
+
+    @NonNull
+    public static final String EXPLORE_POLL_NO = "explore_poll_no";
+
+    @NonNull
     private final FirebaseAnalytics firebaseAnalytics;
 
     @Nullable
@@ -167,4 +173,11 @@ public class FirebaseAnalyticsHelper {
         firebaseAnalytics.logEvent(DISCOVER_OPEN_FEEDBACK, new Bundle());
     }
 
+    public void explorePollYes() {
+        firebaseAnalytics.logEvent(EXPLORE_POLL_YES, new Bundle());
+    }
+
+    public void explorePollNo() {
+        firebaseAnalytics.logEvent(EXPLORE_POLL_NO, new Bundle());
+    }
 }

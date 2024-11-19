@@ -28,5 +28,6 @@ data class AppConfig(
         const val PREMIUM = "Premium"
         const val FIRST_USED_AT = "FirstUsedAt"
         const val LAST_EXCEPTION_AT = "LastExceptionAt"
+        const val EXPLORE_POLL_COMPLETED = "ExplorePollCompleted"
     }
 }

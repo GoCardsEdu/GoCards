@@ -29,6 +29,10 @@ abstract class AppConfigKtxDao : BaseKtxDao<AppConfig> {
     @Query("SELECT value FROM AppConfig WHERE `key`=:key")
     abstract suspend fun getFloatByKey(key: String): Float?
 
+    suspend fun getBooleanByKey(key: String): Boolean? {
+        return getStringByKey(key)?.toBoolean()
+    }
+
     @Query("SELECT value FROM AppConfig WHERE `key`=:key")
     suspend fun getZonedDateTimeByKey(key: String): ZonedDateTime? {
         val v = getStringByKey(key) ?: return null

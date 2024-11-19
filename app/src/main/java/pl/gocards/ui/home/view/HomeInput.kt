@@ -26,6 +26,9 @@ import pl.gocards.ui.discover.premium.BillingClient
 import pl.gocards.ui.discover.premium.PremiumViewModel
 import pl.gocards.ui.discover.review.InAppReviewClient
 import pl.gocards.ui.discover.review.ReviewViewModel
+import pl.gocards.ui.explore.underconstruction.PollViewModel
+import pl.gocards.ui.explore.underconstruction.UnderConstructionInput
+import pl.gocards.ui.explore.underconstruction.UnderConstructionInputFactory
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.home.HomeActivity
 import pl.gocards.util.FirebaseAnalyticsHelper
@@ -37,8 +40,9 @@ data class HomeInput(
     val pagerState: PagerState,
     val recentDecks: RecentDecksInput,
     val allDecks: AllDecksInput,
+    val explore: UnderConstructionInput,
+    val discover: DiscoverInput,
     val deckBottomMenu: DeckBottomMenuInput,
-    val discover: DiscoverInput
 )
 
 /**
@@ -64,6 +68,7 @@ class HomeInputFactory {
             activity.billingClient,
             activity.reviewViewModel,
             activity.inAppReviewClient,
+            activity.exploreViewModel,
 
             { activity.handleOnBackPressed() },
 
@@ -85,6 +90,8 @@ class HomeInputFactory {
         reviewViewModel: ReviewViewModel,
         inAppReviewClient: InAppReviewClient,
 
+        exploreViewModel: PollViewModel,
+
         onBack: () -> Unit,
 
         activity: Activity,
@@ -104,7 +111,7 @@ class HomeInputFactory {
 
         return HomeInput(
             isDarkTheme = application.getDarkMode() ?: isSystemInDarkTheme(),
-            pagerState = rememberPagerState(pageCount = { 3 }),
+            pagerState = rememberPagerState(pageCount = { HomePage.entries.size }),
             recentDecks = RecentDecksInputFactory(
                 recentAdapter,
                 fileSyncViewModel,
@@ -126,13 +133,10 @@ class HomeInputFactory {
                 owner,
                 application
             ).create(),
-            deckBottomMenu = DeckBottomMenuInput(
-                isShown = isShownMoreDeckMenu,
-                onSync = sync.onClickSync(),
-                onClickExportExcel = exportImport.onExportExcel(),
-                onExportCsv = exportImport.onExportCsv(),
-                onExportDb = { exportImportDbUtil.launchExportDb(it.toString()) },
-                onDeckSettings = { startActivity.startDeckSettingsActivity(it.toString()) },
+            explore = UnderConstructionInputFactory().create(
+                exploreViewModel,
+                analytics,
+                scope
             ),
             discover = DiscoverInputFactory().create(
                 premiumViewModel,
@@ -142,7 +146,15 @@ class HomeInputFactory {
                 analytics,
                 activity,
                 scope
-            )
+            ),
+            deckBottomMenu = DeckBottomMenuInput(
+                isShown = isShownMoreDeckMenu,
+                onSync = sync.onClickSync(),
+                onClickExportExcel = exportImport.onExportExcel(),
+                onExportCsv = exportImport.onExportCsv(),
+                onExportDb = { exportImportDbUtil.launchExportDb(it.toString()) },
+                onDeckSettings = { startActivity.startDeckSettingsActivity(it.toString()) },
+            ),
         )
     }
 

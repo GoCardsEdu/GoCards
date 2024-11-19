@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Newspaper
+import androidx.compose.material.icons.filled.Public
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -36,6 +37,8 @@ import pl.gocards.ui.decks.recent.view.ListRecentDecksTopBar
 import pl.gocards.ui.discover.DiscoverInput
 import pl.gocards.ui.discover.DiscoverPage
 import pl.gocards.ui.discover.EmptyDecksTopBar
+import pl.gocards.ui.explore.underconstruction.UnderConstructionInput
+import pl.gocards.ui.explore.underconstruction.UnderConstructionPage
 
 /**
  * @author Grzegorz Ziemski
@@ -87,8 +90,9 @@ fun HomeView(
                 innerPadding,
                 input.recentDecks.page,
                 input.allDecks,
-                input.deckBottomMenu,
-                input.discover
+                input.explore,
+                input.discover,
+                input.deckBottomMenu
             )
         },
         bottomBar = {
@@ -103,12 +107,14 @@ private fun HomePager(
     innerPadding: PaddingValues,
     recentDecks: ListRecentDecksPageData,
     allDecks: AllDecksInput,
-    deckBottomMenu: DeckBottomMenuInput,
-    discover: DiscoverInput
+    explore: UnderConstructionInput,
+    discover: DiscoverInput,
+    deckBottomMenu: DeckBottomMenuInput
 ) {
-    val userScrollEnabled = (pagerState.settledPage == 0 && recentDecks.isEmptyFolder)
-            || (pagerState.settledPage == 1 && allDecks.page.isEmptyFolder)
-            || (pagerState.settledPage == 2)
+    val userScrollEnabled = (pagerState.settledPage == HomePage.Recent.ordinal && recentDecks.isEmptyFolder)
+            || (pagerState.settledPage == HomePage.Decks.ordinal && allDecks.page.isEmptyFolder)
+            || (pagerState.settledPage == HomePage.Explore.ordinal)
+            || (pagerState.settledPage == HomePage.Discover.ordinal)
 
     HorizontalPager(
         state = pagerState,
@@ -116,16 +122,19 @@ private fun HomePager(
         flingBehavior = PagerDefaults.flingBehavior(
             state = pagerState,
             snapAnimationSpec = spring(stiffness = Spring.StiffnessHigh),
-        ),
+        )
     ) {
         when (it) {
-            0 -> {
+            HomePage.Recent.ordinal -> {
                 ListRecentDecksPage(innerPadding, recentDecks)
             }
-            1 -> {
+            HomePage.Decks.ordinal -> {
                 ListAllDecksPage(innerPadding, allDecks.page)
             }
-            2 -> {
+            HomePage.Explore.ordinal -> {
+                UnderConstructionPage(innerPadding, explore)
+            }
+            HomePage.Discover.ordinal -> {
                 DiscoverPage(innerPadding, discover)
             }
         }
@@ -147,10 +156,10 @@ private fun BottomNavigation(pagerState: PagerState) {
                 )
             },
             label = { Text(stringResource(R.string.bottom_nav_menu_bottom_recent)) },
-            selected = pagerState.currentPage == 0,
+            selected = pagerState.currentPage == HomePage.Recent.ordinal,
             onClick = {
                 scope.launch {
-                    pagerState.animateScrollToPage(0)
+                    pagerState.animateScrollToPage(HomePage.Recent.ordinal)
                 }
             }
         )
@@ -162,10 +171,25 @@ private fun BottomNavigation(pagerState: PagerState) {
                 )
             },
             label = { Text(stringResource(R.string.bottom_nav_menu_all_decks)) },
-            selected = pagerState.currentPage == 1,
+            selected = pagerState.currentPage == HomePage.Decks.ordinal,
             onClick = {
                 scope.launch {
-                    pagerState.animateScrollToPage(1)
+                    pagerState.animateScrollToPage(HomePage.Decks.ordinal)
+                }
+            }
+        )
+        NavigationBarItem(
+            icon = {
+                Icon(
+                    Icons.Filled.Public,
+                    contentDescription = stringResource(R.string.bottom_nav_menu_explore)
+                )
+            },
+            label = { Text(stringResource(R.string.bottom_nav_menu_explore)) },
+            selected = pagerState.currentPage == HomePage.Explore.ordinal,
+            onClick = {
+                scope.launch {
+                    pagerState.animateScrollToPage(HomePage.Explore.ordinal)
                 }
             }
         )
@@ -177,12 +201,16 @@ private fun BottomNavigation(pagerState: PagerState) {
                 )
             },
             label = { Text(stringResource(R.string.bottom_nav_menu_discover)) },
-            selected = pagerState.currentPage == 2,
+            selected = pagerState.currentPage == HomePage.Discover.ordinal,
             onClick = {
                 scope.launch {
-                    pagerState.animateScrollToPage(2)
+                    pagerState.animateScrollToPage(HomePage.Discover.ordinal)
                 }
             }
         )
     }
+}
+
+enum class HomePage(val page: Int) {
+    Recent(0), Decks(1), Explore(2), Discover(3);
 }

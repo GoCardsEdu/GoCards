@@ -31,6 +31,7 @@ import pl.gocards.ui.discover.premium.BillingClient
 import pl.gocards.ui.discover.premium.PremiumViewModel
 import pl.gocards.ui.discover.review.InAppReviewClient
 import pl.gocards.ui.discover.review.ReviewViewModel
+import pl.gocards.ui.explore.underconstruction.PollViewModel
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.home.view.HomeInputFactory
 import pl.gocards.ui.home.view.HomeView
@@ -75,6 +76,9 @@ class HomeActivity : AppCompatActivity(), ActivityResultCallback<ActivityResult>
 
     private lateinit var searchFoldersDecksViewModel: SearchFoldersDecksViewModel
 
+    lateinit var exploreViewModel: PollViewModel
+        private set
+
     private val startActivityForResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this)
 
@@ -101,6 +105,7 @@ class HomeActivity : AppCompatActivity(), ActivityResultCallback<ActivityResult>
         reviewViewModel = ReviewViewModel.create(application)
         analytics = FirebaseAnalyticsHelper.getInstance(application)
         inAppReviewClient = InAppReviewClient(this, application)
+        exploreViewModel = PollViewModel.create(application)
 
 
         setContent {
