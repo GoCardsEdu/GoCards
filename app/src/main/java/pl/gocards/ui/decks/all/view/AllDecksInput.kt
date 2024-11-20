@@ -59,7 +59,7 @@ class AllDecksInputFactory(
                 onClickImportCsv = importFile.onClickImport(),
                 onClickImportDb = importDb.onClickImportDb(),
                 onClickOpenDiscord = { startActivity.openDiscord() },
-                onClickOpenSettings = { startActivity.startAppSettingsActivity() }
+                onClickOpenSettings = { startActivity.startAppSettingsActivity() },
             ),
             page = ListAllDecksPageData(
                 isEmptyFolder = isEmptyFolder(),

@@ -93,6 +93,10 @@ public class Config {
         return getPropertyString(context, "feedback.url");
     }
 
+    public boolean isUnderConstruction(@NonNull Context context) {
+        return getPropertyBoolean(context, "underConstruction", "true");
+    }
+
     private String getPropertyString(@NonNull Context context, String key) {
         return getProperty(context, props -> props.getProperty(key, ""));
     }

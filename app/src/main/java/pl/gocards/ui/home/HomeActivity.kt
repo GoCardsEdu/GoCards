@@ -15,8 +15,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.elevation.SurfaceColors
 import pl.gocards.App
 import pl.gocards.db.deck.AppDeckDbUtil
+import pl.gocards.ui.auth.AuthLauncher
 import pl.gocards.ui.cards.slider.StudyCardSliderActivity
 import pl.gocards.ui.decks.all.AllDecksAdapterFactory
 import pl.gocards.ui.decks.decks.model.ListDecksViewModel
@@ -81,6 +83,9 @@ class HomeActivity : AppCompatActivity(), ActivityResultCallback<ActivityResult>
 
     private val startActivityForResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult(), this)
+
+    var logInLauncher: AuthLauncher = AuthLauncher(this)
+        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

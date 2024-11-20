@@ -1,6 +1,6 @@
 package pl.gocards.ui.home.view
 
-import android.app.Activity
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -10,6 +10,7 @@ import androidx.compose.runtime.MutableState
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import pl.gocards.App
+import pl.gocards.ui.auth.AuthLauncher
 import pl.gocards.ui.decks.all.view.AllDecksInput
 import pl.gocards.ui.decks.all.view.AllDecksInputFactory
 import pl.gocards.ui.decks.decks.service.ExportImportDbKtxUtil
@@ -26,8 +27,9 @@ import pl.gocards.ui.discover.premium.BillingClient
 import pl.gocards.ui.discover.premium.PremiumViewModel
 import pl.gocards.ui.discover.review.InAppReviewClient
 import pl.gocards.ui.discover.review.ReviewViewModel
+import pl.gocards.ui.explore.ExploreInput
+import pl.gocards.ui.explore.ExploreMenuData
 import pl.gocards.ui.explore.underconstruction.PollViewModel
-import pl.gocards.ui.explore.underconstruction.UnderConstructionInput
 import pl.gocards.ui.explore.underconstruction.UnderConstructionInputFactory
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.home.HomeActivity
@@ -40,9 +42,9 @@ data class HomeInput(
     val pagerState: PagerState,
     val recentDecks: RecentDecksInput,
     val allDecks: AllDecksInput,
-    val explore: UnderConstructionInput,
+    val explore: ExploreInput,
     val discover: DiscoverInput,
-    val deckBottomMenu: DeckBottomMenuInput,
+    val deckBottomMenu: DeckBottomMenuInput
 )
 
 /**
@@ -69,6 +71,7 @@ class HomeInputFactory {
             activity.reviewViewModel,
             activity.inAppReviewClient,
             activity.exploreViewModel,
+            activity.logInLauncher,
 
             { activity.handleOnBackPressed() },
 
@@ -91,10 +94,11 @@ class HomeInputFactory {
         inAppReviewClient: InAppReviewClient,
 
         exploreViewModel: PollViewModel,
+        logIn: AuthLauncher,
 
         onBack: () -> Unit,
 
-        activity: Activity,
+        activity: ComponentActivity,
         owner: LifecycleOwner
     ): HomeInput {
         this.recentAdapter = recentAdapter
@@ -133,10 +137,19 @@ class HomeInputFactory {
                 owner,
                 application
             ).create(),
-            explore = UnderConstructionInputFactory().create(
-                exploreViewModel,
-                analytics,
-                scope
+            explore = ExploreInput(
+                menu = ExploreMenuData(
+                    onClickLogOut = { logIn.logOut() }
+                ),
+                token = logIn.token,
+                onClickLogin = { logIn.launch() },
+                underConstruction = UnderConstructionInputFactory().create(
+                    exploreViewModel,
+                    analytics,
+                    scope,
+                    activity
+                ),
+                onBack = onBack
             ),
             discover = DiscoverInputFactory().create(
                 premiumViewModel,

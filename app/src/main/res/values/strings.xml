@@ -21,6 +21,7 @@
     <string name="off" tools:ignore="PrivateResource">Off</string>
     <string name="on" tools:ignore="PrivateResource">On</string>
     <string name="more">More</string>
+    <string name="login">Login</string>
     <string name="discord">Discord</string>
     <string name="facebook">Facebook</string>
     <string name="fanpage">Fanpage</string>
@@ -54,6 +55,7 @@
     <string name="decks_list_menu_import_excel">Import Excel</string>
     <string name="decks_list_menu_import_csv">Import CSV</string>
     <string name="decks_list_menu_import_db">Import DB</string>
+    <string name="decks_list_menu_log_out">Log out</string>
     <string name="decks_list_menu_app_settings">Settings</string>
     <string name="decks_list_paste_folder_here">Paste the folder here</string>
     <string name="decks_list_paste_folder_toast_merged">\"%s\" has been merged with another folder.</string>
@@ -176,6 +178,9 @@
 
     <string name="app_settings_title" tools:keep="@string/app_settings_title">Settings</string>
     <string name="app_settings_dark_mode">Dark Mode</string>
+
+    <string name="explore_sing_in_desc">Share and explore pre-made decks.</string>
+    <string name="explore_sing_in_login_required">To view this tab you must be logged in.</string>
 
     <string name="discover_review_title">Support Us with a Review!</string>
     <string name="discover_review_description">Leave a review on Google Play to help others discover our app and support its continued development.</string>

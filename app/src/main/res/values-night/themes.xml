@@ -2,6 +2,9 @@
 <resources>
 
     <style name="Theme.App" parent="Theme.Material3.DynamicColors.DayNight">
+        <!-- Added for Firebase UI Auth -->
+        <item name="android:statusBarColor">?attr/colorSurfaceContainer</item>
+        <item name="android:navigationBarColor">?attr/colorSurfaceContainer</item>
         <!-- Card list -->
         <item name="colorListDivider">@color/grey_800</item>
         <item name="opacityListDivider">@color/opacity_80</item>

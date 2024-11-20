@@ -24,6 +24,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.launch
 import pl.gocards.R
 import pl.gocards.ui.decks.all.view.AllDecksInput
@@ -37,6 +38,10 @@ import pl.gocards.ui.decks.recent.view.ListRecentDecksTopBar
 import pl.gocards.ui.discover.DiscoverInput
 import pl.gocards.ui.discover.DiscoverPage
 import pl.gocards.ui.discover.EmptyDecksTopBar
+import pl.gocards.ui.explore.ExploreInput
+import pl.gocards.ui.explore.ExploreMenu
+import pl.gocards.ui.explore.ExploreTopBar
+import pl.gocards.ui.explore.SignInPage
 import pl.gocards.ui.explore.underconstruction.UnderConstructionInput
 import pl.gocards.ui.explore.underconstruction.UnderConstructionPage
 
@@ -59,21 +64,28 @@ fun HomeView(
     Scaffold(
         topBar = {
             when (input.pagerState.currentPage) {
-                0 -> {
+                HomePage.Recent.ordinal -> {
                     ListRecentDecksTopBar(
                         isDarkTheme = input.isDarkTheme,
                         onBack = input.recentDecks.onBack,
                         menu = input.recentDecks.menu,
                     )
                 }
-                1 -> {
+                HomePage.Decks.ordinal -> {
                     ListAllDecksTopBar(
                         isDarkTheme = input.isDarkTheme,
                         onBack = input.allDecks.onBack,
                         folderName = input.allDecks.folderName,
                         search = input.allDecks.searchBarInput,
-                        menu = input.allDecks.menu,
-
+                        menu = input.allDecks.menu
+                    )
+                }
+                HomePage.Explore.ordinal -> {
+                    ExploreTopBar(
+                        isDarkTheme = input.isDarkTheme,
+                        onBack = input.allDecks.onBack,
+                        menu = input.explore.menu,
+                        isAuth = input.explore.token.value != null
                     )
                 }
                 else -> {
@@ -107,7 +119,7 @@ private fun HomePager(
     innerPadding: PaddingValues,
     recentDecks: ListRecentDecksPageData,
     allDecks: AllDecksInput,
-    explore: UnderConstructionInput,
+    explore: ExploreInput,
     discover: DiscoverInput,
     deckBottomMenu: DeckBottomMenuInput
 ) {
@@ -132,7 +144,11 @@ private fun HomePager(
                 ListAllDecksPage(innerPadding, allDecks.page)
             }
             HomePage.Explore.ordinal -> {
-                UnderConstructionPage(innerPadding, explore)
+                if (explore.underConstruction.underConstruction) {
+                    UnderConstructionPage(innerPadding, explore.underConstruction)
+                } else {
+                    SignInPage(innerPadding, explore.token.value, explore.onClickLogin)
+                }
             }
             HomePage.Discover.ordinal -> {
                 DiscoverPage(innerPadding, discover)
