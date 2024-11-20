@@ -16,6 +16,7 @@ import pl.gocards.ui.cards.slider.page.study.model.StudyCardsModel
 import pl.gocards.ui.cards.slider.slider.model.Mode
 import pl.gocards.ui.cards.slider.slider.model.SliderCardsModel
 import pl.gocards.ui.cards.slider.slider.model.SliderCardsModelFactory
+import pl.gocards.util.FirebaseAnalyticsHelper
 
 /**
  * @author Grzegorz Ziemski
@@ -27,6 +28,7 @@ class SliderCardsViewModel(
     studyCardsModel: StudyCardsModel,
     newCardsModel: NewCardsModel,
     editCardsModel: EditCardsModel,
+    analytics: FirebaseAnalyticsHelper,
     application: Application
 ) : LearningProgressViewModel(
     defaultMode,
@@ -35,6 +37,7 @@ class SliderCardsViewModel(
     studyCardsModel,
     newCardsModel,
     editCardsModel,
+    analytics,
     application
 ) {
     companion object {
@@ -43,6 +46,7 @@ class SliderCardsViewModel(
             context: Context,
             deckDbPath: String,
             defaultMode: Mode,
+            analytics: FirebaseAnalyticsHelper,
             viewModelStoreOwner: ViewModelStoreOwner
         ): SliderCardsViewModel {
             val application = context.applicationContext as App
@@ -50,8 +54,20 @@ class SliderCardsViewModel(
             val deckDb = AppDeckDbUtil.getInstance(context).getDatabase(context, deckDbPath)
             val appDb = AppDbUtil.getInstance(context).getDatabase(context)
 
-            val sliderCardsModelFactory = SliderCardsModelFactory(deckDb, appDb, application)
-            val sliderCardsModel = ViewModelProvider(viewModelStoreOwner, sliderCardsModelFactory)[SliderCardsModel::class.java]
+            var sliderCardsModel: SliderCardsModel? = null
+            val onScroll: (Int?, Int) -> Unit = { fromPage, toPage ->
+                val model = sliderCardsModel
+                analytics.sliderScroll(
+                    fromPage,
+                    if (fromPage != null) {
+                        model?.getItem(fromPage)?.mode?.value.toString()
+                    } else null,
+                    toPage,
+                    model?.getItem(toPage)?.mode?.value?.toString(),
+                )
+            }
+            val sliderCardsModelFactory = SliderCardsModelFactory(deckDb, appDb, application, onScroll)
+            sliderCardsModel = ViewModelProvider(viewModelStoreOwner, sliderCardsModelFactory)[SliderCardsModel::class.java]
 
             val newCardsModelFactory = NewCardsModelFactory(deckDb, appDb, deckDbPath, application)
             val newCardsModel = ViewModelProvider(viewModelStoreOwner, newCardsModelFactory)[NewCardsModel::class.java]
@@ -67,6 +83,7 @@ class SliderCardsViewModel(
                 StudyCardsModel(deckDb, appDb, deckDbPath),
                 newCardsModel,
                 editCardsModel,
+                analytics,
                 application
             )
         }

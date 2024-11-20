@@ -10,6 +10,7 @@ import pl.gocards.ui.cards.slider.model.SliderCardsViewModel
 import pl.gocards.ui.cards.slider.slider.CardSliderScaffold
 import pl.gocards.ui.cards.slider.slider.CardSliderScaffoldInputFactory
 import pl.gocards.ui.cards.slider.slider.model.Mode
+import pl.gocards.util.FirebaseAnalyticsHelper
 
 /**
  * C_C_24 Edit the card
@@ -33,7 +34,15 @@ class EditCardSliderActivity : ComponentActivity() {
         val editCardId = intent.getIntExtra(EDIT_CARD_ID, 0)
 
         val application = application as App
-        val viewModel = SliderCardsViewModel.getInstance(this, deckDbPath, Mode.EDIT, this)
+        val analytics = FirebaseAnalyticsHelper.getInstance(application)
+        val viewModel = SliderCardsViewModel.getInstance(
+            this,
+            deckDbPath,
+            Mode.EDIT,
+            analytics,
+            this
+        )
+
 
         setContent {
 
@@ -60,6 +69,7 @@ class EditCardSliderActivity : ComponentActivity() {
                     autoSyncCardsModel = null,
                     showRateButtons = true,
                     noMoreCardsToRepeat = { super.finish() },
+                    analytics = analytics,
                     application = application
                 )
             )

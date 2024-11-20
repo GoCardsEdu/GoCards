@@ -10,6 +10,7 @@ import pl.gocards.ui.cards.slider.slider.CardSliderScaffold
 import pl.gocards.ui.cards.slider.slider.CardSliderScaffoldInputFactory
 import pl.gocards.ui.cards.slider.slider.model.Mode
 import pl.gocards.ui.filesync_pro.AutoSyncViewModel
+import pl.gocards.util.FirebaseAnalyticsHelper
 
 /**
  * @author Grzegorz Ziemski
@@ -29,8 +30,16 @@ class BrowseCardSliderActivity : ComponentActivity() {
         val deckDbPath = intent.getStringExtra(DECK_DB_PATH) ?: return
         val owner = this
         val application = application as App
+        val analytics = FirebaseAnalyticsHelper.getInstance(application)
 
-        viewModel = SliderCardsViewModel.getInstance(this, deckDbPath, Mode.STUDY, this)
+        viewModel = SliderCardsViewModel.getInstance(
+            this,
+            deckDbPath,
+            Mode.STUDY,
+            analytics,
+            this,
+        )
+
         autoSyncCardsModel = AutoSyncViewModel.getInstance(deckDbPath, owner, application)
 
         viewModel.loadAllCards()
@@ -47,6 +56,7 @@ class BrowseCardSliderActivity : ComponentActivity() {
                     autoSyncCardsModel = autoSyncCardsModel,
                     showRateButtons = false,
                     noMoreCardsToRepeat = { super.finish() },
+                    analytics = analytics,
                     application = application
                 )
             )

@@ -11,6 +11,7 @@ import pl.gocards.ui.cards.slider.page.study.model.StudyCardsModel
 import pl.gocards.ui.cards.slider.slider.model.Mode
 import pl.gocards.ui.cards.slider.slider.model.SliderCardUi
 import pl.gocards.ui.cards.slider.slider.model.SliderCardsModel
+import pl.gocards.util.FirebaseAnalyticsHelper
 
 /**
  * @author Grzegorz Ziemski
@@ -22,6 +23,7 @@ open class LearningProgressViewModel(
     studyCardsModel: StudyCardsModel,
     newCardsModel: NewCardsModel,
     editCardsModel: EditCardsModel,
+    analytics: FirebaseAnalyticsHelper,
     application: Application
 ) : UndoSliderCardsViewModel(
     defaultMode,
@@ -30,6 +32,7 @@ open class LearningProgressViewModel(
     studyCardsModel,
     newCardsModel,
     editCardsModel,
+    analytics,
     application
 ) {
 

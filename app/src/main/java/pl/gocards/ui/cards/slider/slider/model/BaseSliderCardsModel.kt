@@ -14,8 +14,9 @@ import kotlin.jvm.optionals.getOrNull
 open class BaseSliderCardsModel(
     val deckDb: DeckDatabase,
     val appDb: AppDatabase,
-    application: Application
-): DynamicPagerModel<SliderCardUi>(application) {
+    application: Application,
+    onScroll: (Int?, Int) -> Unit
+): DynamicPagerModel<SliderCardUi>(application, onScroll) {
 
     val loaded = mutableStateOf(false)
 

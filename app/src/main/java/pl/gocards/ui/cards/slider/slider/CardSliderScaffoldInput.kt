@@ -56,6 +56,7 @@ class CardSliderScaffoldInputFactory {
 
     private lateinit var cardDeletedMessage: String
     private lateinit var restoreLabel: String
+    private lateinit var analytics: FirebaseAnalyticsHelper
 
     private lateinit var application: App
     private lateinit var viewModel: SliderCardsViewModel
@@ -68,9 +69,11 @@ class CardSliderScaffoldInputFactory {
         autoSyncCardsModel: AutoSyncViewModel?,
         showRateButtons: Boolean,
         noMoreCardsToRepeat: () -> Unit,
+        analytics: FirebaseAnalyticsHelper,
         application: App
     ): CardSliderScaffoldInput {
         this.viewModel = viewModel
+        this.analytics = analytics
         this.application = application
 
         snackbarHostState = remember { SnackbarHostState() }
@@ -78,8 +81,6 @@ class CardSliderScaffoldInputFactory {
 
         cardDeletedMessage = stringResource(R.string.cards_list_toast_deleted_card)
         restoreLabel = stringResource(R.string.restore)
-
-        val analytics = FirebaseAnalyticsHelper.getInstance(application)
 
         return CardSliderScaffoldInput(
             onBack = onBack,
@@ -105,62 +106,81 @@ class CardSliderScaffoldInputFactory {
                     showRateButtons = showRateButtons,
                     onClickAgain = { page, sliderCard ->
                         viewModel.onAgainClick(page, sliderCard)
-                        analytics.again()
+                        analytics.again(page)
                     },
                     onClickQuick = { page, sliderCard ->
                         viewModel.onQuickClick(page, sliderCard)
-                        analytics.quick()
+                        analytics.quick(page)
                     },
                     onClickEasy = { page, sliderCard ->
                         viewModel.onEasyClick(page, sliderCard)
-                        analytics.easy()
+                        analytics.easy(page)
                     },
                     onClickHard = { page, sliderCard ->
                         viewModel.onHardClick(page, sliderCard)
-                        analytics.hard()
+                        analytics.hard(page)
                     },
                 ),
-                onClickMenuEditCard = { page -> viewModel.editMode(page) },
-                onClickMenuNewCard = { viewModel.addNewCard(it) },
+                onClickMenuEditCard = { page ->
+                    viewModel.editMode(page)
+                    analytics.sliderEditCard(page)
+                },
+                onClickMenuNewCard = {
+                    viewModel.addNewCard(it)
+                    analytics.sliderNewCard(it)
+                },
                 onClickMenuDeleteCard = { page, card ->
                     viewModel.deleteCard(page, card)
-                    showSnackbarDeletedCard(card)
+                    showSnackbarDeletedCard(page, card)
+                    analytics.sliderDeleteCard(page)
                 },
                 onClickMenuResetView = { card -> viewModel.studyCardsModel.resetView(card) },
             ),
             editPage = EditPage(editCards = viewModel.editCardsModel.getCardsState(),
-                onClickMenuNewCard = { viewModel.addNewCard(it) },
+                onClickMenuNewCard = {
+                    viewModel.addNewCard(it)
+                    analytics.sliderNewCard(it)
+                },
                 onClickMenuDeleteCard = { page, card ->
                     viewModel.deleteCard(page, card)
-                    showSnackbarDeletedCard(card)
+                    showSnackbarDeletedCard(page, card)
+                    analytics.sliderDeleteCard(page)
                 },
                 onClickMenuSaveEditCard = { page, card ->
                     viewModel.saveCard(page, card)
                     showShortToastMessage(R.string.card_edit_card_updated_toast)
+                    analytics.updateCard(page)
                 }),
             newPage = NewPage(newCards = viewModel.newCardsModel.getCardsState(),
-                onClickMenuNewCard = { viewModel.addNewCard(it) },
-                onClickMenuDeleteCard = { page, card -> viewModel.deleteCard(page, card) },
+                onClickMenuNewCard = {
+                    viewModel.addNewCard(it)
+                    analytics.sliderNewCard(it)
+                },
+                onClickMenuDeleteCard = { page, card ->
+                    viewModel.deleteCard(page, card)
+                    analytics.sliderDeleteNewCard(page)
+                },
                 onClickMenuSaveNewCard = { page, card ->
                     viewModel.saveNewCard(page, card)
                     showShortToastMessage(R.string.card_edit_card_added_toast)
-                    analytics.createCard()
+                    analytics.createCard(page)
                 }),
             setWindowHeightPx = { viewModel.setWindowHeightPx(it) })
     }
 
-    private fun showSnackbarDeletedCard(card: SliderCardUi) {
+    private fun showSnackbarDeletedCard(page: Int, card: SliderCardUi) {
         showSnackbar(
             cardDeletedMessage,
             restoreLabel,
-            { onClickMenuRestoreCard(card) },
+            { onClickMenuRestoreCard(page, card) },
             snackbarHostState,
             scope
         )
     }
 
-    private fun onClickMenuRestoreCard(card: SliderCardUi) {
+    private fun onClickMenuRestoreCard(page: Int, card: SliderCardUi) {
         viewModel.restoreDeletedCard(card)
+        analytics.sliderRestoreCard(page)
     }
 
     private fun showShortToastMessage(@StringRes resId: Int) {

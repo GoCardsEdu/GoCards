@@ -15,7 +15,8 @@ import java.util.Collections
  * @author Grzegorz Ziemski
  */
 open class DynamicPagerModel<E>(
-    application: Application
+    application: Application,
+    val onScroll: (Int?, Int) -> Unit
 ): AndroidViewModel(application) {
 
     private val targetPage = MutableLiveData<Int?>(null)
@@ -247,8 +248,14 @@ open class DynamicPagerModel<E>(
     }
 
     fun setSettledPage(page: Int) {
+        val currentPage = settledPage.value
+        if (currentPage != page) {
+            onScroll(currentPage, page)
+        }
         settledPage.postValue(page)
         targetPage.postValue(page)
+
+
     }
 
     fun getAnimateScrollToPageLiveData(): LiveData<Int?> {

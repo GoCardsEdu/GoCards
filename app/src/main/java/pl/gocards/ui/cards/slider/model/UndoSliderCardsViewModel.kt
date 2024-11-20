@@ -12,6 +12,7 @@ import pl.gocards.ui.cards.slider.page.study.model.StudyCardsModel
 import pl.gocards.ui.cards.slider.slider.model.Mode
 import pl.gocards.ui.cards.slider.slider.model.SliderCardUi
 import pl.gocards.ui.cards.slider.slider.model.SliderCardsModel
+import pl.gocards.util.FirebaseAnalyticsHelper
 
 /**
  * @author Grzegorz Ziemski
@@ -23,6 +24,7 @@ open class UndoSliderCardsViewModel(
     studyCardsModel: StudyCardsModel,
     newCardsModel: NewCardsModel,
     editCardsModel: EditCardsModel,
+    var analytics: FirebaseAnalyticsHelper,
     application: Application
 ) : UndoLearningProgressViewModel(
     defaultMode,
@@ -43,6 +45,7 @@ open class UndoSliderCardsViewModel(
             Mode.EDIT -> {
                 return if (defaultMode == Mode.STUDY) {
                     currentCard.mode.value = Mode.STUDY
+                    analytics.sliderStudyMode(currentPage)
                     true
                 } else {
                     false
@@ -53,6 +56,7 @@ open class UndoSliderCardsViewModel(
                     // TODO Add implementation for EDIT mode
                     viewModelScope.launch(Dispatchers.IO) {
                         sliderCardsModel.deleteAndSlideToPreviousPage(currentPage, currentCard)
+                        analytics.sliderDeleteNewCard(currentPage)
                     }
                     true
                 } else {
@@ -63,6 +67,7 @@ open class UndoSliderCardsViewModel(
                 val backToCard: SliderCardUi = this.undoCards.pollLast() ?: return false
                 if (backToCard.deletedAt != null) {
                     super.restoreDeletedCard(backToCard.ordinal!! - 1, backToCard)
+                    analytics.sliderRestoreCard(currentPage)
                 } else {
                     revertPreviousLearningProgress(
                         backToCard,
@@ -70,6 +75,7 @@ open class UndoSliderCardsViewModel(
                         currentCard,
                         sliderCards
                     )
+                    analytics.revertLearningProgress(currentPage)
                 }
                 return true
             }

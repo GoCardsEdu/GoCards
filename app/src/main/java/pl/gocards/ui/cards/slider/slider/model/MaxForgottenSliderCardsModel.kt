@@ -11,8 +11,9 @@ import pl.gocards.room.entity.deck.DeckConfig
 open class MaxForgottenSliderCardsModel(
     deckDb: DeckDatabase,
     appDb: AppDatabase,
-    application: Application
-): BaseSliderCardsModel(deckDb, appDb, application) {
+    application: Application,
+    onScroll: (Int?, Int) -> Unit
+): BaseSliderCardsModel(deckDb, appDb, application, onScroll) {
 
     private var maxForgottenCards = DeckConfig.MAX_FORGOTTEN_CARDS_DEFAULT
 

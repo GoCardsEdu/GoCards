@@ -16,6 +16,9 @@ import java.lang.ref.WeakReference;
 public class FirebaseAnalyticsHelper {
 
     @NonNull
+    public static final String PAGE = "page";
+
+    @NonNull
     public static final String CREATE_SAMPLE_DECK = "create_sample_deck";
 
     @NonNull
@@ -34,6 +37,9 @@ public class FirebaseAnalyticsHelper {
     public static final String CREATE_CARD = "create_card";
 
     @NonNull
+    public static final String UPDATE_CARD = "save_card";
+
+    @NonNull
     public static final String CLICK_AGAIN = "click_again";
 
     @NonNull
@@ -44,6 +50,30 @@ public class FirebaseAnalyticsHelper {
 
     @NonNull
     public static final String CLICK_HARD = "click_hard";
+
+    @NonNull
+    public static final String STUDY_REVERT_LEARNING_PROGRESS = "study_revert_learning_progress";
+
+    @NonNull
+    public static final String SLIDER_NEW_CARD = "slider_new_card";
+
+    @NonNull
+    public static final String SLIDER_EDIT_CARD = "slider_edit_card";
+
+    @NonNull
+    public static final String SLIDER_DELETE_CARD = "slider_delete_card";
+
+    @NonNull
+    public static final String SLIDER_DELETE_NEW_CARD = "slider_delete_new_card";
+
+    @NonNull
+    public static final String SLIDER_RESTORE_CARD = "slider_restore_card";
+
+    @NonNull
+    public static final String SLIDER_SCROLL = "slider_scroll";
+
+    @NonNull
+    public static final String SLIDER_STUDY_MODE = "slider_study_mode";
 
     @NonNull
     public static final String MENU_OPEN_DISCORD = "menu_open_discord";
@@ -117,24 +147,98 @@ public class FirebaseAnalyticsHelper {
         firebaseAnalytics.logEvent(SYNC_DECK, new Bundle());
     }
 
-    public void createCard() {
-        firebaseAnalytics.logEvent(CREATE_CARD, new Bundle());
+    public void createCard(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(CREATE_CARD, bundle);
     }
 
-    public void again() {
-        firebaseAnalytics.logEvent(CLICK_AGAIN, new Bundle());
+    public void updateCard(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(UPDATE_CARD, bundle);
     }
 
-    public void quick() {
-        firebaseAnalytics.logEvent(CLICK_QUICK, new Bundle());
+    public void again(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(CLICK_AGAIN, bundle);
     }
 
-    public void easy() {
-        firebaseAnalytics.logEvent(CLICK_EASY, new Bundle());
+    public void quick(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(CLICK_QUICK, bundle);
     }
 
-    public void hard() {
-        firebaseAnalytics.logEvent(CLICK_HARD, new Bundle());
+    public void easy(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(CLICK_EASY, bundle);
+    }
+
+    public void hard(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(CLICK_HARD, bundle);
+    }
+
+    public void revertLearningProgress(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(STUDY_REVERT_LEARNING_PROGRESS, bundle);
+    }
+
+    public void sliderNewCard(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(SLIDER_NEW_CARD, bundle);
+    }
+
+    public void sliderEditCard(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(SLIDER_EDIT_CARD, bundle);
+    }
+
+    public void sliderDeleteCard(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(SLIDER_DELETE_CARD, bundle);
+    }
+
+    public void sliderDeleteNewCard(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(SLIDER_DELETE_NEW_CARD, bundle);
+    }
+
+    public void sliderRestoreCard(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(SLIDER_RESTORE_CARD, bundle);
+    }
+
+    public void sliderScroll(
+            Integer fromPage,
+            String fromType,
+            int toPage,
+            String toType
+    ) {
+        var bundle = new Bundle();
+        if (fromPage != null) {
+            bundle.putInt("fromPage", fromPage);
+        }
+        bundle.putString("fromType", fromType);
+        bundle.putInt("toPage", toPage);
+        bundle.putString("toType", toType);
+        firebaseAnalytics.logEvent(SLIDER_SCROLL, bundle);
+    }
+
+    public void sliderStudyMode(int page) {
+        var bundle = new Bundle();
+        bundle.putInt(PAGE, page);
+        firebaseAnalytics.logEvent(SLIDER_STUDY_MODE, bundle);
     }
 
     public void menuOpenDiscord() {

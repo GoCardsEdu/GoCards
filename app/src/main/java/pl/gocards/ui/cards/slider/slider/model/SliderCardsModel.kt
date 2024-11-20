@@ -12,19 +12,21 @@ import pl.gocards.db.room.DeckDatabase
 class SliderCardsModel(
     deckDb: DeckDatabase,
     appDb: AppDatabase,
-    application: Application
-): MaxForgottenSliderCardsModel(deckDb, appDb, application)
+    application: Application,
+    onScroll: (Int?, Int) -> Unit
+): MaxForgottenSliderCardsModel(deckDb, appDb, application, onScroll)
 
 class SliderCardsModelFactory(
     private val deckDb: DeckDatabase,
     private val appDb: AppDatabase,
-    private val application: Application
+    private val application: Application,
+    private val onScroll: (Int?, Int) -> Unit
 ): ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(SliderCardsModel::class.java)) {
-            SliderCardsModel(deckDb, appDb, application) as T
+            SliderCardsModel(deckDb, appDb, application, onScroll) as T
         } else {
             throw IllegalArgumentException("ViewModel Not Found")
         }
