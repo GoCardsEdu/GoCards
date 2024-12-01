@@ -58,7 +58,7 @@ fun RenameFolderDialog(
             }
         },
         onDismissRequest = {
-            input.onDismiss
+            input.onDismiss()
         },
         confirmButton = {
             TextButton(
@@ -74,7 +74,7 @@ fun RenameFolderDialog(
         dismissButton = {
             TextButton(
                 onClick = {
-                    input.onDismiss
+                    input.onDismiss()
                 }
             ) {
                 Text(stringResource(R.string.cancel))
