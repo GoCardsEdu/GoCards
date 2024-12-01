@@ -79,6 +79,9 @@ public abstract class FolderDeckDbUtil<DB extends RoomDatabase> extends DeckDbUt
             @NonNull Path fromFolderPath,
             @NonNull Path toFolderPath
     ) throws IOException {
+        if (fromFolderPath.equals(toFolderPath)) {
+            return Single.just(true);
+        }
 
         boolean merged = Files.exists(toFolderPath);
         if (merged) {

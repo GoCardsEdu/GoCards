@@ -30,7 +30,8 @@ class CutPasteFolderViewModel(
         currentFolder.observe(owner) { currentFolder ->
             val path = cutPath.value
             if (path != null && Files.isDirectory(path)) {
-                showFolderPasteBar.value = !currentFolder.toString().startsWith(path.toString())
+                val currentFolderIsChild = currentFolder.toString().startsWith(path.toString())
+                showFolderPasteBar.value = !currentFolderIsChild
             }
         }
     }
