@@ -24,15 +24,20 @@ class OpenUrl {
                     Uri.parse(link)
                 )
                 activity.startActivity(intent)
-            } catch (ex: ActivityNotFoundException) {
-                showBrowserNotFoundExceptionDialog(
-                    activity,
-                    scope,
-                    link
-                )
-                ExceptionHandler.getInstance().saveException(activity, ex)
+            } catch (ex: Exception) {
+                when (ex) {
+                    is SecurityException, is ActivityNotFoundException -> {
+                        showBrowserNotFoundExceptionDialog(
+                            activity,
+                            scope,
+                            link
+                        )
+                        ExceptionHandler.getInstance().saveException(activity, ex)
+                    }
+
+                    else -> throw ex
+                }
             }
         }
-
     }
 }
