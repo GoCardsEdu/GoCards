@@ -2,6 +2,7 @@ package pl.gocards.room.dao.app
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
 import pl.gocards.room.dao.BaseKtxDao
 import pl.gocards.room.entity.app.AppConfig
 import java.time.ZoneId
@@ -42,21 +43,26 @@ abstract class AppConfigKtxDao : BaseKtxDao<AppConfig> {
     @Query("DELETE FROM AppConfig WHERE `key`=:key")
     abstract suspend fun deleteByKey(key: String)
 
-    suspend fun update(
+    @Transaction
+    open suspend fun update(
         key: String,
         value: String,
         defaultValue: String?
     ) {
-        if (value == defaultValue) {
-            deleteByKey(key)
-        } else {
-            val appConfig = getByKey(key)
-            if (appConfig == null) {
-                insertAll(AppConfig(key, value))
+        try {
+            if (value == defaultValue) {
+                deleteByKey(key)
             } else {
-                appConfig.value = value
-                updateAll(appConfig)
+                val appConfig = getByKey(key)
+                if (appConfig == null) {
+                    insertAll(AppConfig(key, value))
+                } else {
+                    appConfig.value = value
+                    updateAll(appConfig)
+                }
             }
+        } catch (e: Exception) {
+            throw Exception("Updating $key failed", e)
         }
     }
 
