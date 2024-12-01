@@ -103,12 +103,14 @@ class FolderDialogs(
             folderPath,
             newFolderName,
             onRenamed = {
-                showShortToastMessage(
-                    String.format(
-                        getString(R.string.decks_list_folder_rename_dialog_toast_renamed),
-                        newFolderName
+                scope.launch {
+                    showShortToastMessage(
+                        String.format(
+                            getString(R.string.decks_list_folder_rename_dialog_toast_renamed),
+                            newFolderName
+                        )
                     )
-                )
+                }
             },
             onMerged = {
                 showShortToastMessage(

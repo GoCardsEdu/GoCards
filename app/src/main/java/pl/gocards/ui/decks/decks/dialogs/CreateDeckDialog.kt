@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import pl.gocards.R
+import pl.gocards.ui.common.SANITIZE_FILENAME_REGEX
 
 /**
  * D_C_06 Create a new deck
@@ -47,7 +48,7 @@ fun CreateDeckDialog(
                 )
                 TextField(
                     value = name,
-                    onValueChange = { name = it },
+                    onValueChange = { name = it.replace(SANITIZE_FILENAME_REGEX, "") },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
                         unfocusedContainerColor = Color.Transparent
