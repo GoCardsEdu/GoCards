@@ -17,22 +17,22 @@ class StudyCardsModel(
 ) : LearningProgressModel(deckDb, appDb, deckDbPath) {
 
     val cards = mutableStateOf(mapOf<Int, StudyCardUi>())
-    private var _cards: MutableMap<Int, StudyCardUi> = mutableMapOf()
 
     /* -----------------------------------------------------------------------------------------
      * Loads cards
      * ----------------------------------------------------------------------------------------- */
 
     suspend fun getCard(id: Int): StudyCardUi? {
-        return _cards[id] ?: reloadCard(id)
+        return cards.value[id] ?: reloadCard(id)
     }
 
     suspend fun reloadCard(id: Int): StudyCardUi? {
         val cardDb = deckDb.cardKtxDao().getCard(id) ?: return null
         val card = mapCard(cardDb)
 
-        _cards[card.id] = card
-        cards.value = _cards.toMap()
+        val updatedCards = cards.value.toMutableMap()
+        updatedCards[card.id] = card
+        cards.value = updatedCards.toMap()
 
         setTermHeightPx(card, null)
         return card
@@ -91,7 +91,7 @@ class StudyCardsModel(
     * ----------------------------------------------------------------------------------------- */
 
     suspend fun saveCard(id: Int) {
-        val card = _cards[id]
+        val card = cards.value[id]
         if (card != null) {
             saveDisplaySettings(card)
         }
@@ -106,7 +106,7 @@ class StudyCardsModel(
      */
     suspend fun onAgainClick(sliderCard: SliderCardUi) {
         val cardId = sliderCard.id
-        val studyCard = _cards[cardId] ?: return
+        val studyCard = cards.value[cardId] ?: return
 
         super.onAgainClick(studyCard)
         saveCard(cardId)
@@ -117,7 +117,7 @@ class StudyCardsModel(
      * C_U_33 Quick Repetition (5 min)
      */
     suspend fun onQuickClick(sliderCard: SliderCardUi) {
-        val studyCard = _cards[sliderCard.id] ?: return
+        val studyCard = cards.value[sliderCard.id] ?: return
         super.onQuickClick(studyCard)
     }
 
@@ -125,7 +125,7 @@ class StudyCardsModel(
      * C_U_35 Easy (5 days)
      */
     suspend fun onEasyClick(sliderCard: SliderCardUi) {
-        val studyCard = _cards[sliderCard.id] ?: return
+        val studyCard = cards.value[sliderCard.id] ?: return
         super.onEasyClick(studyCard)
     }
 
@@ -133,7 +133,7 @@ class StudyCardsModel(
      * C_U_34 Hard (3 days)
      */
     suspend fun onHardClick(sliderCard: SliderCardUi) {
-        val studyCard = _cards[sliderCard.id] ?: return
+        val studyCard = cards.value[sliderCard.id] ?: return
         super.onHardClick(studyCard)
     }
 }
