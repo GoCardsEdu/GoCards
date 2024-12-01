@@ -28,6 +28,7 @@ class AllDecksAdapterFactory {
     fun create(
         listDecksViewModel: ListDecksViewModel,
         listFoldersViewModel: ListFoldersViewModel,
+        cutPasteFolderViewModel: CutPasteFolderViewModel,
         searchFoldersDecksViewModel: SearchFoldersDecksViewModel,
         isShownMoreDeckMenu: MutableState<Path?>,
         isPremium: Boolean,
@@ -42,11 +43,7 @@ class AllDecksAdapterFactory {
             listDecksViewModel,
             CutPasteDeckViewModel(application),
             listFoldersViewModel,
-            CutPasteFolderViewModel(
-                listFoldersViewModel.currentFolder,
-                application,
-                owner
-            ),
+            cutPasteFolderViewModel,
             searchFoldersDecksViewModel,
             DeckDialogs(
                 EditDecksViewModel(application),

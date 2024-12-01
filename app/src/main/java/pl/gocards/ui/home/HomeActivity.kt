@@ -15,7 +15,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.elevation.SurfaceColors
 import pl.gocards.App
 import pl.gocards.db.deck.AppDeckDbUtil
 import pl.gocards.ui.auth.AuthLauncher
@@ -23,6 +22,7 @@ import pl.gocards.ui.cards.slider.StudyCardSliderActivity
 import pl.gocards.ui.decks.all.AllDecksAdapterFactory
 import pl.gocards.ui.decks.decks.model.ListDecksViewModel
 import pl.gocards.ui.decks.decks.model.ListDecksViewModelFactory
+import pl.gocards.ui.decks.folders.model.CutPasteFolderViewModel
 import pl.gocards.ui.decks.folders.model.ListFoldersViewModel
 import pl.gocards.ui.decks.recent.ListRecentDecksAdapter
 import pl.gocards.ui.decks.recent.RecentDecksAdapterFactory
@@ -111,6 +111,11 @@ class HomeActivity : AppCompatActivity(), ActivityResultCallback<ActivityResult>
         analytics = FirebaseAnalyticsHelper.getInstance(application)
         inAppReviewClient = InAppReviewClient(this, application)
         exploreViewModel = PollViewModel.create(application)
+        val cutPasteFolderViewModel = CutPasteFolderViewModel(
+            listFoldersViewModel.currentFolder,
+            application,
+            owner
+        )
 
 
         setContent {
@@ -118,10 +123,14 @@ class HomeActivity : AppCompatActivity(), ActivityResultCallback<ActivityResult>
             val isPremium = premiumViewModel.isPremium().value
 
             AppTheme {
-                recentAdapter = createRecentAdapter(isShownMoreDeckMenu, isPremium)
+                recentAdapter = createRecentAdapter(
+                    isShownMoreDeckMenu,
+                    isPremium
+                )
                 allAdapter = createAllDecksAdapter(
                     listDecksViewModel,
                     listFoldersViewModel,
+                    cutPasteFolderViewModel,
                     isShownMoreDeckMenu,
                     isPremium
                 )
@@ -213,12 +222,14 @@ class HomeActivity : AppCompatActivity(), ActivityResultCallback<ActivityResult>
     private fun createAllDecksAdapter(
         listDecksViewModel: ListDecksViewModel,
         listFoldersViewModel: ListFoldersViewModel,
+        cutPasteFolderViewModel: CutPasteFolderViewModel,
         isShownMoreDeckMenu: MutableState<Path?>,
         isPremium: Boolean
     ): SearchFoldersDecksAdapter {
         return AllDecksAdapterFactory().create(
             listDecksViewModel,
             listFoldersViewModel,
+            cutPasteFolderViewModel,
             searchFoldersDecksViewModel,
             isShownMoreDeckMenu,
             isPremium,
