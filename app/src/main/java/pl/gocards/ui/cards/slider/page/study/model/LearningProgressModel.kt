@@ -163,8 +163,8 @@ open class LearningProgressModel(
     }
 
     private suspend fun updateLearningProgress(current: CardLearningProgress) {
-        if (deckDb.cardLearningProgressDao().exists(current.cardId)) {
-            deckDb.cardLearningProgressDao().update(
+        if (deckDb.cardLearningProgressKtxDao().exists(current.cardId)) {
+            deckDb.cardLearningProgressKtxDao().update(
                 current.cardId,
                 current.cardLearningHistoryId,
                 current.isMemorized
