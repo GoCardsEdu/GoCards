@@ -24,7 +24,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.launch
 import pl.gocards.R
 import pl.gocards.ui.decks.all.view.AllDecksInput
@@ -39,10 +38,8 @@ import pl.gocards.ui.discover.DiscoverInput
 import pl.gocards.ui.discover.DiscoverPage
 import pl.gocards.ui.discover.EmptyDecksTopBar
 import pl.gocards.ui.explore.ExploreInput
-import pl.gocards.ui.explore.ExploreMenu
 import pl.gocards.ui.explore.ExploreTopBar
 import pl.gocards.ui.explore.SignInPage
-import pl.gocards.ui.explore.underconstruction.UnderConstructionInput
 import pl.gocards.ui.explore.underconstruction.UnderConstructionPage
 
 /**
@@ -154,8 +151,8 @@ private fun HomePager(
                 DiscoverPage(innerPadding, discover)
             }
         }
-        DeckBottomMenu(deckBottomMenu)
     }
+    DeckBottomMenu(deckBottomMenu)
 }
 
 @Composable
