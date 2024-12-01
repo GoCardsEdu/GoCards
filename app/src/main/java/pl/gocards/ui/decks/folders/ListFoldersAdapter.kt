@@ -128,6 +128,9 @@ open class ListFoldersAdapter(
      */
     @SuppressLint("NotifyDataSetChanged")
     fun openFolder(position: Int) {
+        foldersViewModel.isEmptyFolder.value = false
+        decksViewModel.isEmptyFolder.value = false
+
         foldersViewModel.openFolder(position) { folder ->
             decksViewModel.loadItems(folder) {
                 scope.launch {
@@ -142,6 +145,8 @@ open class ListFoldersAdapter(
         if (foldersViewModel.isRootFolder()) {
             return false
         } else {
+            foldersViewModel.isEmptyFolder.value = false
+            decksViewModel.isEmptyFolder.value = false
             foldersViewModel.openFolderUp { folder ->
                 decksViewModel.loadItems(folder) {
                     scope.launch {
