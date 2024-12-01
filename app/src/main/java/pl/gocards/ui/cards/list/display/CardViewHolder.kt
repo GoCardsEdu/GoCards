@@ -109,7 +109,7 @@ open class CardViewHolder(
         velocityX: Float,
         velocityY: Float
     ): Boolean {
-        throw UnsupportedOperationException("Not implemented")
+        return false
     }
 
     /* -----------------------------------------------------------------------------------------
