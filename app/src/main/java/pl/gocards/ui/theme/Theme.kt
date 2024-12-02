@@ -79,7 +79,8 @@ fun AppTheme(
     isDarkTheme: Boolean? = isSystemInDarkTheme(),
     preview: Boolean = false,
     dynamicColor: Boolean = true,
-    content: @Composable () -> Unit,
+    isSelectionMode: Boolean = false,
+    content: @Composable () -> Unit
 ) {
     val isSdk31 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val isDarkTheme = isDarkTheme ?: isSystemInDarkTheme()
@@ -179,10 +180,12 @@ fun AppTheme(
             colorScheme = colorScheme,
             typography = Typography,
             shapes = Shapes,
-            content = content,
+            content = content
         )
 
-        if (!preview) BarColorsTheme(isDarkTheme, colorScheme)
+        if (!preview) {
+            SelectBarColorsTheme(isDarkTheme, colorScheme, isSelectionMode)
+        }
     }
 }
 

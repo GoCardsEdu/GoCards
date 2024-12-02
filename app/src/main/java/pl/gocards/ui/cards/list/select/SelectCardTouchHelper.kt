@@ -23,7 +23,7 @@ class SelectCardTouchHelper(
         if (isLongPress && viewHolder.bindingAdapterPosition != DETACHED_POSITION) {
             if (adapter.isSelectionMode()) {
                 // C_02_04 When any card is selected and long pressing on the card, show the selected popup menu.
-                (viewHolder as CardViewHolder).showPopupMenu()
+                (viewHolder as CardViewHolder).showPopupMenu(true)
             } else {
                 // C_02_02 When no card is selected and long pressing on the card, select the card.
                 adapter.invertSelection(viewHolder as SelectCardViewHolder)

@@ -1,8 +1,5 @@
 package pl.gocards.ui.cards.list
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Box
@@ -25,7 +22,6 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -47,9 +43,9 @@ import pl.gocards.ui.cards.list.search.SearchTextField
 import pl.gocards.ui.cards.list.select.SelectListCardsMenu
 import pl.gocards.ui.cards.list.select.SelectListCardsMenuData
 import pl.gocards.ui.theme.AppBar
-import pl.gocards.ui.theme.BarColorsTheme
 import pl.gocards.ui.theme.Blue800
 import pl.gocards.ui.theme.ExtendedTheme
+import pl.gocards.ui.theme.SelectBarColorsTheme
 import java.util.Locale
 
 /**
@@ -103,28 +99,11 @@ fun ListCardsScaffold(
                     })
                 }
                 if (!input.preview) {
-                    ListCardsBarColorsTheme(input.isDarkTheme, isSelectionMode)
+                    SelectBarColorsTheme(input.isDarkTheme, MaterialTheme.colorScheme, isSelectionMode)
                 }
             }
         }
     )
-}
-
-@Composable
-private fun ListCardsBarColorsTheme(
-    isDarkTheme: Boolean,
-    isSelectionMode: Boolean,
-) {
-    if (isSelectionMode) {
-        val appBarContainerColor by animateColorAsState(
-            targetValue = ExtendedTheme.colors.colorItemSelected,
-            animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
-            label = "appBarContainerColor",
-        )
-        BarColorsTheme(isDarkTheme, color = appBarContainerColor)
-    } else {
-        BarColorsTheme(isDarkTheme, MaterialTheme.colorScheme)
-    }
 }
 
 data class ListCardsTopBarInput(

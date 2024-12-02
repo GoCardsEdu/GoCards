@@ -69,20 +69,21 @@ open class CardViewHolder(
         lastTouchX = e.rawX
         lastTouchY = e.rawY
         focus()
-        showPopupMenu()
+        showPopupMenu(false)
         return false
     }
 
     /**
      * Show popup at last tap location.
      */
-    fun showPopupMenu() {
+    fun showPopupMenu(isSelectionMode: Boolean) {
         ShowPopupMenuAtPos(
             activity,
-            onDismiss = { unfocus() }
+            onDismiss = { unfocus() },
+            isSelectionMode = isSelectionMode
         ).createPopupMenu(
             lastTouchX,
-            lastTouchY,
+            lastTouchY
         ) { onDismiss -> CreatePopupMenu(onDismiss) }
     }
 

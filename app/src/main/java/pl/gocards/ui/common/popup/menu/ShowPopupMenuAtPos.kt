@@ -18,6 +18,7 @@ import pl.gocards.ui.theme.AppTheme
  */
 class ShowPopupMenuAtPos(
     val activity: Activity,
+    private val isSelectionMode: Boolean = false,
     val onDismiss: () -> Unit = {}
 ) {
 
@@ -34,7 +35,7 @@ class ShowPopupMenuAtPos(
         val x = (location[0] + view.width).toFloat()
         val y = (location[1] + view.height).toFloat()
 
-        createPopupMenu(x,y, content)
+        createPopupMenu(x, y, content)
     }
 
     /**
@@ -64,7 +65,10 @@ class ShowPopupMenuAtPos(
         val view = createView(x, y)
         val application = activity.application as App
         view.setContent {
-            AppTheme(isDarkTheme = application.getDarkMode()) {
+            AppTheme(
+                isDarkTheme = application.getDarkMode(),
+                isSelectionMode = isSelectionMode
+            ) {
                 Box(
                     modifier = Modifier
                         .wrapContentSize(Alignment.TopStart)
