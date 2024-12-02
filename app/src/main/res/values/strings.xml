@@ -197,9 +197,10 @@
     <string name="discover_premium_catchphrase">To help GoCars reach new heights, consider supporting us with subscription. Your sponsorship will enable us to develop new exciting features!</string>
     <string name="discover_premium_features">
     The premium version adds:\n
-    - Browse cards\n
-    - Searching\n
-    - Creating folders
+    - Organize decks into folders\n
+    - Browse all cards in full mode (similar to study mode)\n
+    - Deck Search: Find decks by name\n
+    - Card Search: Find cards by text
     </string>
     <string name="discover_premium_trial_promo_code">Ask for a trial promo code on Discord.</string>
 
