@@ -24,16 +24,16 @@ fun SelectListCardsPopupMenu(
 
     if (adapter.isCardSelected(position)) {
         IconMenuItem(
-            icon = Icons.AutoMirrored.Rounded.PlaylistAdd,
-            text = R.string.cards_list_popup_select_mode_select_card,
-            onClick = { adapter.select(holder) },
+            icon = Icons.Filled.Deselect,
+            text = R.string.cards_list_popup_select_mode_unselect_card,
+            onClick = { adapter.deselect(holder) },
             onDismiss = onDismiss
         )
     } else{
         IconMenuItem(
-            icon = Icons.Filled.Deselect,
-            text = R.string.cards_list_popup_select_mode_unselect_card,
-            onClick = { adapter.deselect(holder) },
+            icon = Icons.AutoMirrored.Rounded.PlaylistAdd,
+            text = R.string.cards_list_popup_select_mode_select_card,
+            onClick = { adapter.select(holder) },
             onDismiss = onDismiss
         )
     }
