@@ -42,7 +42,7 @@ class FileSyncWorkFactory {
         workManager.enqueue(request)
         workManager.getWorkInfoByIdLiveData(request.id)
             .observe(owner)
-            { workInfo: WorkInfo ->
+            { workInfo: WorkInfo? ->
                 doOnSuccess(
                     owner.lifecycle,
                     workInfo,
@@ -53,7 +53,7 @@ class FileSyncWorkFactory {
 
     private fun doOnSuccess(
         lifecycle: Lifecycle,
-        workInfo: WorkInfo,
+        workInfo: WorkInfo?,
         onSuccess: () -> Unit
     ) {
         if (!isWorkSucceeded(workInfo) || !isActivityResumed(lifecycle)) {
@@ -62,8 +62,8 @@ class FileSyncWorkFactory {
         onSuccess()
     }
 
-    private fun isWorkSucceeded(workInfo: WorkInfo): Boolean {
-        return workInfo.state == WorkInfo.State.SUCCEEDED
+    private fun isWorkSucceeded(workInfo: WorkInfo?): Boolean {
+        return workInfo?.state == WorkInfo.State.SUCCEEDED
     }
 
     private fun isActivityResumed(lifecycle: Lifecycle): Boolean {

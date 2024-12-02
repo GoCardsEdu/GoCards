@@ -19,7 +19,7 @@ dependencies {
     implementation project(':app')
     implementation project(":filesync_sheet")
     implementation project(":android-apache-poi-5-with-dependencies")
-    androidTestImplementation 'androidx.annotation:annotation:1.9.0'
+    androidTestImplementation "androidx.annotation:annotation:$annotation_version"
 }
 
 tasks.named("preBuild").configure {
