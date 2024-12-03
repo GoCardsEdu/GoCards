@@ -31,7 +31,7 @@ class StudyCardSliderActivity : ComponentActivity() {
 
     private var autoSyncCardsModel: AutoSyncViewModel? = null
 
-    private lateinit var viewModel: SliderCardsViewModel
+    private var viewModel: SliderCardsViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,15 +41,16 @@ class StudyCardSliderActivity : ComponentActivity() {
         val application = application as App
         val analytics = FirebaseAnalyticsHelper.getInstance(application)
 
-        viewModel = SliderCardsViewModel.getInstance(
+        val viewModel = SliderCardsViewModel.getInstance(
             context,
             deckDbPath,
             Mode.STUDY,
             analytics,
             this
         )
-        autoSyncCardsModel = AutoSyncViewModel.getInstance(deckDbPath, owner, application)
+        this.viewModel = viewModel
 
+        autoSyncCardsModel = AutoSyncViewModel.getInstance(deckDbPath, owner, application)
 
         autoSyncCardsModel?.autoSync {
             viewModel.loadForgottenCards()
@@ -90,7 +91,7 @@ class StudyCardSliderActivity : ComponentActivity() {
 
     override fun onStop() {
         super.onStop()
-        viewModel.saveCard()
-        autoSyncCardsModel?.autoSync { }
+        viewModel?.saveCard()
+        autoSyncCardsModel?.autoSync()
     }
 }

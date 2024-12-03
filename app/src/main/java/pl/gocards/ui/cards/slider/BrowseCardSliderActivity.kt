@@ -21,7 +21,7 @@ class BrowseCardSliderActivity : ComponentActivity() {
         const val DECK_DB_PATH = "DECK_DB_PATH"
     }
 
-    private lateinit var viewModel: SliderCardsViewModel
+    private var viewModel: SliderCardsViewModel? = null
 
     private var autoSyncCardsModel: AutoSyncViewModel? = null
 
@@ -32,13 +32,14 @@ class BrowseCardSliderActivity : ComponentActivity() {
         val application = application as App
         val analytics = FirebaseAnalyticsHelper.getInstance(application)
 
-        viewModel = SliderCardsViewModel.getInstance(
+        val viewModel = SliderCardsViewModel.getInstance(
             this,
             deckDbPath,
             Mode.STUDY,
             analytics,
             this,
         )
+        this.viewModel = viewModel
 
         autoSyncCardsModel = AutoSyncViewModel.getInstance(deckDbPath, owner, application)
 
@@ -65,7 +66,7 @@ class BrowseCardSliderActivity : ComponentActivity() {
 
     override fun onStop() {
         super.onStop()
-        viewModel.saveCard()
-        autoSyncCardsModel?.autoSync { }
+        viewModel?.saveCard()
+        autoSyncCardsModel?.autoSync()
     }
 }
