@@ -289,4 +289,8 @@ open class DynamicPagerModel<E>(
     fun getItem(page: Int): E? {
         return items.value[page]
     }
+
+    fun getItemOrNull(page: Int): E? {
+        return items.value.getOrNull(page)
+    }
 }

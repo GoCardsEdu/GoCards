@@ -60,10 +60,10 @@ class SliderCardsViewModel(
                 analytics.sliderScroll(
                     fromPage,
                     if (fromPage != null) {
-                        model?.getItem(fromPage)?.mode?.value.toString()
+                        model?.getItemOrNull(fromPage)?.mode?.value.toString()
                     } else null,
                     toPage,
-                    model?.getItem(toPage)?.mode?.value?.toString(),
+                    model?.getItemOrNull(toPage)?.mode?.value?.toString(),
                 )
             }
             val sliderCardsModelFactory = SliderCardsModelFactory(deckDb, appDb, application, onScroll)
