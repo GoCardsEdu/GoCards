@@ -27,8 +27,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pl.gocards.R
+import pl.gocards.ui.cards.slider.page.card.SliderCardPage
 import pl.gocards.ui.cards.slider.page.edit.model.EditCardUi
-import pl.gocards.ui.cards.slider.slider.SliderCardPage
 import java.util.Date
 
 val testEditCardUi = @Composable {

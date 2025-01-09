@@ -7,13 +7,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pl.gocards.db.room.DeckDatabase
 import pl.gocards.room.entity.deck.CardLearningHistory
-import pl.gocards.ui.cards.slider.page.add.model.NewCardsModel
-import pl.gocards.ui.cards.slider.page.edit.model.EditCardsModel
-import pl.gocards.ui.cards.slider.page.study.model.StudyCardsModel
-import pl.gocards.ui.cards.slider.slider.model.Mode
-import pl.gocards.ui.cards.slider.slider.model.SliderCardUi
-import pl.gocards.ui.cards.slider.slider.model.SliderCardsModel
+import pl.gocards.ui.cards.slider.page.add.model.NewCardManager
+import pl.gocards.ui.cards.slider.page.card.model.CardMode
+import pl.gocards.ui.cards.slider.page.card.model.SliderCardUi
+import pl.gocards.ui.cards.slider.page.card.model.SliderCardManager
+import pl.gocards.ui.cards.slider.page.edit.model.EditCardManager
+import pl.gocards.ui.cards.slider.page.study.model.StudyCardManager
 import pl.gocards.util.CardReplayScheduler
+import pl.gocards.util.FirebaseAnalyticsHelper
 import java.util.Deque
 import java.util.LinkedList
 import kotlin.math.abs
@@ -22,21 +23,23 @@ import kotlin.math.abs
  * C_U_39 Undo click on the study buttons.
  * @author Grzegorz Ziemski
  */
-open class UndoLearningProgressViewModel(
-    defaultMode: Mode,
+open class UndoLearningProgressCardSliderViewModel(
+    defaultMode: CardMode,
     deckDb: DeckDatabase,
-    sliderCardsModel: SliderCardsModel,
-    studyCardsModel: StudyCardsModel,
-    newCardsModel: NewCardsModel,
-    editCardsModel: EditCardsModel,
+    sliderCardManager: SliderCardManager,
+    studyCardManager: StudyCardManager?,
+    newCardManager: NewCardManager,
+    editCardManager: EditCardManager,
+    analytics: FirebaseAnalyticsHelper,
     application: Application
-) : DeleteSliderCardsViewModel(
+) : DeleteCardSliderViewModel(
     defaultMode,
     deckDb,
-    sliderCardsModel,
-    studyCardsModel,
-    newCardsModel,
-    editCardsModel,
+    sliderCardManager,
+    studyCardManager,
+    newCardManager,
+    editCardManager,
+    analytics,
     application
 ) {
 
@@ -56,44 +59,64 @@ open class UndoLearningProgressViewModel(
         backToCard: SliderCardUi,
         currentPage: Int,
         currentCard: SliderCardUi,
-        sliderCards: List<SliderCardUi>
+        sliderCardsSize: Int
     ) {
-        val wasAgain: Boolean = sliderCardsModel.findById(backToCard.id) != null
+        val wasAgain: Boolean = sliderCardManager.findById(backToCard.id) != null
+
         viewModelScope.launch(Dispatchers.IO) {
-            revertPreviousLearningProgressDb(backToCard.id)
+            revertPreviousLearningProgressInDb(backToCard.id)
+
             if (wasAgain) {
                 withContext(Dispatchers.Main) {
-                    sliderCardsModel.slideToPreviousPage()
+                    sliderCardManager.slideToPrevious(currentPage)
                     showDefinition(backToCard.id)
                 }
             } else {
-                val deletePage = if (currentPage == 0) {
-                    val isFirst = currentCard.ordinal!! > backToCard.ordinal!!
-                    if (isFirst) { 0 } else { sliderCards.size }
-                } else {
-                    currentPage
-                }
-                sliderCardsModel.restorePage(deletePage, backToCard)
-                showDefinition(backToCard.id)
+                handleRevertPreviousLearningProgress(
+                    backToCard,
+                    currentPage,
+                    currentCard,
+                    sliderCardsSize
+                )
             }
         }
     }
 
+    private fun handleRevertPreviousLearningProgress(
+        backToCard: SliderCardUi,
+        currentPage: Int,
+        currentCard: SliderCardUi,
+        sliderCardsSize: Int
+    ) {
+        val deletePage = if (currentPage == 0) {
+            val isFirst = currentCard.ordinal!! > backToCard.ordinal!!
+            if (isFirst) { 0 } else { sliderCardsSize }
+        } else {
+            currentPage
+        }
+        sliderCardManager.insertPageBefore(deletePage, backToCard)
+        showDefinition(backToCard.id)
+    }
+
     private fun showDefinition(cardId: Int) {
-        val studyCards = studyCardsModel.cards.value
+        if (studyCardManager == null) return
+
+        val studyCards = studyCardManager.cards.value
         val studyCard = studyCards[cardId] ?: return
         studyCard.showDefinition.value = true
     }
 
-    private suspend fun revertPreviousLearningProgressDb(cardId: Int) {
+    private suspend fun revertPreviousLearningProgressInDb(cardId: Int) {
+        if (studyCardManager == null) return
         val current = deckDb.cardLearningHistoryKtxDao().findCurrentByCardId(cardId) ?: return
         val previous = findPreviousLearningHistory(current)
+
         if (previous != null) {
             revertPrevious(current, previous)
         } else {
             revertFirst(current)
         }
-        studyCardsModel.reloadCard(cardId)
+        studyCardManager.fetchCard(cardId)
     }
 
     protected open fun revertFirst(current: CardLearningHistory) {
