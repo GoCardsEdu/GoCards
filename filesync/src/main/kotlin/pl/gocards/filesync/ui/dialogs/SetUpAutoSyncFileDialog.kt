@@ -21,7 +21,7 @@ fun SetUpAutoSyncFileDialog(
 ) {
     SetUpAutoSyncFileDialog(
         onConfirmation = input.onConfirmation,
-        onCancel = input.onConfirmation,
+        onCancel = input.onCancel,
         onDismiss = input.onDismiss
     )
 }
