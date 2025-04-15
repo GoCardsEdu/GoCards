@@ -29,15 +29,37 @@ public class TestCardsHelper {
     public static final int COLUMN_INDEX_DEFINITION = 1;
 
     public void assertCards(@NonNull List<Card> actualCardList, @NonNull DataTable expectedCards) {
+        Integer termIndex = findIndex("term", expectedCards);
+        Integer definitionIndex = findIndex("definition", expectedCards);
+        Integer disabledIndex = findIndex("disabled", expectedCards);
+        boolean skipRow = termIndex != null || definitionIndex != null || disabledIndex != null;
+
         Iterator<Card> it = actualCardList.iterator();
         int ordinal = 1;
         for (List<String> row : expectedCards.asLists()) {
+            if (skipRow) {
+                skipRow = false;
+                continue;
+            }
             if (it.hasNext()) {
                 Card card = it.next();
                 assertEquals("Wrong ordinal", ordinal++, card.getOrdinal());
 
-                List<String> actual = new ArrayList<>(Arrays.asList(card.getTerm(), card.getDefinition()));
-                List<String> expected = new ArrayList<>(Arrays.asList(getExpectedTerm(row), getExpectedDefinition(row)));
+                List<String> actual = new ArrayList<>(3);
+                List<String> expected = new ArrayList<>(3);
+
+                actual.add(card.getTerm());
+                expected.add(getExpectedTerm(row, termIndex));
+
+                actual.add(card.getDefinition());
+                expected.add(getExpectedDefinition(row, definitionIndex));
+
+                String expectedDisabled = getExpectedDisabled(row, disabledIndex);
+                if (expectedDisabled != null) {
+                    actual.add(Boolean.toString(card.getDisabled()).toUpperCase());
+                    expected.add(expectedDisabled);
+                }
+
                 assertThat(actual, is(expected));
 
                 if (row.size() > 2) {
@@ -51,26 +73,52 @@ public class TestCardsHelper {
                     }
                 }
             } else {
-                fail(String.format("Lack of the card term=%s, definition=%s", getExpectedTerm(row), getExpectedDefinition(row)));
+                fail(String.format("Lack of the card term=%s, definition=%s", getExpectedTerm(row, termIndex), getExpectedDefinition(row, definitionIndex)));
             }
         }
     }
 
+    @Nullable
+    protected Integer findIndex(@NonNull String header, @NonNull DataTable dataTable) {
+        int index = 0;
+        for (String cell : dataTable.asLists().get(0)) {
+            if (header.equalsIgnoreCase(cell)) {
+                return index;
+            }
+            index++;
+        }
+        return null;
+    }
+
     @NonNull
-    private String getExpectedTerm(@NonNull List<String> row) {
-        String expectedTerm = row.get(0);
-        if (expectedTerm == null) return "";
-        return expectedTerm;
+    private String getExpectedTerm(@NonNull List<String> row, Integer termIndex) {
+        if (termIndex != null) {
+            return row.get(termIndex);
+        } else {
+            String expectedTerm = row.get(0);
+            if (expectedTerm == null) return "";
+            return expectedTerm;
+        }
     }
 
     @Nullable
-    protected String getExpectedDefinition(@NonNull List<String> row) {
-        String expectedDefinition;
-        if (row.size() > 1) {
-            expectedDefinition = row.get(1);
-            if (expectedDefinition != null) return expectedDefinition;
+    protected String getExpectedDefinition(@NonNull List<String> row, Integer definitionIndex) {
+        if (definitionIndex != null) {
+            return row.get(definitionIndex);
+        } else {
+            String expectedDefinition;
+            if (row.size() > 1) {
+                expectedDefinition = row.get(1);
+                if (expectedDefinition != null) return expectedDefinition;
+            }
+            return "";
         }
-        return "";
+    }
+
+    @Nullable
+    protected String getExpectedDisabled(@NonNull List<String> row, Integer disabledIndex) {
+        if (disabledIndex == null) return null;
+        return row.get(disabledIndex);
     }
 
     protected boolean isInteger(@NonNull String s) {
