@@ -8,23 +8,20 @@ group 'pl.gocards'
 version "$android_apache_poi_version"
 
 dependencies {
-    implementation 'org.apache.poi:poi-ooxml:5.2.3'
-    implementation 'xerces:xercesImpl:2.12.2'
-    implementation 'sax:sax:2.0.1'
+    implementation 'org.apache.poi:poi-ooxml:5.4.1'
 }
 
 shadowJar {
     dependencies {
-        // https://mvnrepository.com/artifact/org.apache.poi/poi/5.2.3
-        include(dependency('org.apache.poi:poi:5.2.3'))
-        include(dependency('org.apache.poi:poi-ooxml:5.2.3'))
-        include(dependency('org.apache.poi:poi-ooxml-lite:5.2.3'))
-        include(dependency('org.apache.xmlbeans:xmlbeans:5.1.1'))
+        // https://mvnrepository.com/artifact/org.apache.poi/poi/5.4.1
+        include(dependency('org.apache.poi:poi:5.4.1'))
+        include(dependency('org.apache.poi:poi-ooxml:5.4.1'))
+        include(dependency('org.apache.poi:poi-ooxml-lite:5.4.1'))
+        include(dependency('org.apache.xmlbeans:xmlbeans:5.3.0'))
     }
 
-    archiveBaseName.set('poi-5.2.3')
+    archiveBaseName.set('poi-5.4.1')
     exclude 'repackage/**'
-    relocate 'java.awt', 'org.apache.poi.java.awt'
 }
 
 jar.dependsOn shadowJar

@@ -49,7 +49,7 @@ dependencies {
     implementation "androidx.work:work-runtime:$work_version"
     implementation 'com.google.guava:guava:31.1-android'
 
-    implementation 'commons-io:commons-io:2.16.1'
+    implementation 'commons-io:commons-io:2.18.0'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'io.cucumber:cucumber-java:7.18.0'

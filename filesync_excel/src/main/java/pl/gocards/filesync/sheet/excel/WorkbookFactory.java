@@ -26,7 +26,7 @@ public class WorkbookFactory implements pl.gocards.filesync.sheet.WorkbookFactor
             @NonNull InputStream inputStream,
             @NonNull String fileMimeType
     ) throws IOException {
-        ZipSecureFile.setMinInflateRatio(0.001);
+        //ZipSecureFile.setMinInflateRatio(0.001);
         return fileMimeType.equals(MIME_TYPE_XLS)
                 ? new HSSFWorkbook(inputStream)
                 : new XSSFWorkbook(inputStream);

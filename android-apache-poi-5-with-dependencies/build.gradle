@@ -12,20 +12,17 @@ java {
 }
 
 dependencies {
-    // Apache POI
-    //noinspection GradleDependency (version from POI)
-    api 'org.apache.commons:commons-compress:1.21'
+    //noinspection GradleDependency
+    api 'org.apache.commons:commons-compress:1.27.1'
+
+    //NoClassDefFoundError: Failed resolution of: Lorg/apache/logging/log4j/Logger;
+    //noinspection GradleDependency
+    implementation 'org.apache.logging.log4j:log4j-api:2.24.3'
+
+    //Caused by: java.lang.ClassNotFoundException: Didn't find class "org.apache.commons.collections4.multimap.ArrayListValuedHashMap"
+    //noinspection GradleDependency
     implementation 'org.apache.commons:commons-collections4:4.4'
-    /* Caused by: java.lang.ClassNotFoundException: org.apache.commons.math3.util.ArithmeticUtils
-     * I don't know why this relationship does not exist in POI */
-    implementation 'org.apache.commons:commons-math3:3.6.1'
-    //noinspection GradleDependency (version from POI)
-    implementation 'commons-io:commons-io:2.11.0'
-    implementation 'xml-apis:xml-apis:1.4.01'
-    implementation 'xerces:xercesImpl:2.12.2'
-    implementation 'com.zaxxer:SparseBitSet:1.2'
-    //noinspection GradleDependency (version from POI)
-    implementation 'org.apache.logging.log4j:log4j-api:2.18.0'
+
     api "pl.gocards:android-apache-poi-5:$android_apache_poi_version"
 }
 
