@@ -69,7 +69,7 @@ public abstract class FileWorker extends Worker {
 
     @NonNull
     protected OutputStream openFileToWrite(@NonNull Uri uri) throws FileNotFoundException {
-        return Objects.requireNonNull(getApplicationContext().getContentResolver().openOutputStream(uri));
+        return Objects.requireNonNull(getApplicationContext().getContentResolver().openOutputStream(uri, "wt"));
     }
 
     @NonNull
