@@ -16,6 +16,7 @@ import pl.gocards.ui.cards.list.model.ListCardsViewModel
 import pl.gocards.ui.cards.list.model.UiListCard
 import pl.gocards.ui.common.CommonAdapter
 import pl.gocards.ui.theme.ExtendedColors
+import pl.gocards.util.fromHtmlToHtmlCompat
 
 /**
  * C_R_01 Display all cards
@@ -68,17 +69,10 @@ open class ListCardsAdapter(
     }
 
     open fun setText(textView: TextView, value: String) {
-        textView.text = formatText(value)
-    }
-
-    /**
-     * Removes html tags
-     */
-    private fun formatText(value: String): String {
-        return if (htmlUtil.isSimpleHtml(value)) {
-            htmlUtil.fromHtml(value).toString()
+        if (htmlUtil.isSimpleHtml(value)) {
+            textView.text = value.fromHtmlToHtmlCompat()
         } else {
-            value
+            textView.text = value
         }
     }
 

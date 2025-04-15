@@ -30,6 +30,105 @@ import androidx.compose.ui.unit.TextUnit
 @Composable
 @SuppressWarnings("unused")
 fun LinkifyText(
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    linkColor: Color = Color.Cyan,
+    linkEntire: Boolean = false,
+    color: Color = Color.Unspecified,
+    fontSize: TextUnit = TextUnit.Unspecified,
+    fontStyle: FontStyle? = null,
+    fontWeight: FontWeight? = null,
+    fontFamily: FontFamily? = null,
+    letterSpacing: TextUnit = TextUnit.Unspecified,
+    textDecoration: TextDecoration? = null,
+    textAlign: TextAlign? = null,
+    lineHeight: TextUnit = TextUnit.Unspecified,
+    overflow: TextOverflow = TextOverflow.Clip,
+    softWrap: Boolean = true,
+    maxLines: Int = Int.MAX_VALUE,
+    onTextLayout: (TextLayoutResult) -> Unit = {},
+    style: TextStyle = LocalTextStyle.current,
+    clickable: Boolean = true,
+    onClickLink: ((linkText: String) -> Unit)? = null
+) {
+    val uriHandler = LocalUriHandler.current
+    val linkInfos = if (linkEntire) listOf(LinkInfo(text.text, 0, text.length)) else SpannableStr.getLinkInfos(text.text)
+    val annotatedString = buildAnnotatedString {
+        append(text)
+        linkInfos.forEach {
+            addStyle(
+                style = SpanStyle(
+                    color = linkColor,
+                    textDecoration = TextDecoration.Underline
+                ),
+                start = it.start,
+                end = it.end
+            )
+            addStringAnnotation(
+                tag = "tag",
+                annotation = it.url,
+                start = it.start,
+                end = it.end
+            )
+        }
+    }
+    if (clickable) {
+        ClickableText(
+            text = annotatedString,
+            modifier = modifier,
+            color = color,
+            fontSize = fontSize,
+            fontStyle = fontStyle,
+            fontWeight = fontWeight,
+            fontFamily = fontFamily,
+            letterSpacing = letterSpacing,
+            textDecoration = textDecoration,
+            textAlign = textAlign,
+            lineHeight = lineHeight,
+            overflow = overflow,
+            softWrap = softWrap,
+            maxLines = maxLines,
+            onTextLayout = onTextLayout,
+            style = style,
+            onClick = { offset ->
+                annotatedString.getStringAnnotations(
+                    start = offset,
+                    end = offset,
+                ).firstOrNull()?.let { result ->
+                    if (linkEntire) {
+                        onClickLink?.invoke(annotatedString.substring(result.start, result.end))
+                    } else {
+                        uriHandler.openUri(result.item)
+                        onClickLink?.invoke(annotatedString.substring(result.start, result.end))
+                    }
+                }
+            }
+        )
+    } else {
+        Text(
+            text = annotatedString,
+            modifier = modifier,
+            color = color,
+            fontSize = fontSize,
+            fontStyle = fontStyle,
+            fontWeight = fontWeight,
+            fontFamily = fontFamily,
+            letterSpacing = letterSpacing,
+            textDecoration = textDecoration,
+            textAlign = textAlign,
+            lineHeight = lineHeight,
+            overflow = overflow,
+            softWrap = softWrap,
+            maxLines = maxLines,
+            onTextLayout = onTextLayout,
+            style = style
+        )
+    }
+}
+
+@Composable
+@SuppressWarnings("unused")
+fun LinkifyText(
     text: String,
     modifier: Modifier = Modifier,
     linkColor: Color = Color.Cyan,

@@ -54,13 +54,6 @@ public class HtmlUtil {
         return ret;
     }
 
-    public Spanned fromHtml(@NonNull String source) {
-        return Html.fromHtml(
-                source.replace("\n", "<br/>"),
-                Html.FROM_HTML_MODE_COMPACT
-        );
-    }
-
     public String replaceYtIframe(String source, int width, int height) {
         if (height > width) {
             int newWidth = width - 20;

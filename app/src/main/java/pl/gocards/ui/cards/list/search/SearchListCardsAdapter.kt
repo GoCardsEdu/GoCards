@@ -10,6 +10,7 @@ import pl.gocards.ui.cards.list.ListCardsActivity
 import pl.gocards.ui.cards.list.select.SelectCardsViewModel
 import pl.gocards.ui.cards.list.select.SelectListCardsAdapter
 import pl.gocards.ui.theme.ExtendedColors
+import pl.gocards.util.fromHtmlToHtmlCompat
 
 /**
  * C_R_02 Search cards
@@ -60,7 +61,7 @@ open class SearchListCardsAdapter(
             val searchedMarked = value
                 .replace("{search}", "<span style='background-color:#$bg;'>")
                 .replace("{esearch}", "</span>")
-            textView.text = htmlUtil.fromHtml(searchedMarked)
+            textView.text = searchedMarked.fromHtmlToHtmlCompat()
         }
     }
 }

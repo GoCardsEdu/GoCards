@@ -42,6 +42,7 @@ import pl.gocards.room.entity.deck.DeckConfig
 import pl.gocards.room.entity.deck.DeckConfig.Companion.STUDY_CARD_FONT_SIZE_MAX
 import pl.gocards.room.entity.deck.DeckConfig.Companion.STUDY_CARD_FONT_SIZE_MIN
 import pl.gocards.room.util.HtmlUtil
+import pl.gocards.util.fromHtmlToAnnotatedString
 
 
 /**
@@ -239,19 +240,28 @@ private fun TextStudyBox(
             .pointerInput(Unit, zoomFontSize(fontSize)),
         contentAlignment = Alignment.Center
     ) {
-        LinkifyText(
-            text = if (isSimpleHtml) {
-                HtmlUtil.getInstance().fromHtml(content).toString()
-            } else {
-                content
-            },
-            modifier = Modifier.verticalScroll(rememberScrollState()),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium.copy(
-                lineHeight = 1.2 * (fontSize.value ?: DeckConfig.STUDY_CARD_FONT_SIZE_DEFAULT.sp),
-                fontSize = fontSize.value ?: DeckConfig.STUDY_CARD_FONT_SIZE_DEFAULT.sp
+        if (isSimpleHtml) {
+            LinkifyText(
+                text = content.fromHtmlToAnnotatedString(),
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    lineHeight = 1.2 * (fontSize.value
+                        ?: DeckConfig.STUDY_CARD_FONT_SIZE_DEFAULT.sp),
+                    fontSize = fontSize.value ?: DeckConfig.STUDY_CARD_FONT_SIZE_DEFAULT.sp
+                )
             )
-        )
+        } else {
+            LinkifyText(
+                text = content,
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    lineHeight = 1.2 * (fontSize.value ?: DeckConfig.STUDY_CARD_FONT_SIZE_DEFAULT.sp),
+                    fontSize = fontSize.value ?: DeckConfig.STUDY_CARD_FONT_SIZE_DEFAULT.sp
+                )
+            )
+        }
     }
 }
 

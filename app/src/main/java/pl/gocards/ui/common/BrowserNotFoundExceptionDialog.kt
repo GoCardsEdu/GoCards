@@ -12,8 +12,8 @@ import androidx.compose.ui.res.stringResource
 import com.linkifytext.LinkifyText
 import kotlinx.coroutines.CoroutineScope
 import pl.gocards.R
-import pl.gocards.room.util.HtmlUtil
 import pl.gocards.ui.theme.AppTheme
+import pl.gocards.util.fromHtmlToAnnotatedString
 
 
 fun showBrowserNotFoundExceptionDialog(
@@ -29,7 +29,7 @@ fun showBrowserNotFoundExceptionDialog(
                 content = {
                     Text(text = stringResource(R.string.exception_no_browser_description) + "\n")
                     SelectionContainer {
-                        LinkifyText(HtmlUtil.getInstance().fromHtml("<a href='\"$link\"'>$link</a>").toString())
+                        LinkifyText("<a href='\"$link\"'>$link</a>".fromHtmlToAnnotatedString())
                     }
                 }
             )
