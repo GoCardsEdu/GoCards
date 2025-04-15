@@ -182,6 +182,7 @@ private fun processContent(
     val processedContent = htmlUtil.replaceYtIframe(content, pxToDp(width), pxToDp(height))
         .let { htmlUtil.replaceYtPortraitIframe(it, pxToDp(height)) }
         .replace("\n", "<br/>")
+        .let { sanitizePreCodeBlocks(it) }
 
     return context.assets.open("study_content_template.html")
         .bufferedReader()
@@ -192,12 +193,26 @@ private fun processContent(
         .replace("{{content}}", processedContent)
 }
 
-private fun highlightCss(darkMode: Boolean): String {
-    return if (darkMode) {
-        "<link rel='stylesheet' href='file:///android_asset/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css'>"
-    } else {
-        "<link rel='stylesheet' href='file:///android_asset/libs/highlight.js/11.9.0/styles/default.min.css'>"
+private fun sanitizePreCodeBlocks(html: String): String {
+    val regex = Regex("<pre><code>(.*?)(</code></pre>|$)", RegexOption.DOT_MATCHES_ALL)
+
+    return regex.replace(html) { matchResult ->
+        val originalContent = matchResult.groupValues[1]
+        val closingTag = matchResult.groupValues[2]
+
+        val sanitizedContent = originalContent
+            .replace(Regex("<br\\s*/?>", RegexOption.IGNORE_CASE), "\n")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+
+        "<pre><code>$sanitizedContent$closingTag"
     }
+}
+
+private fun highlightCss(darkMode: Boolean): String {
+    val basePath = "file:///android_asset/libs/highlight.js/11.9.0/styles"
+    val style = if (darkMode) "atom-one-dark.min.css" else "default.min.css"
+    return "<link rel='stylesheet' href='$basePath/$style'>"
 }
 
 private fun highlightJs(): String {
@@ -205,7 +220,6 @@ private fun highlightJs(): String {
         <script src="file:///android_asset/libs/highlight.js/11.9.0/highlight.min.js"></script>
         <script>document.addEventListener("DOMContentLoaded", function() {
             document.querySelectorAll("pre code").forEach((block) => {
-                block.innerHTML = block.innerHTML.replace(/<br\s*\/?>/g, "\n");
                 hljs.highlightElement(block);
             });
         });</script>
