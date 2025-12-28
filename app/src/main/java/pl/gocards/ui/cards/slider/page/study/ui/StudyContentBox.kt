@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -236,6 +237,7 @@ private fun TextStudyBox(
 ) {
     Box(
         modifier = modifier
+            .testTag("text_study_box")
             .fillMaxSize()
             .pointerInput(Unit, zoomFontSize(fontSize)),
         contentAlignment = Alignment.Center
