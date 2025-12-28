@@ -73,7 +73,6 @@ Feature: Import the file and create a new deck.
       | Sample Term 1 | Sample Definition 1 |
       |               |                     |
       | Sample Term 2 | Sample Definition 2 |
-      |               |                     |
 
 
   Scenario: IE_07 Found 2 columns, no header columns.
