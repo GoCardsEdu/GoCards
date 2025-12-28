@@ -2,8 +2,8 @@ plugins {
     id 'com.android.library'
 }
 android {
-    namespace 'pl.gocards.filesync.sheet'
-    compileSdk 35
+    namespace = 'pl.gocards.filesync.sheet'
+    compileSdk 36
 
     defaultConfig {
         minSdk 26

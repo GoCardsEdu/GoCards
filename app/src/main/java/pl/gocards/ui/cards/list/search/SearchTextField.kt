@@ -30,7 +30,7 @@ fun SearchTextField(
     searchQuery: State<String?>,
     onValueChange: (String) -> Unit,
 ) {
-    val focusRequester = FocusRequester()
+    val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()

@@ -69,7 +69,7 @@ abstract class CardConfigKtxDao: BaseKtxDao<CardConfig> {
             STUDY_CARD_TERM_FONT_SIZE
         )
         fontSize?.let {
-            if (fontSize < STUDY_CARD_FONT_SIZE_MIN || STUDY_CARD_FONT_SIZE_MAX < fontSize) {
+            if (fontSize !in STUDY_CARD_FONT_SIZE_MIN..STUDY_CARD_FONT_SIZE_MAX) {
                 return null
             }
         }
@@ -91,7 +91,7 @@ abstract class CardConfigKtxDao: BaseKtxDao<CardConfig> {
             STUDY_CARD_DEFINITION_FONT_SIZE,
         )
         fontSize?.let {
-            if (fontSize < STUDY_CARD_FONT_SIZE_MIN || STUDY_CARD_FONT_SIZE_MAX < fontSize) {
+            if (fontSize !in STUDY_CARD_FONT_SIZE_MIN..STUDY_CARD_FONT_SIZE_MAX) {
                 return null
             }
         }

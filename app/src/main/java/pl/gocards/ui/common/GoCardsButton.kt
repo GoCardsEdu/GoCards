@@ -30,7 +30,7 @@ fun GoCardsButton(
     onClick: () -> Unit,
     fontSize: TextUnit = 16.sp,
 ) {
-    GoCardsButton(icon, stringResource(text), onClick, fontSize)
+    GoCardsButton(icon, stringResource(text), onClick, Modifier, fontSize)
 }
 
 @Composable
@@ -38,8 +38,8 @@ fun GoCardsButton(
     icon: ImageVector,
     text: String,
     onClick: () -> Unit,
-    fontSize: TextUnit = 16.sp,
     modifier: Modifier = Modifier,
+    fontSize: TextUnit = 16.sp,
     width: Dp = 180.dp
 ) {
     Button(

@@ -218,7 +218,7 @@ open class DynamicPagerViewModel<E>(
             updatedItems.removeAt(deletedItemAt)
             setItemsWithoutLock(updatedItems)
 
-            if (updatedItems.size == 0) {
+            if (updatedItems.isEmpty()) {
                 _settledPage.value = null
             } else {
                 updateCurrentPageAfterDeletion(deletedItemAt, updatedItems.size)

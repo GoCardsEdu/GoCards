@@ -106,7 +106,7 @@ class ListCardsActivity : AppCompatActivity() {
                 )
 
                 LaunchedEffect(true) {
-                    if (viewModel.items.size == 0) {
+                    if (viewModel.items.isEmpty()) {
                         adapter?.loadCards()
                     }
                 }

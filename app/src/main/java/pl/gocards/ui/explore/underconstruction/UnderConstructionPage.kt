@@ -156,14 +156,15 @@ private fun PollBox(
                 Icons.Filled.Done,
                 "Yes",
                 onClickYes,
-                14.sp,
                 Modifier.padding(end = 50.dp),
+                14.sp,
                 100.dp
             )
             GoCardsButton(
                 Icons.Filled.Close,
                 "No",
                 onClickNo,
+                Modifier,
                 14.sp,
                 width = 100.dp
             )

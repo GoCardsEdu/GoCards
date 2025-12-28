@@ -18,19 +18,19 @@ android {
             keyPassword project.property('RELEASE_KEY_PASSWORD')
         }
     }
-    namespace 'pl.gocards'
-    compileSdk 35
+    namespace = 'pl.gocards'
+    compileSdk 36
 
     defaultConfig {
         applicationId "pl.gocards"
         testApplicationId "pl.gocards.test"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         minSdkVersion 26
-        targetSdkVersion 35
+        targetSdkVersion 36
         versionCode 30
         versionName "1.0.29"
         vectorDrawables {
-            useSupportLibrary true
+            useSupportLibrary = true
         }
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas".toString())
@@ -40,18 +40,18 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
+            shrinkResources = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "string", "app_name", "@string/app_name_release"
-            signingConfig signingConfigs.release
+            signingConfig = signingConfigs.release
             ext.enableCrashlytics = true
             firebaseCrashlytics {
-                mappingFileUploadEnabled true
+                mappingFileUploadEnabled = true
             }
         }
         debug {
             minifyEnabled false
-            shrinkResources false
+            shrinkResources = false
             // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             applicationIdSuffix '.debug'
             resValue "string", "app_name", "@string/app_name_debug"
@@ -67,9 +67,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = '17'
-    }
     dynamicFeatures = [
             ':filesync',
             ':filesync_pro',
@@ -77,8 +74,8 @@ android {
             ':filesync_csv'
     ]
     buildFeatures {
-        compose true
-        viewBinding true
+        compose = true
+        viewBinding = true
     }
     packagingOptions {
         resources {
@@ -102,7 +99,7 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata"
     implementation "androidx.compose.material3:material3"
     implementation "androidx.compose.material:material-icons-extended-android"
-    implementation 'androidx.activity:activity-compose:1.10.1'
+    implementation 'androidx.activity:activity-compose:1.12.2'
     implementation "androidx.constraintlayout:constraintlayout-compose:1.1.1"
 
     // MDC-Android
@@ -122,14 +119,14 @@ dependencies {
     implementation project(":android-apache-poi-5-with-dependencies")
     // implementation "pl.gocards:android-apache-poi-5-with-dependencies:$android_apache_poi_version"
 
-    implementation 'org.apache.commons:commons-text:1.12.0'
-    implementation platform('com.google.firebase:firebase-bom:33.12.0')
+    implementation 'org.apache.commons:commons-text:1.15.0'
+    implementation platform('com.google.firebase:firebase-bom:34.7.0')
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.android.billingclient:billing-ktx:7.1.1'
+    implementation 'com.android.billingclient:billing-ktx:8.3.0'
     implementation 'com.google.android.play:review-ktx:2.0.2'
 
-    implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+    implementation 'com.firebaseui:firebase-ui-auth:9.1.1'
 
     // Test rules and transitive dependencies:
     androidTestImplementation platform("androidx.compose:compose-bom:$compose_bom")

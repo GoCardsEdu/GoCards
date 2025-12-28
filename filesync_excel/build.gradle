@@ -3,8 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android' // without this, it takes other dependencies than app
 }
 android {
-    namespace 'pl.gocards.filesync.sheet.excel'
-    compileSdk 35
+    namespace = 'pl.gocards.filesync.sheet.excel'
+    compileSdk 36
 
     defaultConfig {
         minSdk 26

@@ -6,8 +6,8 @@ plugins {
 }
 
 android {
-    namespace 'pl.gocards.filesync'
-    compileSdk 35
+    namespace = 'pl.gocards.filesync'
+    compileSdk 36
 
     defaultConfig {
         testApplicationId "pl.gocards.filesync.test"
@@ -17,11 +17,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = '17'
-    }
     buildFeatures {
-        compose true
+        compose = true
     }
 }
 
@@ -35,7 +32,7 @@ dependencies {
 
     // Compose
     implementation platform("androidx.compose:compose-bom:$compose_bom")
-    implementation 'androidx.activity:activity-compose:1.10.1'
+    implementation 'androidx.activity:activity-compose:1.12.2'
 
     // MDC-Android
     implementation "com.google.android.material:material:$material"
@@ -49,15 +46,15 @@ dependencies {
     implementation "androidx.work:work-runtime:$work_version"
     implementation 'com.google.guava:guava:31.1-android'
 
-    implementation 'commons-io:commons-io:2.18.0'
+    implementation 'commons-io:commons-io:2.21.0'
 
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'io.cucumber:cucumber-java:7.18.0'
-    testImplementation 'io.cucumber:cucumber-junit:7.18.0'
-    testImplementation 'org.hamcrest:hamcrest-core:2.2'
-    testImplementation('org.mockito:mockito-core:5.14.2') {
+    testImplementation 'io.cucumber:cucumber-java:7.33.0'
+    testImplementation 'io.cucumber:cucumber-junit:7.33.0'
+    testImplementation 'org.hamcrest:hamcrest-core:3.0'
+    testImplementation('org.mockito:mockito-core:5.21.0') {
         exclude group: 'org.hamcrest', module: 'hamcrest-core'
         exclude group: 'org.hamcrest', module: 'hamcrest-library'
     }
-    androidTestImplementation 'org.hamcrest:hamcrest-core:2.2'
+    androidTestImplementation 'org.hamcrest:hamcrest-core:3.0'
 }

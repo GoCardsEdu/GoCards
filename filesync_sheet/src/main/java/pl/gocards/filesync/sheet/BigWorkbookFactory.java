@@ -19,16 +19,17 @@ public class BigWorkbookFactory implements WorkbookFactory {
 
     @Nullable
     public Workbook createWorkbook(@NonNull String fileMimeType) {
-        switch (fileMimeType) {
-            case MIME_TYPE_XLS:
-            case MIME_TYPE_XLSX:
-                if (excelWorkbookFactory == null) return null;
-                return excelWorkbookFactory.createWorkbook(fileMimeType);
-            case MIME_TYPE_CSV:
-                if (csvWorkbookFactory == null) return null;
-                return csvWorkbookFactory.createWorkbook(fileMimeType);
-        }
-        throw new RuntimeException("No support for " + fileMimeType);
+        return switch (fileMimeType) {
+            case MIME_TYPE_XLS, MIME_TYPE_XLSX -> {
+                if (excelWorkbookFactory == null) yield null;
+                yield excelWorkbookFactory.createWorkbook(fileMimeType);
+            }
+            case MIME_TYPE_CSV -> {
+                if (csvWorkbookFactory == null) yield null;
+                yield csvWorkbookFactory.createWorkbook(fileMimeType);
+            }
+            default -> throw new RuntimeException("No support for " + fileMimeType);
+        };
     }
 
     @Nullable
@@ -50,15 +51,13 @@ public class BigWorkbookFactory implements WorkbookFactory {
 
     @NonNull
     public static String getFileExtension(@NonNull String fileMimeType) throws SheetWarningException {
-        switch (fileMimeType) {
-            case MIME_TYPE_XLS:
-                return FILE_EXTENSION_XLS;
-            case MIME_TYPE_XLSX:
-                return FILE_EXTENSION_XLSX;
-            case MIME_TYPE_CSV:
-                return FILE_EXTENSION_CSV;
-        }
-        throw new SheetWarningException("No support for mime type: \"" + fileMimeType + "\"");
+        return switch (fileMimeType) {
+            case MIME_TYPE_XLS -> FILE_EXTENSION_XLS;
+            case MIME_TYPE_XLSX -> FILE_EXTENSION_XLSX;
+            case MIME_TYPE_CSV -> FILE_EXTENSION_CSV;
+            default ->
+                    throw new SheetWarningException("No support for mime type: \"" + fileMimeType + "\"");
+        };
     }
 
     @Nullable

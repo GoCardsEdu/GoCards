@@ -3,8 +3,8 @@ plugins {
     id 'maven-publish'
 }
 
-group 'pl.gocards'
-version "$android_apache_poi_version"
+group = 'pl.gocards'
+version = "$android_apache_poi_version"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

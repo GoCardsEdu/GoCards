@@ -79,8 +79,8 @@ fun SignInPage(
                 Icons.AutoMirrored.Filled.Login,
                 stringResource(R.string.login),
                 onClickLogin,
-                14.sp,
                 Modifier.padding(bottom = 20.dp),
+                14.sp,
                 120.dp
             )
             if (token != null) {

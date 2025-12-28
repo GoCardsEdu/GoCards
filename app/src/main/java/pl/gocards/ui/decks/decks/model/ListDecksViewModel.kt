@@ -66,7 +66,7 @@ class ListDecksViewModel(
                 }
 
                 withContext(Dispatchers.Main) {
-                    isEmptyFolder.value = decks.size == 0
+                    isEmptyFolder.value = decks.isEmpty()
                     this@ListDecksViewModel.decks.clear()
                     this@ListDecksViewModel.decks.addAll(decks)
                     onSuccess()
@@ -107,7 +107,7 @@ class ListDecksViewModel(
 
             folderPath.value = null
             folderName.value = null
-            isEmptyFolder.value = decks.size == 0
+            isEmptyFolder.value = decks.isEmpty()
 
             withContext(Dispatchers.Main) {
                 this@ListDecksViewModel.decks.clear()

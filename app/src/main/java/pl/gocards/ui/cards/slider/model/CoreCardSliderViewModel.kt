@@ -58,7 +58,7 @@ open class CoreCardSliderViewModel(
             val page = (sliderCards.size - 1).coerceAtLeast(0)
 
             val id = newCardManager.addNewCard()
-            val ordinal = if (sliderCards.size > 0) {
+            val ordinal = if (sliderCards.isNotEmpty()) {
                 sliderCards[sliderCards.lastIndex].ordinal ?: 1
             } else {
                 1

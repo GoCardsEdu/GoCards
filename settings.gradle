@@ -11,7 +11,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
-            url "https://maven.repository.redhat.com/earlyaccess/all/"
+            url = "https://maven.repository.redhat.com/earlyaccess/all/"
         }
         mavenLocal() // android-apache-poi-5
     }

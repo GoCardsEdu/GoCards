@@ -1,8 +1,5 @@
 package pl.gocards.room.util;
 
-import android.text.Html;
-import android.text.Spanned;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 

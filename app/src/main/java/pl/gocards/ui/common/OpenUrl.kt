@@ -3,7 +3,7 @@ package pl.gocards.ui.common
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.lifecycle.LifecycleCoroutineScope
 import pl.gocards.util.ExceptionHandler
 
@@ -21,7 +21,7 @@ class OpenUrl {
             try {
                 val intent = Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse(link)
+                    link.toUri()
                 )
                 activity.startActivity(intent)
             } catch (ex: Exception) {

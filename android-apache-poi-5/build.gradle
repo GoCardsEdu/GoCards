@@ -4,8 +4,8 @@ plugins {
     id 'maven-publish'
 }
 
-group 'pl.gocards'
-version "$android_apache_poi_version"
+group = 'pl.gocards'
+version = "$android_apache_poi_version"
 
 dependencies {
     implementation 'org.apache.poi:poi-ooxml:5.4.1'
