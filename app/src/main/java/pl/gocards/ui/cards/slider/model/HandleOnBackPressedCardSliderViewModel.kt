@@ -1,9 +1,6 @@
 package pl.gocards.ui.cards.slider.model
 
 import android.app.Application
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import pl.gocards.db.room.DeckDatabase
 import pl.gocards.room.util.TimeUtil
 import pl.gocards.ui.cards.slider.page.add.model.NewCardManager
@@ -37,7 +34,7 @@ open class HandleOnBackPressedCardSliderViewModel(
     application
 ) {
 
-    fun handleOnBackPressed(): Boolean {
+    suspend fun handleOnBackPressed(): Boolean {
         val currentPage = sliderCardManager.getSettledPage() ?: return false
         val currentCard = sliderCardManager.getItem(currentPage)
 
@@ -77,7 +74,7 @@ open class HandleOnBackPressedCardSliderViewModel(
         analytics.sliderDeleteNewCard(currentPage)
     }
 
-    private fun handleStudyModeBackPress(currentCard: SliderCardUi): Boolean {
+    private suspend fun handleStudyModeBackPress(currentCard: SliderCardUi): Boolean {
         val studyCard = studyCardManager?.getCached(currentCard.id)!!
         return if (studyCard.showDefinition.value) {
             studyCard.showDefinition.value = false

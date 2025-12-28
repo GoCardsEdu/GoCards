@@ -50,7 +50,7 @@ open class LearningProgressCardSliderViewModel(
         sliderCardManager.forgetAndSlideToNextCard(page)
     }
 
-    private fun addForgottenInThisSession(id: Int) {
+    private suspend fun addForgottenInThisSession(id: Int) {
         if (studyCardManager == null) return
 
         val studyCard = studyCardManager.getCached(id)!!

@@ -7,6 +7,8 @@ import androidx.activity.addCallback
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import pl.gocards.App
 import pl.gocards.db.deck.DeckDbUtil
 import pl.gocards.ui.cards.slider.model.CardSliderViewModel
@@ -85,7 +87,11 @@ class StudyCardSliderActivity : ComponentActivity() {
         }
 
         this.onBackPressedDispatcher.addCallback(this) {
-            if (!viewModel.handleOnBackPressed()) super.finish()
+            lifecycleScope.launch {
+                if (!viewModel.handleOnBackPressed()) {
+                    finish()
+                }
+            }
         }
     }
 

@@ -97,7 +97,7 @@ abstract class DisplaySettingsStudyCardsManager(
      * Set a term height
      * ----------------------------------------------------------------------------------------- */
 
-    fun computeAndSetTermHeight(cardId: Int) {
+    suspend fun computeAndSetTermHeight(cardId: Int) {
         val card = getCached(cardId) ?: return
         computeAndSetTermHeight(card, null)
     }

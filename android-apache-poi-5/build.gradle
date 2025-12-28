@@ -25,7 +25,6 @@ shadowJar {
 }
 
 jar.dependsOn shadowJar
-test.dependsOn shadowJar
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
