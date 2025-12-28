@@ -2,6 +2,8 @@ package pl.gocards.room.dao.deck
 
 import androidx.room.Dao
 import androidx.room.Query
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import pl.gocards.room.dao.BaseKtxDao
 import pl.gocards.room.entity.deck.CardConfig
 import pl.gocards.room.entity.deck.DeckConfig.Companion.STUDY_CARD_DEFINITION_FONT_SIZE
@@ -18,6 +20,8 @@ import pl.gocards.room.entity.deck.DeckConfig.Companion.STUDY_CARD_TERM_FONT_SIZ
  */
 @Dao
 abstract class CardConfigKtxDao: BaseKtxDao<CardConfig> {
+
+    private val mutex = Mutex()
 
     @Query("SELECT * FROM Core_CardConfig WHERE cardId=:cardId AND `key`=:key")
     abstract suspend fun getConfigByKey(cardId: Int, key: String): CardConfig?
@@ -44,15 +48,17 @@ abstract class CardConfigKtxDao: BaseKtxDao<CardConfig> {
         value: String,
         defaultValue: String
     ) {
-        if (value == defaultValue) {
-            deleteByKey(cardId, key)
-        } else {
-            val config: CardConfig? = getConfigByKey(cardId, key)
-            if (config == null) {
-                insertAll(CardConfig(cardId, key, value))
+        mutex.withLock {
+            if (value == defaultValue) {
+                deleteByKey(cardId, key)
             } else {
-                config.value = value
-                updateAll(config)
+                val config: CardConfig? = getConfigByKey(cardId, key)
+                if (config == null) {
+                    insertAll(CardConfig(cardId, key, value))
+                } else {
+                    config.value = value
+                    updateAll(config)
+                }
             }
         }
     }
