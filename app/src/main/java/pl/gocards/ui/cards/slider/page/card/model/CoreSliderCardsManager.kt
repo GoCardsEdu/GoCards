@@ -159,7 +159,9 @@ open class CoreSliderCardsManager(
      * C_U_26 Undo card deletion
      */
     suspend fun restoreDeletedCard(targetPage: Int, cardToRestore: SliderCardUi) {
-        restoreCardInDb(cardToRestore.id)
+        if (cardToRestore.cardMode.value != CardMode.NEW) {
+            restoreCardInDb(cardToRestore.id)
+        }
         restoreCardAndScroll(targetPage, cardToRestore)
     }
 
