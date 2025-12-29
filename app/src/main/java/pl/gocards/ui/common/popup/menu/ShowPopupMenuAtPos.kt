@@ -4,12 +4,14 @@ import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.unit.IntOffset
 import pl.gocards.App
 import pl.gocards.ui.theme.AppTheme
 
@@ -62,7 +64,7 @@ class ShowPopupMenuAtPos(
         y: Float,
         content: @Composable (onDismiss: () -> Unit) -> Unit
     ): ComposeView {
-        val view = createView(x, y)
+        val view = ComposeView(activity)
         val application = activity.application as App
         view.setContent {
             AppTheme(
@@ -72,6 +74,7 @@ class ShowPopupMenuAtPos(
                 Box(
                     modifier = Modifier
                         .wrapContentSize(Alignment.TopStart)
+                        .offset { IntOffset(x.toInt(), y.toInt()) }
                 ) {
                     DropdownMenu(
                         expanded = true,
@@ -88,17 +91,6 @@ class ShowPopupMenuAtPos(
                 }
             }
         }
-        return view
-    }
-
-    /**
-     * A view that allows to display a popup with coordinates.
-     */
-    private fun createView(x: Float, y: Float): ComposeView {
-        val view = ComposeView(activity)
-        view.layoutParams = ViewGroup.LayoutParams(1, 1)
-        view.x = x
-        view.y = y
         return view
     }
 }
