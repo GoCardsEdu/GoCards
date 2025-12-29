@@ -119,7 +119,9 @@ public class ExceptionDialog extends DialogFragment {
         if (message != null && !message.isEmpty()) {
             return message;
         } else if (exception != null && exception.getMessage() != null && !exception.getMessage().isEmpty()) {
-            return exception.getMessage();
+            return exception.getMessage()
+                    .replace("org.apache.commons.csv.CSVException:", "")
+                    .trim();
         } else {
             return "Unrecognized error.";
         }
