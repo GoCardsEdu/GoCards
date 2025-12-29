@@ -119,6 +119,11 @@ dependencies {
     implementation project(":android-apache-poi-5-with-dependencies")
     // implementation "pl.gocards:android-apache-poi-5-with-dependencies:$android_apache_poi_version"
 
+    // Apache Commons - must be in base app to ensure transitive dependencies are packaged
+    // Dynamic feature modules (filesync_csv) require these, but D8 won't include them
+    // in split APKs unless they're declared in the base module
+    implementation 'commons-io:commons-io:2.21.0'
+
     implementation 'org.apache.commons:commons-text:1.15.0'
     implementation platform('com.google.firebase:firebase-bom:34.7.0')
     implementation 'com.google.firebase:firebase-crashlytics'
