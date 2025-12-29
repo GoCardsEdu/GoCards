@@ -23,3 +23,4 @@ Feature: Sync the file with the deck: others
       | Deck 1        | Deck 1              |         |
       | Sample Term 1 | Sample Definition 1 | Other 1 |
     Then Check the cards in the file.
+    Then No exceptions should be logged.

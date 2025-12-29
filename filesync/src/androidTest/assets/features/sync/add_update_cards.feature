@@ -19,3 +19,4 @@ Feature: Sync the file with the Deck: Update and add cards
     Then Check the cards in the deck.
     Then Check the cards in the file.
     Then Deleted 0 cards.
+    Then No exceptions should be logged.

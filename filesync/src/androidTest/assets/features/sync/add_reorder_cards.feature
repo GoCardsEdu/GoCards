@@ -21,6 +21,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_D_02 The order from the file. 2 new cards were added from the deck at the beginning.
@@ -44,6 +45,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_D_03 The order from the file. A new card was added from the deck in the middle.
@@ -65,6 +67,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_D_04 The order from the file. 2 new cards were added from the deck in the middle.
@@ -88,6 +91,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_D_05 The order from the file. A new card was added from the deck at the end.
@@ -109,6 +113,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_D_06 The order from the file. 2 new cards were added from the deck in the end.
@@ -132,6 +137,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_F_01 The order from the deck. A new card was added from the deck at the beginning.
@@ -153,6 +159,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3    |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_F_02 The order from the deck. 2 new cards were added from the deck at the beginning.
@@ -176,6 +183,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3    |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_F_03 The order from the deck. A new card was added from the deck in the middle.
@@ -197,6 +205,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3    |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_F_04 The order from the deck. 2 new cards were added from the deck in the middle.
@@ -220,6 +229,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3    |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_F_05 The order from the deck. A new card was added from the deck at the end.
@@ -241,6 +251,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3    |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_F_06 The order from the deck. 2 new cards were added from the deck in the end.
@@ -264,6 +275,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3    |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_01 The order from the file. 2 new cards were added at the beginning.
@@ -289,6 +301,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_02 The order from the file. 4 new cards were added at the beginning.
@@ -318,6 +331,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_03 The order from the file. 2 new cards was added in the middle.
@@ -343,6 +357,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_04 The order from the file. 4 new cards were added in the middle.
@@ -372,6 +387,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_05 The order from the file. 2 new card were added at the end.
@@ -397,6 +413,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_06 The order from the file. 4 new cards were added in the end.
@@ -426,6 +443,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
   Scenario: SE_RO_AD_07 The order from the file. 2 new card were added at the end.
   At the end, a new card from the deck was added.
@@ -450,6 +468,7 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | File 1        | File 1              | File 1  |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_AD_08 The order from the file. 4 new cards were added in the end.
@@ -479,3 +498,4 @@ Feature: Sync the file with the deck: Add new cards and reorder
       | File 2        | File 2              | File 2  |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.

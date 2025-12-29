@@ -15,6 +15,7 @@ Feature: Sync the file with the Deck. Update matched cards.
     Then Check the cards in the file.
     Then 1 cards in the deck.
     Then Deleted 0 cards.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_UPD_D_01 Update cards matched by Term and Definition with newer versions from the deck.
@@ -31,6 +32,7 @@ Feature: Sync the file with the Deck. Update matched cards.
     Then Check the cards in the file.
     Then 2 cards in the deck.
     Then Deleted 0 cards.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_UPD_F_02 Update cards matched by Term with newer versions from the file.
@@ -46,6 +48,7 @@ Feature: Sync the file with the Deck. Update matched cards.
     Then Check the cards in the file.
     Then 1 cards in the deck.
     Then Deleted 0 cards.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_UPD_D_02 Update cards matched by Term with newer versions from the deck.
@@ -62,6 +65,7 @@ Feature: Sync the file with the Deck. Update matched cards.
     Then Check the cards in the file.
     Then 2 cards in the deck.
     Then Deleted 0 cards.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_UPD_F_03 Update cards matched by Term with newer versions from the file.
@@ -77,6 +81,7 @@ Feature: Sync the file with the Deck. Update matched cards.
     Then Check the cards in the file.
     Then 1 cards in the deck.
     Then Deleted 0 cards.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_UPD_D_03 Update cards matched by Definition with newer versions from the deck.
@@ -93,6 +98,7 @@ Feature: Sync the file with the Deck. Update matched cards.
     Then Check the cards in the file.
     Then 2 cards in the deck.
     Then Deleted 0 cards.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_UPD_04 Create cards from both the deck and the file if they were added after the last sync.
@@ -113,6 +119,7 @@ Feature: Sync the file with the Deck. Update matched cards.
     Then Check the cards in the file.
     Then 2 cards in the deck.
     Then Deleted 0 cards.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_UPD_05 Create cards from both the deck and the file if they were added after the last export.
@@ -134,6 +141,7 @@ Feature: Sync the file with the Deck. Update matched cards.
     Then Check the cards in the file.
     Then 2 cards in the deck.
     Then Deleted 0 cards.
+    Then No exceptions should be logged.
 
 
   # Square brackets are special regex characters used to define character classes, e.g., [A-Z0-9].
@@ -150,6 +158,7 @@ Feature: Sync the file with the Deck. Update matched cards.
     Then Check the cards in the file.
     Then 1 cards in the deck.
     Then Updated 0 cards.
+    Then No exceptions should be logged.
 
 
   Scenario Outline: SE_UPD_F_07 Update disable=<FILE> with newer versions from the file.
@@ -167,6 +176,7 @@ Feature: Sync the file with the Deck. Update matched cards.
     Then Check the cards in the file.
     Then 1 cards in the deck.
     Then Updated 1 cards.
+    Then No exceptions should be logged.
     Examples:
       | DECK  | FILE  |
       | TRUE  | FALSE |
@@ -188,6 +198,7 @@ Feature: Sync the file with the Deck. Update matched cards.
     Then Check the cards in the file.
     Then 1 cards in the deck.
     Then Updated 1 cards.
+    Then No exceptions should be logged.
     Examples:
       | DECK  | FILE  |
       | TRUE  | FALSE |
@@ -208,6 +219,7 @@ Feature: Sync the file with the Deck. Update matched cards.
     Then 1002 cards in the deck.
     Then 1002 cards in the file.
     Then Deleted 0 cards.
+    Then No exceptions should be logged.
     Examples:
       | num |
       | 501 |

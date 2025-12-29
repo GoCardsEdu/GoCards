@@ -21,6 +21,7 @@ Feature: Sync the file with the deck: Delete cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_DE_D_02 The order from the file. The card was deleted by the deck in the middle.
@@ -42,6 +43,7 @@ Feature: Sync the file with the deck: Delete cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_DE_F_01 The order from the deck. The card was deleted by the file at the beginning.
@@ -62,6 +64,7 @@ Feature: Sync the file with the deck: Delete cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_RE_F_02 The order from the deck. The card was deleted by the file in the middle.
@@ -82,6 +85,7 @@ Feature: Sync the file with the deck: Delete cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_DE_01 The order from the file. 2 cards were deleted at the beginning.
@@ -107,6 +111,7 @@ Feature: Sync the file with the deck: Delete cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_DE_02 The order from the file. 2 cards were deleted in the middle.
@@ -130,3 +135,4 @@ Feature: Sync the file with the deck: Delete cards and reorder
       | Sample Term 3 | Sample Definition 3 | Other 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.

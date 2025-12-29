@@ -18,6 +18,7 @@ Feature: Sync the file with the deck: Add new cards to a deck
       | Sample Term 2 | Sample Definition 2 | Other 2 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_D_02 2 new cards at the beginning: deck
@@ -38,6 +39,7 @@ Feature: Sync the file with the deck: Add new cards to a deck
       | Sample Term 2 | Sample Definition 2 | Other 2 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_D_03 2 new empty cards at the beginning: deck
@@ -58,6 +60,7 @@ Feature: Sync the file with the deck: Add new cards to a deck
       | Sample Term 2 | Sample Definition 2 | Other 2 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_D_04 1 new card in the middle: deck
@@ -76,6 +79,7 @@ Feature: Sync the file with the deck: Add new cards to a deck
       | Sample Term 2 | Sample Definition 2 | Other 2 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_D_05 2 new cards in the middle: deck
@@ -96,6 +100,7 @@ Feature: Sync the file with the deck: Add new cards to a deck
       | Sample Term 2 | Sample Definition 2 | Other 2 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_D_06 3 new cards in the middle: deck
@@ -118,6 +123,7 @@ Feature: Sync the file with the deck: Add new cards to a deck
       | Sample Term 2 | Sample Definition 2 | Other 2 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_D_07 2 new empty cards in the middle: deck
@@ -138,6 +144,7 @@ Feature: Sync the file with the deck: Add new cards to a deck
       | Sample Term 2 | Sample Definition 2 | Other 2 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_D_08 1 new card at the end: deck
@@ -156,6 +163,7 @@ Feature: Sync the file with the deck: Add new cards to a deck
       | New card 1    | New card 1          |         |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_D_09 2 new card at the end: deck
@@ -176,6 +184,7 @@ Feature: Sync the file with the deck: Add new cards to a deck
       | New card 2    | New card 2          |         |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_D_10 2 new empty cards at the end: deck
@@ -196,3 +205,4 @@ Feature: Sync the file with the deck: Add new cards to a deck
       |               |                     |         |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.

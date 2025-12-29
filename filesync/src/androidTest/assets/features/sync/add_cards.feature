@@ -14,6 +14,7 @@ Feature: Sync the file with the deck: Add new cards
       | Deck 1 | Deck 1 |        |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_02 2 new cards, but only 1 column.
@@ -28,6 +29,7 @@ Feature: Sync the file with the deck: Add new cards
       | Deck 1 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_03 2 new cards at the beginning: deck + file
@@ -48,6 +50,7 @@ Feature: Sync the file with the deck: Add new cards
       | Sample Term 2 | Sample Definition 2 | Other 2 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_04 4 new cards at the beginning: deck + file
@@ -72,6 +75,7 @@ Feature: Sync the file with the deck: Add new cards
       | Sample Term 2 | Sample Definition 2 | Other 2 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_05 2 new cards in the middle: deck + file
@@ -92,6 +96,7 @@ Feature: Sync the file with the deck: Add new cards
       | Sample Term 2 | Sample Definition 2 | Other 2 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
   Scenario: SE_AD_06 4 new cards in the middle: deck + file
     Given Add the following cards into the deck:
@@ -115,6 +120,7 @@ Feature: Sync the file with the deck: Add new cards
       | Sample Term 2 | Sample Definition 2 | Other 2 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_07 2 new cards at the end: deck + file
@@ -135,6 +141,7 @@ Feature: Sync the file with the deck: Add new cards
       | File 4        | File 4              | File 4  |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_AD_08 4 new cards at the end: deck + file
@@ -159,3 +166,4 @@ Feature: Sync the file with the deck: Add new cards
       | File 6        | File 6              | File 6  |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.

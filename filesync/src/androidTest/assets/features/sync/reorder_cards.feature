@@ -19,6 +19,7 @@ Feature: Sync the file with the deck: Reorder the cards in the deck
       | Sample Term 3 | Sample Definition 3 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_02 The imported file is newer.
@@ -38,6 +39,7 @@ Feature: Sync the file with the deck: Reorder the cards in the deck
       | Sample Term 1 | Sample Definition 1 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_03 The deck is newer.
@@ -57,6 +59,7 @@ Feature: Sync the file with the deck: Reorder the cards in the deck
       | Sample Term 1 | Sample Definition 1 | Other 1 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_04 2 cards swapped places in the deck,
@@ -80,6 +83,7 @@ Feature: Sync the file with the deck: Reorder the cards in the deck
       | Sample Term 4 | Sample Definition 4 | Other 4 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_05 2 cards swapped places in the deck,
@@ -104,6 +108,7 @@ Feature: Sync the file with the deck: Reorder the cards in the deck
       | Sample Term 4 | Sample Definition 4 | Other 4 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_06 3 cards swapped places in the deck,
@@ -133,6 +138,7 @@ Feature: Sync the file with the deck: Reorder the cards in the deck
       | Sample Term 6 | Sample Definition 6 | Other 6 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
 
 
   Scenario: SE_RO_07 3 cards swapped places in the deck,
@@ -163,3 +169,4 @@ Feature: Sync the file with the deck: Reorder the cards in the deck
       | Sample Term 6 | Sample Definition 6 | Other 6 |
     Then Check the cards in the deck.
     Then Check the cards in the file.
+    Then No exceptions should be logged.
