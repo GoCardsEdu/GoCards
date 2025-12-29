@@ -1,0 +1,33 @@
+# Build outputs and caches
+/build/**
+.gradle/
+.idea/
+.kotlin/
+*.iml
+*.aab
+local.properties
+
+# Git internals
+.git/
+
+# Documentation images (not needed for code analysis)
+docs/img/
+
+# Third-party libraries
+app/src/main/assets/libs/highlight.js/
+
+# Gradle wrapper jar (binary)
+gradle/wrapper/gradle-wrapper.jar
+
+# Android generated files
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+
+# Keystore files (should already be in .gitignore but adding for safety)
+*.jks
+*.keystore
