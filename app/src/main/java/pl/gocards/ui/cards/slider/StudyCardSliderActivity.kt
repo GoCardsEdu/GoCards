@@ -33,7 +33,8 @@ class StudyCardSliderActivity : ComponentActivity() {
 
     private var autoSyncCardsModel: AutoSyncViewModel? = null
 
-    private var viewModel: CardSliderViewModel? = null
+    var viewModel: CardSliderViewModel? = null
+        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

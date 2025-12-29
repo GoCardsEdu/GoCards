@@ -1,5 +1,8 @@
 package pl.gocards.ui.decks.decks.view.actions
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import pl.gocards.App
 import pl.gocards.ui.decks.decks.ListDecksAdapter
 import pl.gocards.ui.decks.decks.service.CreateSampleDeck
@@ -20,6 +23,9 @@ class DeckActions(
 
     fun onClickCreateSampleDeck() {
         val folder = adapter.getCurrentFolder()
-        CreateSampleDeck(application).create(folder) { onRefreshItems() }
+        CoroutineScope(Dispatchers.IO).launch {
+            CreateSampleDeck(application).create(folder)
+            onRefreshItems()
+        }
     }
 }

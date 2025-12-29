@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
@@ -34,6 +35,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.recyclerview.widget.RecyclerView
 import pl.gocards.R
+import pl.gocards.ui.ALL_DECKS
 import pl.gocards.ui.decks.decks.view.EmptyFolder
 import pl.gocards.ui.decks.decks.view.EmptyFolderData
 import java.nio.file.Path
@@ -61,7 +63,10 @@ fun ListAllDecksPage(
     innerPadding: PaddingValues,
     input: ListAllDecksPageData
 ) {
-    Column(Modifier.padding(innerPadding)) {
+    Column(Modifier
+        .padding(innerPadding)
+        .testTag(ALL_DECKS)
+    ) {
         PathBar(input.folderPath)
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (bodyRef, pasteBarRef) = createRefs()

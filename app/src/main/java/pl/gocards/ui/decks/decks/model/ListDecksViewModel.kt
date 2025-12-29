@@ -38,7 +38,7 @@ class ListDecksViewModel(
     // must be updated only by the main thread because it is used by RecyclerView
     val decks: MutableList<UiListDeck> = LinkedList()
 
-    var currentFolder: Path = getRootFolder()
+    var currentFolder: Path = getDbRootFolder()
 
     val isEmptyFolder: MutableState<Boolean> = mutableStateOf(false)
 
@@ -47,7 +47,7 @@ class ListDecksViewModel(
     val folderPath: MutableState<String?> = mutableStateOf(null)
 
     fun loadItems(folder: Path = currentFolder, onSuccess: () -> Unit = {}) {
-        if (countSeparators(getRootFolder()) > countSeparators(folder)) {
+        if (countSeparators(getDbRootFolder()) > countSeparators(folder)) {
             throw UnsupportedOperationException("Folders lower than the root folder for the storage databases cannot be opened.")
         } else {
             viewModelScope.launch(Dispatchers.IO) {
@@ -80,7 +80,7 @@ class ListDecksViewModel(
             folderPath.value = null
             folderName.value = null
 
-            val paths = getDeckDbUtil().searchDatabases(getRootFolder(), query)
+            val paths = getDeckDbUtil().searchDatabases(getDbRootFolder(), query)
             val decks = mutableListOf<UiListDeck>()
             for (path in paths) {
                 decks.add(mapListDeck(path))
@@ -145,20 +145,20 @@ class ListDecksViewModel(
 
     private fun getFolderPath(): String {
         return currentFolder.toString()
-            .replace(getRootFolder().toString(), "")
+            .replace(getDbRootFolder().toString(), "")
             .replace("/", " › ")
     }
 
     private fun getFolderName(): Path? {
-        return if (currentFolder == getRootFolder()) {
+        return if (currentFolder == getDbRootFolder()) {
             null
         } else {
             currentFolder.fileName
         }
     }
 
-    private fun getRootFolder(): Path {
-        return this.getDeckDbUtil().getDbFolder(this.application)
+    private fun getDbRootFolder(): Path {
+        return this.getDeckDbUtil().getDbRootFolderPath(this.application)
     }
 
     private fun getDeckDb(dbPath: String): DeckDatabase {

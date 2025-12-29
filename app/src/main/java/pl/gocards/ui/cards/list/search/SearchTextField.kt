@@ -17,8 +17,10 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
+import pl.gocards.ui.SEARCH_FIELD
 
 /**
  * C_R_02 Search cards
@@ -47,6 +49,7 @@ fun SearchTextField(
         cursorBrush = SolidColor(LocalContentColor.current),
         singleLine = true,
         modifier = Modifier
+            .testTag(SEARCH_FIELD)
             .focusRequester(focusRequester)
             .fillMaxWidth(),
         decorationBox = @Composable { innerTextField ->

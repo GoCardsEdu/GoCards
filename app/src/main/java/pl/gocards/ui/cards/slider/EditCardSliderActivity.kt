@@ -28,6 +28,8 @@ class EditCardSliderActivity : ComponentActivity() {
         const val EDIT_CARD_ID = "EDIT_CARD_ID"
     }
 
+    var viewModel: CardSliderViewModel? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -45,6 +47,7 @@ class EditCardSliderActivity : ComponentActivity() {
             analytics,
             this
         )
+        this.viewModel = viewModel
 
 
         setContent {

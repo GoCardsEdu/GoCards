@@ -26,7 +26,15 @@ public abstract class StorageDb<DB extends RoomDatabase> {
                 path
         );
         // turnOnDbLogs(dbBuilder);
-        return dbBuilder.build();
+        var db = dbBuilder.build();
+        try {
+            db.getOpenHelper().getWritableDatabase();
+            return db;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     @SuppressWarnings("unused")
@@ -38,11 +46,11 @@ public abstract class StorageDb<DB extends RoomDatabase> {
     }
 
     @NonNull
-    public abstract String getDbFolder(@NonNull Context context);
+    public abstract String getDbRootFolder(@NonNull Context context);
 
     @NonNull
-    public Path getDbFolderPath(@NonNull Context context) {
-        return Paths.get(getDbFolder(context));
+    public Path getDbRootFolderPath(@NonNull Context context) {
+        return Paths.get(getDbRootFolder(context));
     }
 
     @NonNull

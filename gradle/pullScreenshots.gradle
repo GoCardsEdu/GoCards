@@ -1,0 +1,266 @@
+/**
+ * Gradle task to automatically manage screenshots from Android devices during instrumented tests.
+ *
+ * Features:
+ * - Pull screenshots from device after tests
+ * - Clear device screenshots before tests
+ * - Auto-detect connected device (uses first device if multiple)
+ * - Organize screenshots directly in img/ folder
+ *
+ * @author Grzegorz Ziemski
+ */
+
+/**
+ * Helper class for ADB operations shared between tasks
+ */
+class AdbHelper {
+
+    /**
+     * Finds ADB executable path across different platforms
+     */
+    static String findAdbPath() {
+        def androidHome = System.getenv('ANDROID_HOME') ?: System.getenv('ANDROID_SDK_ROOT')
+
+        if (androidHome) {
+            def adbPath = new File(androidHome, 'platform-tools/adb')
+            if (adbPath.exists()) {
+                return adbPath.absolutePath
+            }
+        }
+
+        // Fallback to common locations
+        def commonPaths = [
+                "${System.getProperty('user.home')}/Library/Android/sdk/platform-tools/adb", // macOS
+                "${System.getProperty('user.home')}/Android/Sdk/platform-tools/adb", // Linux
+                "C:\\Android\\sdk\\platform-tools\\adb.exe", // Windows
+        ]
+
+        for (path in commonPaths) {
+            if (new File(path).exists()) {
+                return path
+            }
+        }
+
+        return 'adb' // Assume it's in PATH
+    }
+
+    /**
+     * Gets list of connected devices
+     */
+    static List<String> getConnectedDevices(String adbPath) {
+        def cmd = [adbPath, 'devices']
+        def process = cmd.execute()
+        process.waitFor()
+
+        def devices = []
+        process.text.eachLine { line ->
+            if (line.contains("\tdevice")) {
+                devices << line.split("\t")[0].trim()
+            }
+        }
+        return devices
+    }
+
+    /**
+     * Determines which device to use based on configuration
+     */
+    static String getTargetDevice(String adbPath) {
+        def devices = getConnectedDevices(adbPath)
+
+        if (devices.isEmpty()) {
+            return null
+        }
+
+        if (devices.size() == 1) {
+            return devices[0]
+        }
+
+        println ">>> Multiple devices found: ${devices}"
+        println ">>> Using first device."
+        return devices[0]
+    }
+}
+
+abstract class PullScreenshotsTask extends DefaultTask {
+
+    @Internal
+    abstract DirectoryProperty getImgDirectory()
+
+    PullScreenshotsTask() {
+        imgDirectory.convention(project.layout.projectDirectory.dir("../img"))
+    }
+
+    @TaskAction
+    void pullScreenshots() {
+        def adbPath = AdbHelper.findAdbPath()
+        def devicePath = "/sdcard/Pictures/GoCards/"
+        def projectImgDir = imgDirectory.get().asFile
+
+        println ">>> ADB path: ${adbPath}"
+        println ">>> Device path: ${devicePath}"
+        println ">>> Project img dir: ${projectImgDir.absolutePath}"
+
+        createDirectory(projectImgDir)
+
+        def device = AdbHelper.getTargetDevice(adbPath)
+        if (!device) {
+            println "✗ No device connected"
+            return
+        }
+        println "✓ Using device: ${device}"
+
+        pullScreenshotsFromDevice(adbPath, device, devicePath, projectImgDir)
+    }
+
+    /**
+     * Creates directory if it doesn't exist
+     */
+    private static void createDirectory(File dir) {
+        if (!dir.exists()) {
+            dir.mkdirs()
+            println "✓ Created directory: ${dir.absolutePath}"
+        }
+    }
+
+    /**
+     * Pulls screenshots from device to specified directory
+     */
+    private void pullScreenshotsFromDevice(String adbPath, String device, String devicePath, File targetDir) {
+        println ">>> Pulling screenshots from ${device}..."
+
+        // Pull to a temporary location to avoid nested GoCards folder
+        def tempDir = new File(targetDir.parentFile, "temp_screenshots")
+        tempDir.mkdirs()
+
+        def process = pull(adbPath, device, devicePath, tempDir)
+
+        if (process.exitValue() == 0) {
+            // Move files from temp_screenshots/GoCards/ to img/
+            def pulledDir = new File(tempDir, "GoCards")
+            moveFiles(pulledDir, targetDir)
+
+            // Clean up temp directory
+            tempDir.deleteDir()
+
+            println "✓ Screenshots pulled successfully"
+            listPulledScreenshots(targetDir)
+        } else {
+            println "✗ Failed to pull screenshots (exit code: ${process.exitValue()})"
+            tempDir.deleteDir()
+        }
+    }
+
+    private static Process pull(String adbPath, String device, String devicePath, File tempDir) {
+        def pullCommand = [adbPath, '-s', device, 'pull', devicePath, "${tempDir.absolutePath}/"]
+        println ">>> Executing: ${pullCommand.join(' ')}"
+
+        def process = pullCommand.execute()
+        def stdout = new StringBuilder()
+        def stderr = new StringBuilder()
+
+        process.consumeProcessOutput(stdout, stderr)
+        process.waitFor()
+
+        if (stdout.length() > 0) {
+            println ">>> STDOUT:\n${stdout}"
+        }
+        if (stderr.length() > 0) {
+            println ">>> STDERR:\n${stderr}"
+        }
+
+        return process
+    }
+
+    /**
+     * Moves files from source directory to target directory
+     */
+    private static void moveFiles(File sourceDir, File targetDir) {
+        if (!sourceDir.exists() || !sourceDir.isDirectory()) {
+            return
+        }
+
+        sourceDir.listFiles()?.each { file ->
+            if (file.isFile()) {
+                def targetFile = new File(targetDir, file.name)
+                if (targetFile.exists()) {
+                    targetFile.delete()
+                }
+                file.renameTo(targetFile)
+                println "  → Moved ${file.name} to ${targetDir.name}/"
+            }
+        }
+    }
+
+    /**
+     * Lists all pulled screenshots with size information
+     */
+    private static void listPulledScreenshots(File dir) {
+        def screenshots = dir.listFiles()?.findAll { it.isFile() && it.name.endsWith('.png') }
+
+        if (screenshots && !screenshots.isEmpty()) {
+            println ">>> Pulled screenshots (${screenshots.size()}):"
+            screenshots.sort { it.name }.each { file ->
+                def sizeKB = String.format("%.2f", file.length() / 1024.0)
+                println "  - ${file.name} (${sizeKB} KB)"
+            }
+        } else {
+            println ">>> No screenshots found"
+        }
+    }
+}
+
+/**
+ * Task to clear screenshots from device before tests
+ */
+abstract class ClearDeviceScreenshotsTask extends DefaultTask {
+
+    @TaskAction
+    void clearScreenshots() {
+        def adbPath = AdbHelper.findAdbPath()
+        def device = AdbHelper.getTargetDevice(adbPath)
+
+        if (device) {
+            println "✓ Using device: ${device}"
+            clearDeviceScreenshots(adbPath, device, "/sdcard/Pictures/GoCards/")
+        } else {
+            println "✗ No device found to clear screenshots"
+        }
+    }
+
+    /**
+     * Clears screenshots from device
+     */
+    static void clearDeviceScreenshots(String adbPath, String device, String devicePath) {
+        println ">>> Clearing screenshots from device..."
+
+        def clearCommand = [adbPath, '-s', device, 'shell', 'rm', '-rf', devicePath]
+        def process = clearCommand.execute()
+        process.waitFor()
+
+        if (process.exitValue() == 0) {
+            println "✓ Device screenshots cleared"
+        } else {
+            println "✗ Failed to clear device screenshots"
+        }
+    }
+}
+
+// Register tasks
+tasks.register('pullScreenshots', PullScreenshotsTask) {
+    group = 'verification'
+    description = 'Pulls screenshots from device to project img/ folder'
+}
+
+tasks.register('clearDeviceScreenshots', ClearDeviceScreenshotsTask) {
+    group = 'verification'
+    description = 'Clears screenshots from device before tests'
+}
+
+// Automatically clear screenshots before tests and pull after
+afterEvaluate {
+    def connectedTest = tasks.findByName('connectedDebugAndroidTest')
+    if (connectedTest) {
+        connectedTest.dependsOn(tasks.named('clearDeviceScreenshots'))
+        connectedTest.finalizedBy(tasks.named('pullScreenshots'))
+    }
+}

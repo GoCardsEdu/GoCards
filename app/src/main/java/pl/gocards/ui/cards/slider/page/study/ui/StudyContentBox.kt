@@ -43,6 +43,7 @@ import pl.gocards.room.entity.deck.DeckConfig
 import pl.gocards.room.entity.deck.DeckConfig.Companion.STUDY_CARD_FONT_SIZE_MAX
 import pl.gocards.room.entity.deck.DeckConfig.Companion.STUDY_CARD_FONT_SIZE_MIN
 import pl.gocards.room.util.HtmlUtil
+import pl.gocards.ui.STUDY_BOX
 import pl.gocards.util.fromHtmlToAnnotatedString
 
 
@@ -100,6 +101,7 @@ private fun HtmlStudyBox(
 
     Box(
         modifier = modifier
+            .testTag(STUDY_BOX)
             .fillMaxWidth()
             .fillMaxHeight()
             .onGloballyPositioned { coordinates ->
@@ -237,7 +239,7 @@ private fun TextStudyBox(
 ) {
     Box(
         modifier = modifier
-            .testTag("text_study_box")
+            .testTag(STUDY_BOX)
             .fillMaxSize()
             .pointerInput(Unit, zoomFontSize(fontSize)),
         contentAlignment = Alignment.Center

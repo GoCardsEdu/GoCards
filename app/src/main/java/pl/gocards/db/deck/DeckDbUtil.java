@@ -478,7 +478,7 @@ public abstract class DeckDbUtil<DB extends RoomDatabase> {
     }
 
     @NonNull
-    public Path getDbFolder(@NonNull Context context) {
-        return storageDb.getDbFolderPath(context);
+    public Path getDbRootFolderPath(@NonNull Context context) {
+        return storageDb.getDbRootFolderPath(context);
     }
 }

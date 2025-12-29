@@ -16,7 +16,7 @@ public abstract class AppStorageDb<DB extends RoomDatabase> extends StorageDb<DB
 
     @NonNull
     @Override
-    public String getDbFolder(@NonNull Context context) {
+    public String getDbRootFolder(@NonNull Context context) {
         return Objects.requireNonNull(context.getFilesDir().getParentFile()).getPath() + "/databases/decks";
     }
 

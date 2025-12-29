@@ -21,7 +21,7 @@ public abstract class ExternalStorageDb<DB extends RoomDatabase> extends Storage
 
     @NonNull
     @Override
-    public String getDbFolder(@NonNull Context context) {
+    public String getDbRootFolder(@NonNull Context context) {
         return Environment.getExternalStorageDirectory().getAbsolutePath()
                 + "/" + context.getResources().getString(R.string.app_name) + "/";
     }

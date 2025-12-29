@@ -96,7 +96,7 @@ class ListFoldersViewModel(private val application: Application) : AndroidViewMo
      * ----------------------------------------------------------------------------------------- */
 
     private fun getRootFolder(): Path {
-        return getDeckDatabaseUtil().getDbFolder(application)
+        return getDeckDatabaseUtil().getDbRootFolderPath(application)
     }
 
     private fun getDeckDatabaseUtil(): AppDeckDbUtil {

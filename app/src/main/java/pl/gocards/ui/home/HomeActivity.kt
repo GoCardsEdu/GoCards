@@ -202,7 +202,7 @@ class HomeActivity : AppCompatActivity(), ActivityResultCallback<ActivityResult>
         try {
             Files.createDirectories(
                 AppDeckDbUtil.getInstance(applicationContext)
-                    .getDbFolder(applicationContext)
+                    .getDbRootFolderPath(applicationContext)
             )
         } catch (e: IOException) {
             throw RuntimeException(e)

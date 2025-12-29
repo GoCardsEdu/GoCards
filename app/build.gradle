@@ -134,10 +134,18 @@ dependencies {
     implementation 'com.google.android.play:review-ktx:2.0.2'
     implementation 'com.google.android.play:integrity:1.6.0'
 
+    androidTestImplementation project(':filesync')
+    androidTestImplementation project(':filesync_pro')
+    androidTestImplementation project(':filesync_excel')
+    androidTestImplementation project(':filesync_csv')
 
     // Test rules and transitive dependencies:
     androidTestImplementation platform("androidx.compose:compose-bom:$compose_bom")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     // Needed for createComposeRule(), but not for createAndroidComposeRule<YourActivity>():
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    androidTestImplementation("androidx.test.uiautomator:uiautomator:2.3.0")
 }
+
+// Apply custom Gradle task for pulling screenshots from device after tests
+apply from: '../gradle/pullScreenshots.gradle'

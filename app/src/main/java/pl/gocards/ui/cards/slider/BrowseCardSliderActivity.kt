@@ -24,7 +24,7 @@ class BrowseCardSliderActivity : ComponentActivity() {
         const val DECK_DB_PATH = "DECK_DB_PATH"
     }
 
-    private var viewModel: CardSliderViewModel? = null
+    var viewModel: CardSliderViewModel? = null
 
     private var autoSyncCardsModel: AutoSyncViewModel? = null
 

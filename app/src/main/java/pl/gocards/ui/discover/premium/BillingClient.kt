@@ -23,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import pl.gocards.util.Config
 
 /**
  * https://developer.android.com/google/play/billing/integrate
@@ -66,7 +67,9 @@ class BillingClient(
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     scope.launch {
-                        checkIfPremiumSubscriptionIsActive()
+                        if (!isPremiumMockEnabled()) {
+                            checkIfPremiumSubscriptionIsActive()
+                        }
                         getSubscription()
                     }
                 }
@@ -190,5 +193,10 @@ class BillingClient(
 
     fun getCanFreeTrial(): State<Boolean> {
         return canFreeTrial
+    }
+
+    private fun isPremiumMockEnabled(): Boolean {
+        return Config.getInstance(context)
+            .isPremiumMockEnabled(context)
     }
 }

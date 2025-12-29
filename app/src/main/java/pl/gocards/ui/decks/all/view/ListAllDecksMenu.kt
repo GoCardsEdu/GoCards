@@ -14,10 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import pl.gocards.R
+import pl.gocards.ui.MORE_BUTTON
+import pl.gocards.ui.NEW_DECK
 import pl.gocards.ui.common.SliderDropdownMenuItem
 
 /**
@@ -66,7 +70,7 @@ fun SearchButton(onClick: () -> Unit) {
 
 @Composable
 fun CreateNewDeckButton(onClick: () -> Unit) {
-    IconButton(onClick = onClick) {
+    IconButton(onClick = onClick, modifier = Modifier.testTag(NEW_DECK)) {
         Icon(Icons.Outlined.Add, stringResource(R.string.decks_list_menu_new_deck))
     }
 }
@@ -74,7 +78,9 @@ fun CreateNewDeckButton(onClick: () -> Unit) {
 @Composable
 fun MoreButton(showDropDown: MutableState<Boolean>) {
     IconButton(
-        onClick = { showDropDown.value = true }) {
+        onClick = { showDropDown.value = true },
+        modifier = Modifier.testTag(MORE_BUTTON)
+    ) {
         Icon(Icons.Filled.MoreVert, stringResource(R.string.more))
     }
 }

@@ -43,9 +43,10 @@ abstract class CardKtxDao : BaseKtxDao<Card> {
     abstract suspend fun getAllCards(): List<Card>
 
     @Query(
-        "SELECT c.*, " +
+        "SELECT " +
                 "CASE WHEN t.term IS NOT NULL THEN t.term ELSE c.term END AS term, " +
-                "CASE WHEN d.definition IS NOT NULL THEN d.definition ELSE c.term END AS definition " +
+                "CASE WHEN d.definition IS NOT NULL THEN d.definition ELSE c.definition END AS definition, " +
+                "c.*" +
                 "FROM Core_Card c " +
                 "LEFT JOIN (SELECT id, snippet(Core_Card_fts4, '{search}', '{esearch}') as term FROM Core_Card_fts4 WHERE term MATCH '*' || :search || '*') t USING (id) " +
                 "LEFT JOIN (SELECT id, snippet(Core_Card_fts4, '{search}', '{esearch}') as definition FROM Core_Card_fts4 WHERE definition MATCH '*' || :search || '*') d USING (id) " +

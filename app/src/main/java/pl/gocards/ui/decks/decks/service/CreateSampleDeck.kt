@@ -19,7 +19,7 @@ import java.util.LinkedList
 /**
  * @author Grzegorz Ziemski
  */
-class CreateSampleDeck(private var application: Application) : AndroidViewModel(application) {
+class CreateSampleDeck(private var application: Application) {
 
     companion object {
         private const val DECK_NAME = "Sample Deck"
@@ -180,37 +180,30 @@ class CreateSampleDeck(private var application: Application) : AndroidViewModel(
     }
 
     @Throws(DatabaseException::class)
-    fun create(
-        folder: Path,
-        onSuccess: () -> Unit
-    ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val deckDbUtil = getAppDeckDbUtil(application)
-            val deckDbPath = deckDbUtil.findFreePath("$folder/$DECK_NAME.db")
-            val deckDb = createDatabase(application, deckDbPath)
+    suspend fun create(folder: Path) {
+        val deckDbUtil = getAppDeckDbUtil(application)
+        val deckDbPath = deckDbUtil.findFreePath("$folder/$DECK_NAME.db")
+        val deckDb = createDatabase(application, deckDbPath)
 
-            val cards = LinkedList<Card>()
-            val updatedAt = TimeUtil.getNowEpochSec()
+        val cards = LinkedList<Card>()
+        val updatedAt = TimeUtil.getNowEpochSec()
 
-            for (i in SAMPLE_DECK.indices) {
-                val sampleCard = SAMPLE_DECK[i]
-                val card = Card()
-                card.ordinal = i + 1
-                Card.setTerm(card, sampleCard[0])
-                Card.setDefinition(card, sampleCard[1])
-                card.createdAt = updatedAt
-                card.updatedAt = updatedAt
-                setHtmlFlags(card)
-                cards += card
-            }
-
-            deckDb.cardKtxDao().insertAll(cards)
-
-            onSuccess()
-
-            FirebaseAnalyticsHelper.getInstance(application)
-                .createSampleDeck()
+        for (i in SAMPLE_DECK.indices) {
+            val sampleCard = SAMPLE_DECK[i]
+            val card = Card()
+            card.ordinal = i + 1
+            Card.setTerm(card, sampleCard[0])
+            Card.setDefinition(card, sampleCard[1])
+            card.createdAt = updatedAt
+            card.updatedAt = updatedAt
+            setHtmlFlags(card)
+            cards += card
         }
+
+        deckDb.cardKtxDao().insertAll(cards)
+
+        FirebaseAnalyticsHelper.getInstance(application)
+            .createSampleDeck()
     }
 
     @Throws(DatabaseException::class)

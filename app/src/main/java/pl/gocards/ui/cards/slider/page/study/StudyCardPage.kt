@@ -19,12 +19,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import pl.gocards.R
 import pl.gocards.room.entity.deck.CardLearningHistory
 import pl.gocards.room.entity.deck.CardLearningProgress
 import pl.gocards.room.entity.deck.CardLearningProgressAndHistory
+import pl.gocards.ui.MORE_BUTTON
 import pl.gocards.ui.cards.slider.page.card.SliderCardPage
 import pl.gocards.ui.cards.slider.page.card.model.CardMode
 import pl.gocards.ui.cards.slider.page.card.model.SliderCardUi
@@ -199,7 +201,9 @@ fun StudyCardPageMenu(
     }
     val showDropDown = remember { mutableStateOf(false) }
     IconButton(
-        onClick = { showDropDown.value = true }) {
+        onClick = { showDropDown.value = true },
+        modifier = Modifier.testTag(MORE_BUTTON)
+    ) {
         Icon(Icons.Filled.MoreVert, stringResource(R.string.more))
     }
     DropdownMenu(showDropDown.value, { showDropDown.value = false }) {
