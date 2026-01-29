@@ -75,8 +75,10 @@ open class HandleOnBackPressedCardSliderViewModel(
     }
 
     private suspend fun handleStudyModeBackPress(currentCard: SliderCardUi): Boolean {
-        val studyCard = studyCardManager?.getCached(currentCard.id)!!
-        return if (studyCard.showDefinition.value) {
+        val studyCard = studyCardManager?.getCached(currentCard.id)
+        return if (studyCard == null) {
+            true
+        } else if (studyCard.showDefinition.value) {
             studyCard.showDefinition.value = false
             true
         } else {
