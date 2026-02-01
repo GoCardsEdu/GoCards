@@ -11,6 +11,7 @@ import pl.gocards.ui.decks.all.view.ImportDbMenuItem
 import pl.gocards.ui.decks.all.view.ImportExcelMenuItem
 import pl.gocards.ui.decks.all.view.MoreButton
 import pl.gocards.ui.decks.all.view.SettingsMenuItem
+import pl.gocards.ui.explore.LogOutMenuItem
 
 /**
  * @author Grzegorz Ziemski
@@ -21,7 +22,9 @@ data class ListRecentDecksMenuData(
     val onClickImportCsv: (() -> Unit)?,
     val onClickImportDb: () -> Unit,
     val onClickOpenDiscord: () -> Unit,
-    val onClickOpenSettings: () -> Unit
+    val onClickOpenSettings: () -> Unit,
+    val onClickLogOut: () -> Unit,
+    val isLoggedIn: Boolean
 )
 
 @Composable
@@ -40,5 +43,8 @@ fun ListRecentDecksMenu(input: ListRecentDecksMenuData) {
         ImportDbMenuItem(showDropDown, input.onClickImportDb)
         DiscordMenuItem(showDropDown, input.onClickOpenDiscord)
         SettingsMenuItem(showDropDown, input.onClickOpenSettings)
+        if (input.isLoggedIn) {
+            LogOutMenuItem(showDropDown, input.onClickLogOut)
+        }
     }
 }

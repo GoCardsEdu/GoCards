@@ -35,9 +35,9 @@ open class FileSyncEdgeBarListCardsAdapter(
     owner
 ) {
 
-    override fun loadCards() {
+    override fun loadCards(onLoaded: (() -> Unit)?) {
         fileSyncEdgeBarViewModel.load {
-            super.loadCards()
+            super.loadCards(onLoaded)
         }
     }
 

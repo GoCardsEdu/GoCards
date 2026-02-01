@@ -1,17 +1,7 @@
 package pl.gocards.ui.decks.all
 
 import androidx.compose.ui.test.junit4.ComposeTestRule
-import androidx.compose.ui.test.onAllNodesWithContentDescription
-import androidx.compose.ui.test.onFirst
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.By
-import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
-import androidx.test.uiautomator.Until
-import pl.gocards.ui.DEFAULT_TIMEOUT
 import pl.gocards.ui.MORE_BUTTON
 import pl.gocards.ui.NEW_DECK
 import pl.gocards.ui.Robot

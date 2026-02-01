@@ -34,9 +34,9 @@ abstract class DeckConfigKtxDao: BaseKtxDao<DeckConfig> {
     suspend fun update(
         key: String,
         value: String,
-        defaultValue: String
+        defaultValue: String? = null
     ) {
-        if (value == defaultValue) {
+        if (defaultValue != null && value == defaultValue) {
             deleteByKey(key)
         } else {
             val deckConfig = getByKey(key)

@@ -8,7 +8,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
 import org.junit.experimental.runners.Enclosed
-import org.junit.rules.TestName
 import org.junit.runner.RunWith
 import pl.gocards.ui.TestsUtil
 import pl.gocards.ui.home.ScreenshotUtil

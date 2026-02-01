@@ -5,6 +5,9 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+}
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -20,6 +23,7 @@ dependencyResolutionManagement {
 rootProject.name = "GoCards"
 include ':room'
 include ':app'
+include ':ai_chat'
 include ':android-apache-poi-5'
 include ':android-apache-poi-5-with-dependencies'
 include ':filesync_sheet'

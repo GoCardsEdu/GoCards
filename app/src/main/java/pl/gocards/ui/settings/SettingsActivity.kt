@@ -49,6 +49,8 @@ import pl.gocards.room.entity.deck.DeckConfig
 import pl.gocards.ui.theme.AppBar
 import pl.gocards.ui.theme.AppTheme
 import pl.gocards.ui.theme.Grey900
+import pl.gocards.ui.settings.dialog.OpenAiApiKeyDialog
+import pl.gocards.ui.settings.dialog.ApiKeyDialogEntity
 import pl.gocards.ui.settings.dialog.AutoSyncAlertDialog
 import pl.gocards.ui.settings.dialog.AutoSyncDialogEntity
 import pl.gocards.ui.settings.dialog.DarkModeAlertDialog
@@ -106,6 +108,13 @@ fun PreviewSettings() {
             darkModeDb = remember { mutableStateOf(AppConfig.DARK_MODE_OPTIONS[1]) },
         ),
 
+        OpenAiApiKeyDialog_IsShown = remember { mutableStateOf(false) },
+        OpenAiApiKeyDialog_Entity = ApiKeyDialogEntity(
+            apiKey = remember { mutableStateOf("") },
+            hasKey = remember { mutableStateOf(false) },
+        ),
+        OpenAiApiKey_HasKey = remember { mutableStateOf(false) },
+
         isDarkTheme = remember { mutableStateOf(false) },
         preview = true
     )
@@ -118,11 +127,16 @@ fun PreviewSettings() {
 class SettingsActivity : ComponentActivity() {
     companion object {
         const val DECK_DB_PATH = "DECK_DB_PATH"
+        const val INITIAL_TAB = "INITIAL_TAB"
+        const val SHOW_API_KEY_DIALOG = "SHOW_API_KEY_DIALOG"
+        const val TAB_AI = 2
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val dbPath = intent.getStringExtra(DECK_DB_PATH)
+            val initialTab = intent.getIntExtra(INITIAL_TAB, 0)
+            val showApiKeyDialog = intent.getBooleanExtra(SHOW_API_KEY_DIALOG, false)
             val context = LocalContext.current
             val application = LocalContext.current.applicationContext as App
             val darkMode = application.getDarkMode() ?: isSystemInDarkTheme()
@@ -135,7 +149,9 @@ class SettingsActivity : ComponentActivity() {
                     darkMode,
                     application
                 ),
-                darkMode
+                darkMode,
+                initialTab = initialTab,
+                showApiKeyDialogOnStart = showApiKeyDialog
             )
         }
     }
@@ -145,9 +161,11 @@ class SettingsActivity : ComponentActivity() {
 fun DeckSettings(
     onBack: () -> Unit = {},
     viewModel: SettingsViewModel,
-    isDarkTheme: Boolean
+    isDarkTheme: Boolean,
+    initialTab: Int = 0,
+    showApiKeyDialogOnStart: Boolean = false
 ) {
-    val tabIndex = remember { mutableIntStateOf(0) }
+    val tabIndex = remember { mutableIntStateOf(initialTab) }
     val isShownDeckAutoSyncDialog = remember { mutableStateOf(false) }
     val isShownDeckLimitLearningCardsDialog = remember { mutableStateOf(false) }
     val isShownAppLimitLearningCardsDialog = remember { mutableStateOf(false) }
@@ -156,6 +174,7 @@ fun DeckSettings(
     val isShownAppLeftEdgeBarDialog = remember { mutableStateOf(false) }
     val isShownAppRightEdgeBarDialog = remember { mutableStateOf(false) }
     val showDarkModeDialog = remember { mutableStateOf(false) }
+    val showApiKeyDialog = remember { mutableStateOf(showApiKeyDialogOnStart) }
 
     SettingsScaffold(
 
@@ -312,6 +331,26 @@ fun DeckSettings(
             },
         ),
 
+        OpenAiApiKeyField_OnClick = { showApiKeyDialog.value = true },
+        OpenAiApiKeyDialog_IsShown = showApiKeyDialog,
+        OpenAiApiKeyDialog_Entity = ApiKeyDialogEntity(
+            apiKey = viewModel.apiKey.apiKey.observeAsState(initial = ""),
+            hasKey = viewModel.apiKey.hasKey.observeAsState(initial = false),
+            onValueChange = { viewModel.apiKey.set(it) },
+            onSave = {
+                showApiKeyDialog.value = false
+                viewModel.apiKey.commit()
+            },
+            onClear = {
+                showApiKeyDialog.value = false
+                viewModel.apiKey.clear()
+            },
+            onDismiss = {
+                showApiKeyDialog.value = false
+            },
+        ),
+        OpenAiApiKey_HasKey = viewModel.apiKey.hasKey.observeAsState(initial = false),
+
         onBack = onBack,
         isDarkTheme = viewModel.darkMode.isDarkTheme.observeAsState(initial = isDarkTheme),
         preview = false
@@ -360,6 +399,11 @@ fun SettingsScaffold(
     DarkModeDialog_IsShown: State<Boolean>,
     DarkModeDialog_Entity: DarkModeAlertDialogEntity,
 
+    OpenAiApiKeyField_OnClick: () -> Unit = {},
+    OpenAiApiKeyDialog_IsShown: State<Boolean>,
+    OpenAiApiKeyDialog_Entity: ApiKeyDialogEntity,
+    OpenAiApiKey_HasKey: State<Boolean>,
+
     onBack: () -> Unit = {},
     isDarkTheme: State<Boolean>,
     preview: Boolean
@@ -389,6 +433,9 @@ fun SettingsScaffold(
         }
         if (DarkModeDialog_IsShown.value) {
             DarkModeAlertDialog(DarkModeDialog_Entity)
+        }
+        if (OpenAiApiKeyDialog_IsShown.value) {
+            OpenAiApiKeyDialog(OpenAiApiKeyDialog_Entity)
         }
         Scaffold(
             topBar = {
@@ -509,6 +556,16 @@ fun SettingsScaffold(
                             icon = R.drawable.ic_round_dark_mode_24,
                             value = DarkModeDialog_Entity.darkModeDb.value,
                             onClick = DarkModeField_OnClick
+                        )
+                        SettingField(
+                            isDarkTheme = isDarkTheme.value,
+                            title = stringResource(R.string.settings_ai_api_key),
+                            icon = R.drawable.ic_round_vpn_key_24,
+                            value = if (OpenAiApiKey_HasKey.value)
+                                stringResource(R.string.settings_ai_api_key_set)
+                            else
+                                stringResource(R.string.settings_ai_api_key_not_set),
+                            onClick = OpenAiApiKeyField_OnClick
                         )
                     }
                 }

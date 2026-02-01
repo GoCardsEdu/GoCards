@@ -97,6 +97,14 @@ public class Config {
         return getPropertyString(context, "feedback.premium.url");
     }
 
+    public boolean isBuyTokensMockEnabled(@NonNull Context context) {
+        return getPropertyBoolean(context, "ai.buy-tokens.mock.enabled", "false");
+    }
+
+    public boolean isAiFetchModelsEnabled(@NonNull Context context) {
+        return getPropertyBoolean(context, "ai.fetch_models", "false");
+    }
+
     public boolean isUnderConstruction(@NonNull Context context) {
         return getPropertyBoolean(context, "underConstruction", "true");
     }

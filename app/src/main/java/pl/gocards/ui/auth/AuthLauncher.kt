@@ -54,7 +54,7 @@ class AuthLauncher(
         signInLauncher.launch(signInIntent)
     }
 
-    private fun getToken() {
+    fun getToken() {
         val user = FirebaseAuth.getInstance().currentUser
         token.value = null
         user?.getIdToken(true)?.addOnCompleteListener {

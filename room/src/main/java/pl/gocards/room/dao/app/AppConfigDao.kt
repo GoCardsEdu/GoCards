@@ -43,6 +43,9 @@ abstract class AppConfigDao : BaseDao<AppConfig> {
         )
     }
 
+    @Query("DELETE FROM AppConfig WHERE `key`=:key")
+    abstract fun deleteByKey(key: String)
+
     fun refreshLastExceptionAt() {
         updateZonedDateTime(AppConfig.LAST_EXCEPTION_AT, ZonedDateTime.now())
     }

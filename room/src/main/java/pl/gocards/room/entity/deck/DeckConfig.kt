@@ -24,5 +24,6 @@ data class DeckConfig(
         const val MAX_ALLOWED_FORGOTTEN_CARDS_DEFAULT = 5
         const val MAX_LINES = "ListCards_MaxLines"
         const val MAX_LINES_DEFAULT = 4
+        const val AI_LAST_UPDATED_AT = "AI_LastUpdatedAt"
     }
 }

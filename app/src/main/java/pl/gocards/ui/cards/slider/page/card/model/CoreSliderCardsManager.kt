@@ -15,6 +15,7 @@ import pl.gocards.db.room.DeckDatabase
 import pl.gocards.dynamic_pager.DynamicPagerViewModel
 import pl.gocards.room.dao.deck.CardSliderKtxDao
 import pl.gocards.room.entity.deck.CardSlider
+import pl.gocards.room.util.TimeUtil
 
 /**
  * @author Grzegorz Ziemski
@@ -140,7 +141,7 @@ open class CoreSliderCardsManager(
         val mode = sliderCard.cardMode.value
         if (mode != CardMode.NEW) {
             val card = deckDb.cardKtxDao().getCard(sliderCard.id)!!
-            deckDb.cardKtxDao().delete(card)
+            deckDb.cardKtxDao().delete(card, TimeUtil.getNowEpochSec())
         }
     }
 

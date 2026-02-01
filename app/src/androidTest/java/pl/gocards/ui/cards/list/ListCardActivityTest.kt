@@ -12,7 +12,7 @@ import pl.gocards.ui.TestsUtil
 import pl.gocards.ui.home.ScreenshotUtil
 
 @RunWith(AndroidJUnit4::class)
-class CardListActivityTest {
+class ListCardActivityTest {
 
     @get:Rule
     val composeTestRule = createEmptyComposeRule()

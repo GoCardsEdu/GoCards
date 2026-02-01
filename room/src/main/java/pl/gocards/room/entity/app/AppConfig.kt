@@ -4,6 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
+ * TODO: In the future, refactor AppConfig to SharedPreferences
+ *
  * @author Grzegorz Ziemski
  */
 @Entity
@@ -31,5 +33,8 @@ data class AppConfig(
         const val EXPLORE_POLL_COMPLETED = "ExplorePollCompleted"
         const val LATEST_SHOWN_WHATS_NEW_VERSION = "LatestShownWhatsNewVersion"
         const val WHATS_NEW_REMAINING_SHOWS = "WhatsNewRemainingShows"
+        const val OPENAI_API_KEY = "OpenAIApiKey"
+        const val DEFAULT_FIREBASE_MODEL = "DefaultFirebaseAIModel"
+        const val DEFAULT_OPENAI_MODEL = "DefaultOpenAIModel"
     }
 }

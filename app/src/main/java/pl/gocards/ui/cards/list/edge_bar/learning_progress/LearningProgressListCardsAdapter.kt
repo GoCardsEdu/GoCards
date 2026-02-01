@@ -39,9 +39,9 @@ open class LearningProgressListCardsAdapter(
     scope
 ) {
 
-    override fun loadCards() {
+    override fun loadCards(onLoaded: (() -> Unit)?) {
         learningProgressViewModel.loadCards {
-            super.loadCards()
+            super.loadCards(onLoaded)
         }
     }
 

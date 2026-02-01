@@ -6,8 +6,11 @@ import android.util.Xml
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -27,6 +30,9 @@ import pl.gocards.ui.filesync.FileSyncLauncherFactory
 import pl.gocards.ui.filesync.FileSyncLauncherInput
 import pl.gocards.ui.filesync.FileSyncViewModel
 import pl.gocards.ui.filesync_pro.FileSyncProLauncherFactory
+import pl.gocards.ui.ai.AIChatContract
+import pl.gocards.ui.settings.SettingsActivity
+import android.content.Intent
 
 /**
  * @author Grzegorz Ziemski
@@ -42,7 +48,18 @@ data class ListCardsScaffoldInput(
     val topBar: ListCardsTopBarInput,
     val isSyncInProgress: State<Boolean>?,
     val fileSync: FileSyncLauncherInput?,
-    val onClickSync: ((deckDbPath: String, onSuccess: () -> Unit) -> Unit)?
+    val onClickSync: ((deckDbPath: String, onSuccess: () -> Unit) -> Unit)?,
+    val aiChat: AIChatInput? = null
+)
+
+data class AIChatInput(
+    val viewModel: AIChatContract,
+    val showBottomSheet: MutableState<Boolean>,
+    val fabTextVisible: State<Boolean> = mutableStateOf(true),
+    val fabVisible: State<Boolean> = mutableStateOf(true),
+    val pendingScrollToCardIds: MutableState<List<Int>>,
+    val onLogin: () -> Unit,
+    val onOpenSettings: () -> Unit
 )
 
 class ListCardsScaffoldInputFactory {
@@ -92,6 +109,13 @@ class ListCardsScaffoldInputFactory {
             { fileSyncInput.onClickExportCsv(deckDbPath) }
         } else null
 
+
+
+        val aiChatViewModel = activity.aiChatViewModel
+
+        val fabTextVisible = remember { mutableStateOf(true) }
+        val fabVisible = remember { mutableStateOf(true) }
+        val showAiChat = remember { mutableStateOf(false) }
         return ListCardsScaffoldInput(
             isDarkTheme = application.getDarkMode() ?: isSystemInDarkTheme(),
             preview = false,
@@ -131,8 +155,41 @@ class ListCardsScaffoldInputFactory {
             isSyncInProgress = fileSyncViewModel?.inProgress(deckDbPath)
                 ?.observeAsState(initial = false),
             fileSync = fileSyncInput,
-            onClickSync = onClickSync
+            onClickSync = onClickSync,
+
+            aiChat = aiChatViewModel?.let { aiViewModel ->
+                AIChatInput(
+                    viewModel = aiViewModel,
+                    showBottomSheet = showAiChat,
+                    fabTextVisible = fabTextVisible,
+                    fabVisible = fabVisible,
+                    pendingScrollToCardIds = activity.pendingScrollToCardIds,
+                    onLogin = { onLogin(activity, aiViewModel) },
+                    onOpenSettings = { onOpenSettings(activity, aiViewModel, deckDbPath) }
+                )
+            }
         )
+    }
+
+
+    private fun onLogin(
+        activity: ListCardsActivity,
+        aiViewModel: AIChatContract
+    ) {
+        activity.authLauncher.launch()
+    }
+
+    private fun onOpenSettings(
+        activity: ListCardsActivity,
+        aiViewModel: AIChatContract,
+        deckDbPath: String
+    ) {
+        val intent = Intent(activity, SettingsActivity::class.java).apply {
+            putExtra(SettingsActivity.DECK_DB_PATH, deckDbPath)
+            putExtra(SettingsActivity.INITIAL_TAB, SettingsActivity.TAB_AI)
+            putExtra(SettingsActivity.SHOW_API_KEY_DIALOG, true)
+        }
+        activity.startActivity(intent)
     }
 
     @Composable

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import pl.gocards.App
+import pl.gocards.ui.auth.AuthLauncher
 import pl.gocards.ui.common.RecyclerViewFactory
 import pl.gocards.ui.decks.decks.view.EmptyFolderData
 import pl.gocards.ui.decks.decks.view.actions.DeckActions
@@ -31,6 +32,7 @@ class AllDecksInputFactory(
     private var fileSyncViewModel: FileSyncViewModel?,
     private var premiumViewModel: PremiumViewModel,
     private var startActivity: StartActivityActions,
+    private var logIn: AuthLauncher,
 
     private var onBack: () -> Unit,
     private var onRefreshItems: () -> Unit,
@@ -60,6 +62,8 @@ class AllDecksInputFactory(
                 onClickImportDb = importDb.onClickImportDb(),
                 onClickOpenDiscord = { startActivity.openDiscord() },
                 onClickOpenSettings = { startActivity.startAppSettingsActivity() },
+                onClickLogOut = { logIn.logOut() },
+                isLoggedIn = logIn.token.value != null
             ),
             page = ListAllDecksPageData(
                 isEmptyFolder = isEmptyFolder(),

@@ -21,6 +21,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,8 +39,11 @@ import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import pl.gocards.R
+import pl.gocards.ui.ai.AIChatLauncherFactory
+import pl.gocards.ui.cards.list.display.scrollToCardsAndHighlight
 import pl.gocards.ui.cards.list.display.ListCardsMenu
 import pl.gocards.ui.cards.list.display.ListCardsMenuData
+import pl.gocards.ui.cards.list.display.RecyclerViewScrollListener
 import pl.gocards.ui.cards.list.search.SearchTextField
 import pl.gocards.ui.cards.list.select.SelectListCardsMenu
 import pl.gocards.ui.cards.list.select.SelectListCardsMenuData
@@ -58,7 +63,6 @@ fun ListCardsScaffold(
 ) {
     val isSelectionMode: Boolean = input.countSelectedCard.value > 0
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -86,8 +90,32 @@ fun ListCardsScaffold(
                     }) {
                     AndroidView(
                         factory = { input.recyclerView },
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
+                        update = { recyclerView ->
+                            recyclerView.clearOnScrollListeners()
+                            input.aiChat?.let { aiChat ->
+                                val scrollListener = RecyclerViewScrollListener(
+                                    isScrollingDown = aiChat.fabVisible as MutableState
+                                )
+                                recyclerView.addOnScrollListener(scrollListener)
+                            }
+                        }
                     )
+
+                    input.aiChat?.let { aiChatInput ->
+                        AIChatLauncherFactory.getInstance()?.ScaffoldSection(
+                            aiChatInput = aiChatInput,
+                        )
+                        if (!aiChatInput.showBottomSheet.value) {
+                            val pendingCardIds = aiChatInput.pendingScrollToCardIds.value
+                            if (pendingCardIds.isNotEmpty()) {
+                                LaunchedEffect(pendingCardIds) {
+                                    input.recyclerView.scrollToCardsAndHighlight(pendingCardIds)
+                                    aiChatInput.pendingScrollToCardIds.value = emptyList()
+                                }
+                            }
+                        }
+                    }
                 }
 
                 if (input.isSyncInProgress?.value == true) {

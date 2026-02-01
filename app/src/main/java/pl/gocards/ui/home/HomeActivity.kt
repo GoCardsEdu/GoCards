@@ -104,6 +104,7 @@ class HomeActivity : AppCompatActivity(), ActivityResultCallback<ActivityResult>
 
         premiumViewModel = PremiumViewModel.create(application)
         billingClient = createBillingClient(premiumViewModel)
+        // TokenManager.startListeningToBalance() - moved to onResume() to ensure Firebase is initialized
         fileSyncViewModel = FileSyncViewModel.getInstance(owner, application)
         val listDecksViewModel = createListDecksViewModel()
         val listFoldersViewModel = ListFoldersViewModel(application)

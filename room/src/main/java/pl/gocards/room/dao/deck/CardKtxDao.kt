@@ -27,6 +27,9 @@ abstract class CardKtxDao : BaseKtxDao<Card> {
     @Query("SELECT max(ordinal) FROM Core_Card c WHERE deletedAt IS NULL")
     protected abstract fun lastOrdinal(): Int
 
+    @Query("SELECT COALESCE(max(ordinal), 0) FROM Core_Card WHERE deletedAt IS NULL")
+    abstract suspend fun maxOrdinal(): Int
+
     @Query("SELECT max(id) FROM Core_Card c")
     abstract suspend fun lastId(): Int
 
@@ -42,6 +45,17 @@ abstract class CardKtxDao : BaseKtxDao<Card> {
     @Query("SELECT * FROM Core_Card WHERE deletedAt IS NULL ORDER BY ordinal ASC")
     abstract suspend fun getAllCards(): List<Card>
 
+    @Query("SELECT * FROM Core_Card WHERE deletedAt IS NULL ORDER BY ordinal ASC LIMIT :limit OFFSET :offset")
+    abstract suspend fun getCardsPaginated(limit: Int, offset: Int): List<Card>
+
+    @Query(
+        "SELECT count(*) FROM Core_Card c " +
+                "LEFT JOIN (SELECT id FROM Core_Card_fts4 WHERE term MATCH '*' || :search || '*') t USING (id) " +
+                "LEFT JOIN (SELECT id FROM Core_Card_fts4 WHERE definition MATCH '*' || :search || '*') d USING (id) " +
+                "WHERE deletedAt IS NULL AND (t.id IS NOT NULL OR d.id IS NOT NULL)"
+    )
+    abstract suspend fun countBySearch(search: String): Int
+
     @Query(
         "SELECT " +
                 "CASE WHEN t.term IS NOT NULL THEN t.term ELSE c.term END AS term, " +
@@ -56,6 +70,21 @@ abstract class CardKtxDao : BaseKtxDao<Card> {
                 "ORDER BY ordinal ASC"
     )
     abstract suspend fun searchCards(search: String): List<Card>
+
+    @Query(
+        "SELECT " +
+                "CASE WHEN t.term IS NOT NULL THEN t.term ELSE c.term END AS term, " +
+                "CASE WHEN d.definition IS NOT NULL THEN d.definition ELSE c.definition END AS definition, " +
+                "c.*" +
+                "FROM Core_Card c " +
+                "LEFT JOIN (SELECT id, snippet(Core_Card_fts4, '{search}', '{esearch}') as term FROM Core_Card_fts4 WHERE term MATCH '*' || :search || '*') t USING (id) " +
+                "LEFT JOIN (SELECT id, snippet(Core_Card_fts4, '{search}', '{esearch}') as definition FROM Core_Card_fts4 WHERE definition MATCH '*' || :search || '*') d USING (id) " +
+                "WHERE " +
+                "deletedAt IS NULL " +
+                "AND (t.id IS NOT NULL OR d.id IS NOT NULL)  " +
+                "ORDER BY ordinal ASC LIMIT :limit OFFSET :offset"
+    )
+    abstract suspend fun searchCardsPaginated(search: String, limit: Int, offset: Int): List<Card>
 
     @Query("SELECT * FROM Core_Card WHERE id IN (:ids) ORDER BY ordinal")
     abstract suspend fun findByIds(ids: IntArray): List<Card>
@@ -89,20 +118,20 @@ abstract class CardKtxDao : BaseKtxDao<Card> {
      * ----------------------------------------------------------------------------------------- */
 
     @Transaction
-    protected open suspend fun insertAtEndSync(card: Card) {
+    protected open suspend fun insertAtEndSync(card: Card, createdAt: Long = TimeUtil.getNowEpochSec()) {
         card.ordinal = lastOrdinal() + 1
-        val now = TimeUtil.getNowEpochSec()
-        card.updatedAt = now
-        card.createdAt = now
+        card.createdAt = createdAt
+        card.updatedAt = createdAt
         insertAll(card)
     }
 
 
     @Transaction
-    open suspend fun insertAfter(card: Card, ordinal: Int, updatedAt: Long): Long {
+    open suspend fun insertAfter(card: Card, ordinal: Int, createdAt: Long = TimeUtil.getNowEpochSec()): Long {
         increaseOrdinalByGreaterThanEqual(ordinal)
         card.ordinal = ordinal
-        card.updatedAt = updatedAt
+        card.createdAt = createdAt
+        card.updatedAt = createdAt
         return insert(card)
     }
 
@@ -147,7 +176,7 @@ abstract class CardKtxDao : BaseKtxDao<Card> {
     protected abstract suspend fun increaseOrdinalByGreaterThanEqual(greaterThanEqual: Int)
 
     @Transaction
-    open suspend fun changeCardOrdinal(cardId: Int, newOrdinal: Int) {
+    open suspend fun changeCardOrdinal(cardId: Int, newOrdinal: Int, updatedAt: Long = TimeUtil.getNowEpochSec()) {
         val card = getCard(cardId)!!
         if (card.ordinal == newOrdinal) {
             throw UnsupportedOperationException("Move to the same place.")
@@ -158,12 +187,11 @@ abstract class CardKtxDao : BaseKtxDao<Card> {
             increaseOrdinalByBetween(newOrdinal, card.ordinal)
             card.ordinal = newOrdinal
         }
-        card.updatedAt = TimeUtil.getNowEpochSec()
         updateAll(card)
     }
 
     @Transaction
-    open suspend fun pasteCards(selectedCardIds: Collection<Int>, pasteAfterPosition: Int) {
+    open suspend fun pasteCards(selectedCardIds: Collection<Int>, pasteAfterPosition: Int, updatedAt: Long = TimeUtil.getNowEpochSec()) {
         val selectedCards = findByIds(selectedCardIds.toIntArray())
 
         val sortedByOrdinal: List<Card> = selectedCards.stream()
@@ -183,7 +211,7 @@ abstract class CardKtxDao : BaseKtxDao<Card> {
             if (cutCardOrdinal == pasteAfterPositionVar) {
                 continue
             }
-            changeCardOrdinal(freshCutCard.id!!, pasteAfterPositionVar)
+            changeCardOrdinal(freshCutCard.id!!, pasteAfterPositionVar, updatedAt)
         }
     }
 
@@ -202,17 +230,17 @@ abstract class CardKtxDao : BaseKtxDao<Card> {
      * Delete and refresh ordinal numbers for all not deleted cards.
      */
     @Transaction
-    open suspend fun deleteById(cardId: Int) {
+    open suspend fun deleteById(cardId: Int, deletedAt: Long = TimeUtil.getNowEpochSec()) {
         val card = getCard(cardId)!!
-        delete(card)
+        delete(card, deletedAt)
     }
 
     /**
      * Delete and refresh ordinal numbers for all not deleted cards.
      */
     @Transaction
-    open suspend fun delete(card: Card) {
-        card.deletedAt = TimeUtil.getNowEpochSec()
+    open suspend fun delete(card: Card, deletedAt: Long = TimeUtil.getNowEpochSec()) {
+        card.deletedAt = deletedAt
         updateAll(card)
         decreaseOrdinalByGreaterThan(card.ordinal)
     }

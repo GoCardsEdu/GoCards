@@ -15,6 +15,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import pl.gocards.App
 import pl.gocards.db.app.AppDbUtil
+import pl.gocards.ui.cards.list.edge_bar.ai.AIEdgeBarViewModel
 import pl.gocards.ui.cards.list.edge_bar.filesync.FileSyncEdgeBarListCardsAdapter
 import pl.gocards.ui.cards.list.edge_bar.filesync.FileSyncEdgeBarViewModel
 import pl.gocards.ui.cards.list.edge_bar.learning_progress.LearningProgressViewModel
@@ -30,7 +31,11 @@ import pl.gocards.ui.filesync_pro.AutoSyncViewModel
 import pl.gocards.ui.theme.AppTheme
 import pl.gocards.ui.theme.ExtendedColors
 import pl.gocards.ui.theme.ExtendedTheme
+import pl.gocards.ui.auth.AuthLauncher
 import pl.gocards.ui.settings.SettingsActivity
+import pl.gocards.ui.ai.AIChatContract
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 
 
 /**
@@ -61,6 +66,13 @@ class ListCardsActivity : AppCompatActivity() {
     lateinit var premiumViewModel: PremiumViewModel
         private set
 
+    var aiChatViewModel: AIChatContract? = null
+        private set
+
+    val pendingScrollToCardIds: MutableState<List<Int>> = mutableStateOf(emptyList())
+
+    var authLauncher: AuthLauncher = AuthLauncher(this)
+        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,6 +104,13 @@ class ListCardsActivity : AppCompatActivity() {
             appDb = AppDbUtil.getInstance(application).getDatabase(application),
             application = application
         )
+
+        aiChatViewModel = AIChatContract.createViewModel(this, application, this, viewModel) { cardId ->
+            adapter?.loadCards()
+            if (cardId != null) {
+                pendingScrollToCardIds.value += cardId
+            }
+        }
 
         setContent {
             AppTheme(isDarkTheme = application.getDarkMode()) {
@@ -138,6 +157,8 @@ class ListCardsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         adapter?.loadCards()
+        aiChatViewModel?.onOpen()
+        authLauncher.getToken()
     }
 
     override fun onStop() {
@@ -157,6 +178,7 @@ class ListCardsActivity : AppCompatActivity() {
 
         val learningProgressViewModel = LearningProgressViewModel.getInstance(activity, deckDbPath)
         val fileSyncEdgeBarViewModel = FileSyncEdgeBarViewModel.getInstance(activity, deckDbPath)
+        val aiEdgeBarViewModel = AIEdgeBarViewModel.getInstance(activity, deckDbPath)
 
         return FileSyncListCardsAdapter(
             activity = activity,
@@ -164,6 +186,7 @@ class ListCardsActivity : AppCompatActivity() {
             selectViewModel = selectCardsViewModel,
             learningProgressViewModel = learningProgressViewModel,
             fileSyncEdgeBarViewModel = fileSyncEdgeBarViewModel,
+            aiEdgeBarViewModel = aiEdgeBarViewModel,
             isSyncProgress = isSyncProgress ?: MutableLiveData(false),
             colors = colors,
             owner = activity,

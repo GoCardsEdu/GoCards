@@ -1,6 +1,5 @@
 package pl.gocards.ui.home.view
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -98,7 +97,7 @@ class HomeInputFactory {
 
         onBack: () -> Unit,
 
-        activity: ComponentActivity,
+        activity: HomeActivity,
         owner: LifecycleOwner
     ): HomeInput {
         this.recentAdapter = recentAdapter
@@ -120,6 +119,7 @@ class HomeInputFactory {
                 recentAdapter,
                 fileSyncViewModel,
                 startActivity,
+                activity.logInLauncher,
                 onBack,
                 { onRefreshItems() },
                 activity,
@@ -131,6 +131,7 @@ class HomeInputFactory {
                 fileSyncViewModel,
                 premiumViewModel,
                 startActivity,
+                activity.logInLauncher,
                 onBack,
                 { onRefreshItems() },
                 activity,

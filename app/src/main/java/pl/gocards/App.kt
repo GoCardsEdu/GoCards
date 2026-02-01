@@ -8,6 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.NightMode
 import com.google.android.material.color.DynamicColors
+import com.google.firebase.Firebase
+import com.google.firebase.appcheck.appCheck
+import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
+import com.google.firebase.appcheck.playintegrity.PlayIntegrityAppCheckProviderFactory
+import com.google.firebase.initialize
 import pl.gocards.db.app.AppDbMainThreadUtil
 import pl.gocards.db.room.AppDatabase
 import pl.gocards.room.entity.app.AppConfig
@@ -28,6 +33,7 @@ class App : Application(), ActivityLifecycleCallbacks, Thread.UncaughtExceptionH
 
     override fun onCreate() {
         super.onCreate()
+        initFirebaseAppCheck()
         DynamicColors.applyToActivitiesIfAvailable(this)
         registerActivityLifecycleCallbacks(this)
 
@@ -44,6 +50,20 @@ class App : Application(), ActivityLifecycleCallbacks, Thread.UncaughtExceptionH
             } finally {
                 defaultHandler?.uncaughtException(thread, throwable)
             }
+        }
+    }
+
+    fun initFirebaseAppCheck() {
+        Firebase.initialize(context = this)
+        if (BuildConfig.DEBUG) {
+            // Debug provider prints a token to Logcat — register it in Firebase Console
+            Firebase.appCheck.installAppCheckProviderFactory(
+                DebugAppCheckProviderFactory.getInstance(),
+            )
+        } else {
+            Firebase.appCheck.installAppCheckProviderFactory(
+                PlayIntegrityAppCheckProviderFactory.getInstance(),
+            )
         }
     }
 

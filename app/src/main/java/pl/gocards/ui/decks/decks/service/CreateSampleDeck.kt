@@ -2,10 +2,6 @@ package pl.gocards.ui.decks.decks.service
 
 import android.app.Application
 import android.content.Context
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import pl.gocards.db.deck.AppDeckDbUtil
 import pl.gocards.db.room.DeckDatabase
 import pl.gocards.db.storage.DatabaseException

@@ -2,7 +2,6 @@ package pl.gocards.ui
 
 import android.app.Application
 import androidx.test.core.app.ApplicationProvider
-import kotlinx.coroutines.runBlocking
 import pl.gocards.db.deck.AppDeckDbUtil
 import pl.gocards.ui.cards.slider.CreateSampleNumericDeck
 import pl.gocards.ui.decks.decks.service.CreateSampleDeck

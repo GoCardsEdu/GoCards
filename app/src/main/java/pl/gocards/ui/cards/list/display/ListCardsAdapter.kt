@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import pl.gocards.R
 import pl.gocards.databinding.ItemCardBinding
 import pl.gocards.room.util.HtmlUtil
+import pl.gocards.room.util.TimeUtil
 import pl.gocards.ui.cards.list.ListCardsActivity
 import pl.gocards.ui.cards.list.model.ListCardsViewModel
 import pl.gocards.ui.cards.list.model.UiListCard
@@ -81,10 +82,11 @@ open class ListCardsAdapter(
      * ----------------------------------------------------------------------------------------- */
 
     @SuppressLint("NotifyDataSetChanged")
-    open fun loadCards() {
+    open fun loadCards(onLoaded: (() -> Unit)? = null) {
         viewModel.loadCards {
             scope.launch {
                 notifyDataSetChanged()
+                onLoaded?.invoke()
             }
         }
     }
@@ -94,7 +96,7 @@ open class ListCardsAdapter(
      */
     fun delete(position: Int) {
         val card = getCard(position)
-        viewModel.delete(card.id) {
+        viewModel.delete(card.id, TimeUtil.getNowEpochSec()) {
             scope.launch {
                 doOnSuccessDelete(position, card)
             }

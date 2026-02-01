@@ -49,6 +49,10 @@ data class ExtendedColors(
     val colorItemRecentlyAddedFileCard: Color,
     val colorItemRecentlyUpdatedDeckCard: Color,
     val colorItemRecentlyUpdatedFileCard: Color,
+
+    // AI status
+    val colorItemAICreatedCard: Color,
+    val colorItemAIUpdatedCard: Color,
 )
 
 private val LocalExtendedColors = staticCompositionLocalOf {
@@ -70,7 +74,11 @@ private val LocalExtendedColors = staticCompositionLocalOf {
         colorItemRecentlyAddedDeckCard = Color.Unspecified,
         colorItemRecentlyAddedFileCard = Color.Unspecified,
         colorItemRecentlyUpdatedDeckCard = Color.Unspecified,
-        colorItemRecentlyUpdatedFileCard = Color.Unspecified
+        colorItemRecentlyUpdatedFileCard = Color.Unspecified,
+
+        // AI status
+        colorItemAICreatedCard = Color.Unspecified,
+        colorItemAIUpdatedCard = Color.Unspecified
     )
 }
 
@@ -104,7 +112,11 @@ fun AppTheme(
             colorItemRecentlyAddedDeckCard = Green700,
             colorItemRecentlyAddedFileCard = Green400,
             colorItemRecentlyUpdatedDeckCard = Orange900,
-            colorItemRecentlyUpdatedFileCard = Orange500
+            colorItemRecentlyUpdatedFileCard = Orange500,
+
+            // AI status
+            colorItemAICreatedCard = Blue800,
+            colorItemAIUpdatedCard = Blue400
         )
         isSdk31 && !isDarkTheme -> ExtendedColors(
             behindWindowBackground = colorResource(R.color.system_accent2_200),
@@ -124,7 +136,11 @@ fun AppTheme(
             colorItemRecentlyAddedDeckCard = Green700,
             colorItemRecentlyAddedFileCard = Green400,
             colorItemRecentlyUpdatedDeckCard = Orange900,
-            colorItemRecentlyUpdatedFileCard = Orange500
+            colorItemRecentlyUpdatedFileCard = Orange500,
+
+            // AI status
+            colorItemAICreatedCard = Blue800,
+            colorItemAIUpdatedCard = Blue400
         )
         isDarkTheme -> ExtendedColors(
             behindWindowBackground = Grey800,
@@ -144,7 +160,11 @@ fun AppTheme(
             colorItemRecentlyAddedDeckCard = Green700,
             colorItemRecentlyAddedFileCard = Green400,
             colorItemRecentlyUpdatedDeckCard = Orange900,
-            colorItemRecentlyUpdatedFileCard = Orange500
+            colorItemRecentlyUpdatedFileCard = Orange500,
+
+            // AI status
+            colorItemAICreatedCard = Blue800,
+            colorItemAIUpdatedCard = Blue400
         )
         else -> ExtendedColors(
             behindWindowBackground = Color(0xffb5cad7),
@@ -164,7 +184,11 @@ fun AppTheme(
             colorItemRecentlyAddedDeckCard = Green700,
             colorItemRecentlyAddedFileCard = Green400,
             colorItemRecentlyUpdatedDeckCard = Orange900,
-            colorItemRecentlyUpdatedFileCard = Orange500
+            colorItemRecentlyUpdatedFileCard = Orange500,
+
+            // AI status
+            colorItemAICreatedCard = Blue800,
+            colorItemAIUpdatedCard = Blue400
         )
     }
 

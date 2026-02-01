@@ -23,6 +23,7 @@ import pl.gocards.R
 import pl.gocards.ui.MORE_BUTTON
 import pl.gocards.ui.NEW_DECK
 import pl.gocards.ui.common.SliderDropdownMenuItem
+import pl.gocards.ui.explore.LogOutMenuItem
 
 /**
  * @author Grzegorz Ziemski
@@ -35,7 +36,9 @@ data class ListAllDecksMenuData(
     val onClickImportCsv: (() -> Unit)?,
     val onClickImportDb: () -> Unit,
     val onClickOpenDiscord: () -> Unit,
-    val onClickOpenSettings: () -> Unit
+    val onClickOpenSettings: () -> Unit,
+    val onClickLogOut: () -> Unit,
+    val isLoggedIn: Boolean
 )
 
 @Composable
@@ -58,6 +61,9 @@ fun ListAllDecksMenu(input: ListAllDecksMenuData) {
         ImportDbMenuItem(showDropDown, input.onClickImportDb)
         DiscordMenuItem(showDropDown, input.onClickOpenDiscord)
         SettingsMenuItem(showDropDown, input.onClickOpenSettings)
+        if (input.isLoggedIn) {
+            LogOutMenuItem(showDropDown, input.onClickLogOut)
+        }
     }
 }
 

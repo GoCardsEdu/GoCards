@@ -9,6 +9,7 @@ import kotlinx.coroutines.withContext
 import pl.gocards.db.room.DeckDatabase
 import pl.gocards.room.entity.deck.Card
 import pl.gocards.room.entity.deck.DeckConfig
+import pl.gocards.room.util.TimeUtil
 import java.util.LinkedList
 
 /**
@@ -73,9 +74,9 @@ open class ListCardsViewModel(
      * C_U_03 Dragging the card to another position.
      * Invoked when the card is lowered and the position is saved.
      */
-    fun moveDb(cardId: Int, toPosition: Int, onSuccess: () -> Unit = {}) {
+    fun moveDb(cardId: Int, toPosition: Int, updatedAt: Long, onSuccess: () -> Unit = {}) {
         viewModelScope.launch(Dispatchers.IO) {
-            deckDb.cardKtxDao().changeCardOrdinal(cardId, toPosition)
+            deckDb.cardKtxDao().changeCardOrdinal(cardId, toPosition, updatedAt)
             loadCardsAsync(onSuccess)
         }
     }
@@ -83,9 +84,9 @@ open class ListCardsViewModel(
     /**
      * C_D_25 Delete the card
      */
-    fun delete(cardId: Int, onSuccess: () -> Unit = {}) {
+    fun delete(cardId: Int, deletedAt: Long, onSuccess: () -> Unit = {}) {
         viewModelScope.launch(Dispatchers.IO) {
-            deckDb.cardKtxDao().deleteById(cardId)
+            deckDb.cardKtxDao().deleteById(cardId, deletedAt)
             loadCardsAsync(onSuccess)
         }
     }
@@ -126,7 +127,7 @@ open class ListCardsViewModel(
         onSuccess: () -> Unit = {}
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            deckDb.cardKtxDao().pasteCards(selectedCards, pasteAfterPosition)
+            deckDb.cardKtxDao().pasteCards(selectedCards, pasteAfterPosition, TimeUtil.getNowEpochSec())
             onSuccess()
         }
     }

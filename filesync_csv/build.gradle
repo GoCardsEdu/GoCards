@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.dynamic-feature'
-    id 'org.jetbrains.kotlin.android' // without this, it takes other dependencies than app
 }
 android {
     namespace = 'pl.gocards.filesync.sheet.csv'

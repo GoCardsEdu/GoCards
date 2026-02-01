@@ -68,6 +68,6 @@ class HomeDialogs(
     }
 
     companion object {
-        const val CURRENT_WHATS_NEW_VERSION = 1L
+        const val CURRENT_WHATS_NEW_VERSION = 2L
     }
 }

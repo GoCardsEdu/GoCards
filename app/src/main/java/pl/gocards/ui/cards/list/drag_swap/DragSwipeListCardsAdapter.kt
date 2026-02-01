@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.material3.SnackbarHostState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import pl.gocards.room.util.TimeUtil
 import pl.gocards.ui.cards.list.ListCardsActivity
 import pl.gocards.ui.cards.list.display.CalcCardIdWidth
 import pl.gocards.ui.cards.list.display.ListCardsAdapter
@@ -48,7 +49,7 @@ open class DragSwipeListCardsAdapter(
     fun moveDb(index: Int, ordinal: Int) {
         val card = getCard(index)
         if (card.ordinal != ordinal) {
-            viewModel.moveDb(card.id, ordinal) {
+            viewModel.moveDb(card.id, ordinal, TimeUtil.getNowEpochSec()) {
                 scope.launch {
                     // It works smoother than #notifyItemMoved here.
                     notifyDataSetChanged()
