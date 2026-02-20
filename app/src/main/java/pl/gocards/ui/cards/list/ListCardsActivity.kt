@@ -58,6 +58,9 @@ class ListCardsActivity : AppCompatActivity() {
     lateinit var viewModel: SearchListCardsViewModel
         private set
 
+    lateinit var selectViewModel: SelectCardsViewModel
+        private set
+
      var fileSyncViewModel: FileSyncViewModel? = null
         private set
 
@@ -91,7 +94,7 @@ class ListCardsActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, searchListCardsViewModelFactory)[SearchListCardsViewModel::class.java]
 
         val selectViewModelFactory = SelectCardsViewModelFactory(application)
-        val selectViewModel = ViewModelProvider(this, selectViewModelFactory)[SelectCardsViewModel::class.java]
+        selectViewModel = ViewModelProvider(this, selectViewModelFactory)[SelectCardsViewModel::class.java]
 
         fileSyncViewModel = FileSyncViewModel.getInstance(owner, application)
 
@@ -147,7 +150,9 @@ class ListCardsActivity : AppCompatActivity() {
     }
 
     fun handleOnBackPressed() {
-        if (viewModel.isSearchActive().value) {
+        if (selectViewModel.isSelectionMode()) {
+            selectViewModel.deselectAll()
+        } else if (viewModel.isSearchActive().value) {
             adapter?.clearSearch()
         } else {
             super.finish()
