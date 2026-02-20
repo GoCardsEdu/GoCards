@@ -125,7 +125,7 @@ private fun HtmlStudyBox(
             AndroidView(
                 factory = { context -> webView },
                 update = { webView ->
-                    webView.loadDataWithBaseURL(null, processedContent, "text/html", "UTF-8", null)
+                    webView.loadDataWithBaseURL("https://gocards.net", processedContent, "text/html", "UTF-8", null)
                 },
                 modifier = Modifier.fillMaxSize()
             )
