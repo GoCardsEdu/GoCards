@@ -20,6 +20,15 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+# R8 renames FlowParameters, causing ClassNotFoundException when Android restores
+# AuthMethodPickerActivity from the back stack after process death. The Parcel
+# stores the original class name, which no longer exists after obfuscation, so
+# getParcelableExtra() returns null and AppCompatBase.onCreate() crashes on null.themeId.
+# https://github.com/firebase/FirebaseUI-Android/issues/689
+# https://github.com/firebase/FirebaseUI-Android/issues/765
+# https://github.com/firebase/FirebaseUI-Android/issues/1416
+-keep class com.firebase.ui.auth.data.model.** { *; }
+
 -keep class org.apache.logging.log4j.message.**
 -keep class org.slf4j.**
 -keep class org.apache.commons.compress.archivers.zip.**
