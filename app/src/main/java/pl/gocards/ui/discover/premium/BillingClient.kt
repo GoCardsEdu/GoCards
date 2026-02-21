@@ -112,6 +112,7 @@ class BillingClient(
     }
 
     suspend fun launch(activity: Activity) {
+        if (!client.isReady) return
         premiumViewModel.reset()
         val details = getProductDetails() ?: return
         val subscriptionOfferDetails = details.subscriptionOfferDetails?.get(0) ?: return
